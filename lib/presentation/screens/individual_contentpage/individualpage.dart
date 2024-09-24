@@ -13,14 +13,12 @@ class ScreenIndividualPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [
-              Appcolors.kgreenlightColor, // Start color (bottom)
-              Appcolors.kbackgroundcolor, // End color (top)
-            ],
+          decoration: const BoxDecoration(
+          image: DecorationImage(
+            opacity: .15,
+            image: AssetImage(
+                profilebackgroundimage), // Correct way to use asset image
+            fit: BoxFit.cover,
           ),
         ),
         child: Padding(

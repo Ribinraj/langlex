@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
@@ -6,6 +8,7 @@ import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 
 import 'package:langlex/presentation/cubits/language_change.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // class AppbarSection extends StatelessWidget {
 //   final VoidCallback onDrawerButtonPressed; // Callback to open the drawer
@@ -53,11 +56,47 @@ class DropdownExample extends StatefulWidget {
 class _DropdownExampleState extends State<DropdownExample> {
   // Initial selected value
   String? selectedValue;
-  List localCodes = ["en", "hi", "ka"];
+  // List localCodes = ["en", "hi", "ka"];
+  List<String> localCodes = [];
+  Map<String, String> languagesdropdown = {};
   int currentIndex = 0;
+//
+  final List<Map<String, String>> languages = [
+    {'English': 'en'},
+    {'हिन्दी': 'hi'},
+    {'ಕನ್ನಡ': 'ka'},
+    {'தமிழ்': 'ta'},
+    {'मराठी': 'mr'}
+  ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadStoredlanguages();
+  }
 
   // List of items in the dropdown
-  final languages = {'English': 'en', 'हिन्दी': 'hi', 'ಕನ್ನಡ': 'ka'};
+  // final languagesdropdown = {'English': 'en', 'हिन्दी': 'hi', 'ಕನ್ನಡ': 'ka'};
+  Future<void> loadStoredlanguages() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? storedLanguages = prefs.getStringList('SELECTEDLANGUAGES');
+    setState(() {
+      if (storedLanguages != null && storedLanguages.isNotEmpty) {
+        localCodes = storedLanguages;
+      } else {
+        localCodes = ["en", "hi", "ka"];
+      }
+      log(localCodes.toString());
+      languagesdropdown.clear();
+      for (var code in localCodes) {
+        for (var language in languages) {
+          if (language.values.first == code) {
+            languagesdropdown[language.keys.first] = language.values.first;
+          }
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,25 +110,24 @@ class _DropdownExampleState extends State<DropdownExample> {
         value: context.read<LanguageCubit>().state,
         icon: const Icon(
           Icons.arrow_drop_down,
-          color: Appcolors.kgreenColor,
+          color: Appcolors.kwhiteColor,
         ),
         iconSize: 28,
         elevation: 14,
         style: TextStyle(
-            color: Appcolors.kgreenColor,
+            color: Appcolors.kwhiteColor,
             fontSize: AppDimensions.fontSize15(context)),
         underline: Container(
           height: 2,
-          color: Appcolors.kbackgroundcolor,
+          color: Appcolors.kgreenlightColor,
         ),
         onChanged: (String? newValue) {
           if (newValue != null) {
             context.read<LanguageCubit>().changeLanguage(newValue);
             Locales.change(context, newValue);
-            
           }
         },
-        items: languages.entries.map((entry) {
+        items: languagesdropdown.entries.map((entry) {
           return DropdownMenuItem<String>(
             value: entry.value,
             child: Text(entry.key),

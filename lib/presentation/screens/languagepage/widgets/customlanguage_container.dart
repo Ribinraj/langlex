@@ -8,10 +8,10 @@ class CustomLanguageContainer extends StatelessWidget {
     required this.languageText,
     required this.heroTag, // Add this parameter for a unique tag
   });
-  
+
   final String languageText;
   final String heroTag; // Unique tag
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +26,7 @@ class CustomLanguageContainer extends StatelessWidget {
               width: w(context) * .75,
               height: h(context) * .1,
               decoration: BoxDecoration(
-                color: Appcolors.korangeColor,
+                color: Appcolors.kgreenColor,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(

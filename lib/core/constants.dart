@@ -91,3 +91,4 @@ class AppDimensions {
 const backgroundimage = "assets/images/langlex_bkp.png";
 const logo = 'assets/images/logo.png';
 const numberimage = 'assets/images/number.png';
+const profilebackgroundimage = 'assets/images/profilebackground.jpeg';

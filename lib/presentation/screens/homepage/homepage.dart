@@ -46,10 +46,10 @@ class ScreenHomePage extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Appcolors.kgreenlightColor,
         automaticallyImplyLeading: false,
         elevation: 0,
-        toolbarHeight: 80,
+        toolbarHeight: 60,
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -65,7 +65,7 @@ class ScreenHomePage extends StatelessWidget {
           IconButton(
             icon: const Icon(
               Icons.menu,
-              color: Appcolors.kgreenColor,
+              color: Appcolors.kwhiteColor,
               size: 25,
             ), // Drawer icon
             onPressed: () {
@@ -77,91 +77,100 @@ class ScreenHomePage extends StatelessWidget {
           )
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(15),
-        children: [
-          SizedBox(
-            height: h(context) * 0.02,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            opacity: .15,
+            image: AssetImage(
+                profilebackgroundimage), // Correct way to use asset image
+            fit: BoxFit.cover,
           ),
-          LocaleText("settings"),
-          CarouselSlider.builder(
-            itemCount: caroselimages.length,
-            options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                viewportFraction: .4,
-                pageSnapping: true,
-                autoPlayCurve: Curves.fastOutSlowIn,
-                autoPlayAnimationDuration: const Duration(seconds: 1)),
-            itemBuilder: (context, itemIndex, pageViewIndex) {
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                      15), // Set the desired border radius
-                  border: Border.all(
-                    color: Appcolors.kgreenColor
-                        .withOpacity(.4), // Set the desired border color
-                    width: 1, // Set the border width
+        ),
+        child: ListView(
+          padding: const EdgeInsets.all(15),
+          children: [
+            SizedBox(
+              height: h(context) * 0.02,
+            ),
+            CarouselSlider.builder(
+              itemCount: caroselimages.length,
+              options: CarouselOptions(
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  viewportFraction: .4,
+                  pageSnapping: true,
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  autoPlayAnimationDuration: const Duration(seconds: 1)),
+              itemBuilder: (context, itemIndex, pageViewIndex) {
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                        15), // Set the desired border radius
+                    border: Border.all(
+                      color: Appcolors.kgreenColor
+                          .withOpacity(.4), // Set the desired border color
+                      width: 1, // Set the border width
+                    ),
                   ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      15), // Match border radius for clipping
-                  child: Image.asset(
-                    caroselimages[itemIndex],
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        15), // Match border radius for clipping
+                    child: Image.asset(
+                      caroselimages[itemIndex],
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-          SizedBox(
-            height: h(context) * 0.02,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
-                  childAspectRatio: 2 / 2,
-                ),
-                shrinkWrap: true,
-                itemCount: 8,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(.8),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Appcolors.korangeColor.withOpacity(.4),
-                          )),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            numberimage,
-                            height: h(context) * .09,
-                            width: w(context) * .2,
-                            fit: BoxFit.cover,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const LocaleText(
-                            "numbers",
-                            style: TextStyle(
-                                color: Appcolors.ktextColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
-                          )
-                        ],
-                      ));
-                }),
-          )
-        ],
+                );
+              },
+            ),
+            SizedBox(
+              height: h(context) * 0.02,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                    childAspectRatio: 2 / 2,
+                  ),
+                  shrinkWrap: true,
+                  itemCount: 8,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(.8),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Appcolors.korangeColor.withOpacity(.4),
+                            )),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              numberimage,
+                              height: h(context) * .09,
+                              width: w(context) * .2,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const LocaleText(
+                              "numbers",
+                              style: TextStyle(
+                                  color: Appcolors.ktextColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ));
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

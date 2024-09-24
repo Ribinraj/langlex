@@ -5,7 +5,7 @@ import 'package:langlex/core/colors.dart';
 import 'package:langlex/presentation/blocs/bloc/image_picker_bloc.dart';
 import 'package:langlex/presentation/cubits/language_change.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
-import 'package:langlex/presentation/screens/editprofile_page/editprofile.dart';
+
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

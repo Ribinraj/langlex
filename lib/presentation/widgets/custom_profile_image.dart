@@ -23,8 +23,8 @@ class CustomRoundImage extends StatelessWidget {
       child: UnconstrainedBox(
         child: ClipOval(
           child: Container(
-            height: circleContainerSize - 5,
-            width: circleContainerSize - 5,
+            height: circleContainerSize - 7,
+            width: circleContainerSize - 7,
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,

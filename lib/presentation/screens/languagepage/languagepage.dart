@@ -18,14 +18,43 @@ class ScreenLanguagePage extends StatefulWidget {
 }
 
 class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
-  List locales = ["English", "हिन्दी", "ಕನ್ನಡ"];
-  List localCodes = ["en", "hi", "ka"];
+  Map<String, String> buttonlanguages = {};
+
+  List localCodes = [];
   int currentIndex = 0;
+  final List<Map<String, String>> languages = [
+    {'English': 'en'},
+    {'हिन्दी': 'hi'},
+    {'ಕನ್ನಡ': 'ka'},
+    {'தமிழ்': 'ta'},
+    {'मराठी': 'mr'}
+  ];
 
   @override
   void initState() {
     super.initState();
     _checkLanguageSelection();
+    loadStoredlanguages();
+  }
+
+  Future<void> loadStoredlanguages() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? storedlanguages = prefs.getStringList('SELECTEDLANGUAGES');
+    setState(() {
+      if (storedlanguages != null && storedlanguages.isNotEmpty) {
+        localCodes = storedlanguages;
+      } else {
+        localCodes = ["en", "hi", "ka"];
+      }
+      buttonlanguages.clear();
+      for (var code in localCodes) {
+        for (var language in languages) {
+          if (language.values.first == code) {
+            buttonlanguages[language.keys.first] = language.values.first;
+          }
+        }
+      }
+    });
   }
 
   Future<void> _checkLanguageSelection() async {
@@ -44,13 +73,11 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [
-              Appcolors.kgreenlightColor, // Start color (bottom)
-              Appcolors.kbackgroundcolor, // End color (top)
-            ],
+          image: DecorationImage(
+            opacity: .15,
+            image: AssetImage(
+                profilebackgroundimage), // Correct way to use asset image
+            fit: BoxFit.cover,
           ),
         ),
         child: Column(
@@ -61,9 +88,9 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
             Text(
               'Choose Language',
               style: TextStyle(
-                  color: Appcolors.ktextColor,
-                  fontSize: AppDimensions.fontSize30(context),
-                  fontWeight: FontWeight.w500),
+                  color: Appcolors.kgreenColor,
+                  fontSize: AppDimensions.fontSize25(context),
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: h(context) * .05,
@@ -71,8 +98,9 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
             // Wrapping ListView.builder with Flexible to avoid overflow
             Flexible(
               child: ListView.builder(
-                itemCount: locales.length,
+                itemCount: buttonlanguages.length,
                 itemBuilder: (context, index) {
+                  String languageKey = buttonlanguages.keys.elementAt(index);
                   return InkWell(
                     onTap: () async {
                       currentIndex = index;
@@ -80,17 +108,23 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
                           await SharedPreferences.getInstance();
                       await prefs.setString(
                           'selectedLanguage', localCodes[index]);
+                      // ignore: use_build_context_synchronously
                       context
                           .read<LanguageCubit>()
                           .changeLanguage(localCodes[index]);
+                      // ignore: use_build_context_synchronously
                       Locales.change(context, localCodes[index]);
                       Navigator.pushReplacement(
+                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                             builder: (context) => Screenmainpage()),
                       );
                     },
-                    child: CustomLanguageContainer(languageText: locales[index],heroTag: localCodes[index],),
+                    child: CustomLanguageContainer(
+                      languageText: languageKey,
+                      heroTag: localCodes[index],
+                    ),
                   );
                 },
               ),

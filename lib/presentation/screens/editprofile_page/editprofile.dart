@@ -55,7 +55,7 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
           image: DecorationImage(
             opacity: .15,
             image: AssetImage(
-                'assets/images/profilebackground.jpeg'), // Correct way to use asset image
+                profilebackgroundimage), // Correct way to use asset image
             fit: BoxFit.cover,
           ),
         ),
@@ -174,7 +174,7 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                               Spacer(),
                               IconButton(
                                   onPressed: () {
-                                    showLanguageSelectionSheet();
+                                    showLanguageSelectionSheet(context);
                                   },
                                   icon: Icon(CupertinoIcons.chevron_down))
                             ],
@@ -192,11 +192,19 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
     );
   }
 
-  void showLanguageSelectionSheet() async {
+  void showLanguageSelectionSheet(BuildContext context) async {
     await showModalBottomSheet(
       context: context,
-      isScrollControlled: true,
-      builder: (context) => LanguageSelectionSheet(),
+      isScrollControlled: true, // Enables full screen bottom sheet
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.6, // Height when sheet is first displayed
+        minChildSize: 0.3, // Minimum height the sheet can be dragged down to
+        maxChildSize: 0.9, // Maximum height the sheet can be dragged up to
+        expand: false, // Disable full screen expansion
+        builder: (context, scrollController) {
+          return LanguageSelectionSheet();
+        },
+      ),
     );
   }
 }
