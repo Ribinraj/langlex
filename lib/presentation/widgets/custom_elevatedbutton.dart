@@ -5,11 +5,12 @@ import 'package:langlex/core/constants.dart';
 class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String buttonText;
+  final Color backgroundcolor;
 
   const CustomElevatedButton({
     super.key,
     required this.onPressed,
-    required this.buttonText,
+    required this.buttonText,  this.backgroundcolor=Appcolors.korangeColor,
   });
 
   @override
@@ -25,7 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: AppDimensions.kradius30,
             ),
-            backgroundColor: Appcolors.korangeColor,
+            backgroundColor: backgroundcolor,
           ),
           child: Text(
             buttonText,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/presentation/screens/editprofile_page/editprofile.dart';
+import 'package:langlex/presentation/screens/loginpage/loginpage.dart';
 import 'package:langlex/presentation/screens/profilepage/widgets/custom_profilecontainer.dart';
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
@@ -91,9 +92,14 @@ class ScreenProfilePage extends StatelessWidget {
                       SizedBox(
                         height: h(context) * .025,
                       ),
-                      const CustomProfileContainer(
-                        containerText: 'My Courses',
-                        icon: CupertinoIcons.briefcase,
+                      InkWell(
+                        onTap: () {
+                          navigatePush(context,ScreenLoginpage());
+                        },
+                        child: CustomProfileContainer(
+                          containerText: 'My Courses',
+                          icon: CupertinoIcons.briefcase,
+                        ),
                       ),
                       SizedBox(
                         height: h(context) * .025,

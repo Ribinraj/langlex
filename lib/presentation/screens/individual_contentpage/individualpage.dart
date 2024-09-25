@@ -13,7 +13,7 @@ class ScreenIndividualPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          decoration: const BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             opacity: .15,
             image: AssetImage(
@@ -31,17 +31,16 @@ class ScreenIndividualPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                 IconButton(
-  onPressed: () {
-    Navigator.pop(context);
-  },
-  icon: Icon(
-    CupertinoIcons.arrowshape_turn_up_left_circle_fill,
-    color: Appcolors.kgreenColor,
-    size: 45,
-  ),
-),
-
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      CupertinoIcons.arrowshape_turn_up_left_circle_fill,
+                      color: Appcolors.kgreenColor,
+                      size: 45,
+                    ),
+                  ),
                   Text(
                     'Animals',
                     style: GoogleFonts.playpenSans(

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
-import 'package:langlex/presentation/blocs/bloc/image_picker_bloc.dart';
+import 'package:langlex/presentation/blocs/image_picker_bloc/image_picker_bloc.dart';
 import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editing_textfield.dart';
 import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editprofile.dart';
 import 'package:langlex/presentation/screens/editprofile_page/widgets/language_selectionpage.dart';
