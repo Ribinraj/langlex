@@ -6,6 +6,7 @@ import 'package:langlex/core/constants.dart';
 import 'package:langlex/presentation/screens/editprofile_page/editprofile.dart';
 import 'package:langlex/presentation/screens/loginpage/loginpage.dart';
 import 'package:langlex/presentation/screens/profilepage/widgets/custom_profilecontainer.dart';
+import 'package:langlex/presentation/screens/quiz_screen/quiz_screen.dart';
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
 import 'package:langlex/presentation/widgets/custom_profile_image.dart';
@@ -94,7 +95,7 @@ class ScreenProfilePage extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          navigatePush(context,ScreenLoginpage());
+                          navigatePush(context, ScreenQuizPage());
                         },
                         child: CustomProfileContainer(
                           containerText: 'My Courses',

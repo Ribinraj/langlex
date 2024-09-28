@@ -91,7 +91,7 @@ class ScreenSearchPage extends StatelessWidget {
               (context, index) {
                 return InkWell(
                   onTap: () {
-                    navigatePush(context,  ScreenIndividualPage());
+                   
                   },
                   child: Container(
                       decoration: BoxDecoration(

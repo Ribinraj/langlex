@@ -6,7 +6,7 @@ class AudioService {
   // Play audio from a file path
   Future<void> playAudioFromFile(String filePath) async {
     try {
-      await _audioPlayer.play(AssetSource(filePath));
+      await _audioPlayer.play(DeviceFileSource(filePath));
     } catch (e) {
       print('Error playing audio: $e');
     }

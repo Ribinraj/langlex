@@ -1,10 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/screens/homepage/widgets/custom_appbar.dart';
+import 'package:langlex/presentation/screens/individual_contentpage/individualpage.dart';
+import 'package:langlex/presentation/widgets/custom_navigation.dart';
 import 'package:langlex/presentation/widgets/custom_profile_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 // ignore: must_be_immutable
 class ScreenHomePage extends StatelessWidget {
@@ -139,34 +145,160 @@ class ScreenHomePage extends StatelessWidget {
                   itemCount: 8,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(.8),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Appcolors.korangeColor.withOpacity(.4),
-                            )),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              numberimage,
-                              height: h(context) * .09,
-                              width: w(context) * .2,
-                              fit: BoxFit.cover,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const LocaleText(
-                              "numbers",
-                              style: TextStyle(
-                                  color: Appcolors.ktextColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600),
-                            )
-                          ],
-                        ));
+                    return BlocBuilder<ContentDownloadBloc,
+                        ContentDownloadState>(
+                      builder: (context, state) {
+                        if (state is ContentDownloadInitial) {
+                          return Stack(
+                            children: [
+                              Positioned.fill(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(.5),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                              color: Appcolors.kgreenColor
+                                                  .withOpacity(.5),
+                                              width: 1.2)),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            numberimage,
+                                            height: h(context) * .09,
+                                            width: w(context) * .2,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          const LocaleText(
+                                            "numbers",
+                                            style: TextStyle(
+                                                color: Appcolors.ktextColor,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                        ],
+                                      ))),
+                              Positioned(
+                                top: h(context) * .01,
+                                right: w(context) * .03,
+                                child: IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<ContentDownloadBloc>()
+                                          .add(DownlaodButtonClickEvent());
+                                    },
+                                    icon: const Icon(
+                                      CupertinoIcons.arrow_down_circle,
+                                      size: 30,
+                                      color: Appcolors.kgreenlightColor,
+                                    )),
+                              ),
+                            ],
+                          );
+                        } else if (state is ContentDownloadLoading) {
+                          return Stack(
+                            children: [
+                              Positioned.fill(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(.5),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                              color: Appcolors.kgreenColor
+                                                  .withOpacity(.5),
+                                              width: 1.2)),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            numberimage,
+                                            height: h(context) * .09,
+                                            width: w(context) * .2,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          const LocaleText(
+                                            "numbers",
+                                            style: TextStyle(
+                                                color: Appcolors.ktextColor,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                        ],
+                                      ))),
+                              Positioned(
+                                top: h(context) * .01,
+                                right: w(context) * .03,
+                                child: LoadingAnimationWidget.inkDrop(
+                                    color: Appcolors.kgreenlightColor,
+                                    size: 25),
+                              ),
+                            ],
+                          );
+                        } else if (state is ContentDownloadSuccessState) {
+                          return Stack(
+                            children: [
+                              Positioned.fill(
+                                  child: InkWell(
+                                onTap: () {
+                                   navigatePush(context,  ScreenIndividualPage());
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(.5),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                            color: Appcolors.kgreenColor
+                                                .withOpacity(.5),
+                                            width: 1.2)),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          numberimage,
+                                          height: h(context) * .09,
+                                          width: w(context) * .2,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const LocaleText(
+                                          "numbers",
+                                          style: TextStyle(
+                                              color: Appcolors.ktextColor,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
+                                        )
+                                      ],
+                                    )),
+                              )),
+                              Positioned(
+                                top: h(context) * .01,
+                                right: w(context) * .03,
+                                child: Icon(
+                                  CupertinoIcons.play_circle,
+                                  color: Appcolors.kgreenlightColor,
+                                  size: 33,
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      },
+                    );
                   }),
             )
           ],
