@@ -27,30 +27,31 @@ class ScreenHomePage extends StatelessWidget {
 
     return Scaffold(
       key: scaffoldKey,
-      endDrawer: Drawer(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              SizedBox(
-                height: h(context) * 0.07,
-              ),
-              const CustomRoundImage(
-                circleContainerSize: 90,
-                imageUrl:
-                    'https://w7.pngwing.com/pngs/878/170/png-transparent-student-cartoon-kids-child-people-reading-thumbnail.png',
-              ),
-              SizedBox(
-                height: h(context) * 0.02,
-              ),
-              Text('Hii Akbar',
-                  style: TextStyle(
-                      fontSize: AppDimensions.fontSize17(context),
-                      fontWeight: FontWeight.w600)),
-            ],
-          ),
-        ),
-      ),
+      endDrawer: CustomDrawer(),
+      // endDrawer: Drawer(
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(10),
+      //     child: Column(
+      //       children: [
+      //         SizedBox(
+      //           height: h(context) * 0.07,
+      //         ),
+      //         const CustomRoundImage(
+      //           circleContainerSize: 90,
+      //           imageUrl:
+      //               'https://w7.pngwing.com/pngs/878/170/png-transparent-student-cartoon-kids-child-people-reading-thumbnail.png',
+      //         ),
+      //         SizedBox(
+      //           height: h(context) * 0.02,
+      //         ),
+      //         Text('Hii Akbar',
+      //             style: TextStyle(
+      //                 fontSize: AppDimensions.fontSize17(context),
+      //                 fontWeight: FontWeight.w600)),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       appBar: AppBar(
         backgroundColor: Appcolors.kgreenlightColor,
         automaticallyImplyLeading: false,

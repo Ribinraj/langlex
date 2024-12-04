@@ -5,7 +5,7 @@ import 'package:langlex/core/constants.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
 import 'package:langlex/presentation/screens/languagepage/languagepage.dart';
 
-import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
+
 
 import 'package:langlex/presentation/widgets/custom_elevatedbutton.dart';
 import 'package:langlex/presentation/widgets/custom_textfield.dart';

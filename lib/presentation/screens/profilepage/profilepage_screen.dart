@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/presentation/screens/editprofile_page/editprofile.dart';
-import 'package:langlex/presentation/screens/loginpage/loginpage.dart';
+
 import 'package:langlex/presentation/screens/profilepage/widgets/custom_profilecontainer.dart';
 import 'package:langlex/presentation/screens/quiz_screen/quiz_screen.dart';
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';

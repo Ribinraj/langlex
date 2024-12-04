@@ -6,66 +6,32 @@ class CustomLanguageContainer extends StatelessWidget {
   const CustomLanguageContainer({
     super.key,
     required this.languageText,
-    required this.heroTag, // Add this parameter for a unique tag
+    required this.heroTag,
   });
 
   final String languageText;
-  final String heroTag; // Unique tag
+  final String heroTag;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: h(context) * .15,
-      width: w(context) * 1,
-      padding: const EdgeInsets.all(AppDimensions.paddingSize10),
-      child: Stack(
-        children: [
-          Positioned(
-            left: w(context) * .15,
-            child: Container(
-              width: w(context) * .75,
-              height: h(context) * .1,
-              decoration: BoxDecoration(
-                color: Appcolors.kgreenColor,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Appcolors.kgreycolor.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: Offset(2, 2),
-                  )
-                ],
-              ),
-              child: Opacity(
-                opacity: 1,
-                child: Center(
-                  child: Text(
-                    languageText,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: AppDimensions.fontSize25(context),
-                      color: Appcolors.kwhiteColor,
-                    ),
-                  ),
-                ),
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Container(
+        height: h(context) * .07,
+        decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1.2, color: Appcolors.kgreenColor)),
+        child: Center(
+          child: Text(
+            languageText,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: AppDimensions.fontSize20(context),
+              color: Appcolors.korangeColor,
             ),
           ),
-          Positioned(
-            top: h(context) * -.05,
-            left: w(context) * .04,
-            child: Hero(
-              tag: heroTag, // Use the unique heroTag passed as parameter
-              transitionOnUserGestures: true,
-              child: Image(
-                image: AssetImage('assets/images/image.png'),
-                height: h(context) * .2,
-                width: w(context) * .2,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

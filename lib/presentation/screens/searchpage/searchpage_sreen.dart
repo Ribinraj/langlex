@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
-import 'package:langlex/presentation/screens/individual_contentpage/individualpage.dart';
+
 import 'package:langlex/presentation/screens/searchpage/widgets/search_Idle.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
 

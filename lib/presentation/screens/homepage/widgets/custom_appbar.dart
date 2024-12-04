@@ -102,7 +102,7 @@ class _DropdownExampleState extends State<DropdownExample> {
   Widget build(BuildContext context) {
     return Center(
       child: DropdownButton<String>(
-        dropdownColor: Appcolors.kbackgroundcolor,
+        dropdownColor: Appcolors.kgreenlightColor,
         // hint: const Text(
         //   'English',
         //   style: TextStyle(color: Appcolors.kgreenColor, fontSize: 17),
@@ -140,43 +140,97 @@ class _DropdownExampleState extends State<DropdownExample> {
 
 ///
 
-// class CustomDrawer extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Drawer(
-//       child: ListView(
-//         padding: EdgeInsets.zero,
-//         children: [
-//           DrawerHeader(
-//             decoration: BoxDecoration(
-//               color: Colors.blue,
-//             ),
-//             child: Text(
-//               'Drawer Header',
-//               style: TextStyle(
-//                 color: Colors.white,
-//                 fontSize: 24,
-//               ),
-//             ),
-//           ),
-//           ListTile(
-//             leading: Icon(Icons.home),
-//             title: Text('Home'),
-//             onTap: () {
-//               Navigator.pop(context);
-//               // Navigate to Home screen if needed
-//             },
-//           ),
-//           ListTile(
-//             leading: Icon(Icons.settings),
-//             title: Text('Settings'),
-//             onTap: () {
-//               Navigator.pop(context);
-//               // Navigate to Settings screen if needed
-//             },
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+        child: ListView(
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+        DrawerHeader(
+          decoration: const BoxDecoration(
+            color: Appcolors.kgreenColor,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: w(context) * .2,
+                height: h(context) * .1,
+                child: Image.asset(
+                  logo,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                height: h(context) * .01,
+              ),
+              Text('Hii Ribin',
+                  style: TextStyle(
+                      fontSize: AppDimensions.fontSize16(context),
+                      fontWeight: FontWeight.w600,
+                      color: Appcolors.kwhiteColor)),
+            ],
+          ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.people_outlined),
+          title: Text('About Us',
+              style: TextStyle(
+                  fontSize: AppDimensions.fontSize16(context),
+                  fontWeight: FontWeight.w600,
+                  color: Appcolors.kblackColor)),
+          onTap: () {},
+        ),
+        ListTile(
+          leading: const Icon(Icons.add_ic_call_outlined),
+          title: Text('Contact Us',
+              style: TextStyle(
+                  fontSize: AppDimensions.fontSize16(context),
+                  fontWeight: FontWeight.w600,
+                  color: Appcolors.kblackColor)),
+          onTap: () {},
+        ),
+        ListTile(
+          leading: const Icon(Icons.policy_outlined),
+          title: Text('Privacy Policy',
+              style: TextStyle(
+                  fontSize: AppDimensions.fontSize16(context),
+                  fontWeight: FontWeight.w600,
+                  color: Appcolors.kblackColor)),
+          onTap: () {},
+        ),
+        ListTile(
+          leading: const Icon(Icons.policy_outlined),
+          title: Text('Terms & Condition',
+              style: TextStyle(
+                  fontSize: AppDimensions.fontSize16(context),
+                  fontWeight: FontWeight.w600,
+                  color: Appcolors.kblackColor)),
+          onTap: () {},
+        ),
+        const Divider(),
+        Column(
+          children: [
+            ListTile(
+              leading: const Icon(
+                Icons.logout,
+              ),
+              title: Text('Logout',
+                  style: TextStyle(
+                      fontSize: AppDimensions.fontSize16(context),
+                      fontWeight: FontWeight.w600,
+                      color: Appcolors.kblackColor)),
+              onTap: () async {},
+            ),
+            SizedBox(
+              height: h(context) * .02,
+            ),
+          ],
+        ),
+      ],
+    ));
+  }
+}

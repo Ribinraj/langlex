@@ -94,7 +94,7 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                             radius: 20.0,
                             center: Text(
                               "${((currentIndex + 1) / dataItems.length * 100).toInt()}%",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 12),
                             ),
                             lineWidth: 3.0,
@@ -127,7 +127,7 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                       // ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(
-                            10), // Match border radius for clipping
+                            10), 
                         child: Image.file(
                           File(
                               '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.img}'),

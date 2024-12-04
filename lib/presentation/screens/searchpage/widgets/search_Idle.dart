@@ -74,8 +74,8 @@ class _SearchIdleState extends State<SearchIdle> {
                 (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0,
-                      vertical: 3,
+                      horizontal: 10,
+                      vertical: 5,
                     ),
                     child: GestureDetector(
                       onTap: () {},
@@ -83,10 +83,19 @@ class _SearchIdleState extends State<SearchIdle> {
                         height: h(context) * 0.13,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
+                          color: Appcolors.kwhiteColor,
+                          // gradient: LinearGradient(
+                          //   colors: [
+                          //     Appcolors.kgreenColor.withOpacity(.1),
+                          //     Appcolors.kwhiteColor
+                          //   ],
+                          //   begin: Alignment.topLeft,
+                          //   end: Alignment.bottomRight,
+                          // ),
                           borderRadius: AppDimensions.kradius10,
                           border: Border.all(
-                            color: Appcolors.korangeColor.withOpacity(.4),
-                          ),
+                              color: Appcolors.kgreenColor.withOpacity(.4),
+                              width: 1.5),
                         ),
                         child: Row(
                           children: [
@@ -95,7 +104,7 @@ class _SearchIdleState extends State<SearchIdle> {
                                 borderRadius: BorderRadius.circular(
                                     10), // Set the desired border radius
                                 border: Border.all(
-                                  color: Appcolors.korangeColor.withOpacity(
+                                  color: Appcolors.kgreenColor.withOpacity(
                                       .4), // Set the desired border color
                                   width: 1, // Set the border width
                                 ),
@@ -107,7 +116,7 @@ class _SearchIdleState extends State<SearchIdle> {
                                   caroselimages[index],
                                   fit: BoxFit.cover,
                                   //height: h(context) * .095,
-                                  width: w(context) * .4,
+                                  width: w(context) * .3,
                                 ),
                               ),
                             ),
@@ -118,7 +127,7 @@ class _SearchIdleState extends State<SearchIdle> {
                             //   fit: BoxFit.cover,
                             // ),
                             SizedBox(
-                              width: 50,
+                              width: w(context) * .1,
                             ),
                             Text(
                               words[index],
