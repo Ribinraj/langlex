@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:langlex/core/colors.dart';
+import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/domain/repository/Datadownload_repository.dart';
 import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      ResponsiveUtils().init(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider(

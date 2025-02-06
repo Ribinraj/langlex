@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
 import 'package:langlex/presentation/screens/languagepage/languagepage.dart';
 
@@ -44,14 +45,12 @@ class _ScreenSignupPageState extends State<ScreenSignupPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: h(context) * .03,
-                    ),
+                  ResponsiveSizedBox.height5,
                     Image.asset(
                       logo,
                       fit: BoxFit.contain,
-                      height: h(context) * 0.15,
-                      width: w(context) * 0.5,
+                      height: ResponsiveUtils.hp(.15),
+                      width: ResponsiveUtils.wp(.5),
                     ),
                     CustomTextfield(
                       validator: validateUsername,
@@ -59,23 +58,17 @@ class _ScreenSignupPageState extends State<ScreenSignupPage> {
                       labelText: 'Username',
                       textInputType: TextInputType.name,
                     ),
-                    SizedBox(
-                      height: h(context) * .015,
-                    ),
+                  ResponsiveSizedBox.height5,
                     CustomTextfield(
                         validator: validateMobileNumber,
                         controller: phonenumberController,
                         labelText: 'Mobile number'),
-                    SizedBox(
-                      height: h(context) * .015,
-                    ),
+                   ResponsiveSizedBox.height5,
                     CustomTextfield(
                         validator: validateEmail,
                         controller: emailController,
                         labelText: 'Email id'),
-                    SizedBox(
-                      height: h(context) * .015,
-                    ),
+                   ResponsiveSizedBox.height5,
                     BlocBuilder<TogglepasswordCubit,bool>(
                       builder: (context, state) {
                         return CustomTextfield(
@@ -87,9 +80,7 @@ class _ScreenSignupPageState extends State<ScreenSignupPage> {
                             labelText: 'Password');
                       },
                     ),
-                    SizedBox(
-                      height: h(context) * .015,
-                    ),
+                    ResponsiveSizedBox.height5,
                     CustomElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -98,30 +89,17 @@ class _ScreenSignupPageState extends State<ScreenSignupPage> {
                                   builder: (context) => ScreenLanguagePage()));
                         },
                         buttonText: 'Sign up'),
-                    SizedBox(
-                      height: h(context) * .015,
-                    ),
+                    ResponsiveSizedBox.height5,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Already you hava an account?',
-                          style: TextStyle(
-                              color: Appcolors.ktextColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: AppDimensions.fontSize15(context)),
-                        ),
+                        TextStyles.caption(text:'Already you hava an account?',weight: FontWeight.bold ),
+                       
                         InkWell(
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Text(
-                            'Sign in',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: AppDimensions.fontSize17(context),
-                                color: Appcolors.kgreenColor),
-                          ),
+                          child: TextStyles.medium(text: 'Sign in',color: Appcolors.kgreenColor,weight: FontWeight.bold),
                         ),
                         const SizedBox(
                           width: 10,

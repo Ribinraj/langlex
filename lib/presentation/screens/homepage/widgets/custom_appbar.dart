@@ -6,6 +6,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
 
 import 'package:langlex/presentation/cubits/language_change.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -116,7 +117,7 @@ class _DropdownExampleState extends State<DropdownExample> {
         elevation: 14,
         style: TextStyle(
             color: Appcolors.kwhiteColor,
-            fontSize: AppDimensions.fontSize15(context)),
+            fontSize: ResponsiveUtils.hp(4),),
         underline: Container(
           height: 2,
           color: Appcolors.kgreenlightColor,
@@ -157,58 +158,46 @@ class CustomDrawer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                width: w(context) * .2,
-                height: h(context) * .1,
+                width: ResponsiveUtils.hp(2),
+                height: ResponsiveUtils.wp(2),
                 child: Image.asset(
                   logo,
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(
-                height: h(context) * .01,
-              ),
-              Text('Hii Ribin',
-                  style: TextStyle(
-                      fontSize: AppDimensions.fontSize16(context),
-                      fontWeight: FontWeight.w600,
-                      color: Appcolors.kwhiteColor)),
+           ResponsiveSizedBox.height10,
+              TextStyles.medium(text: 'Hii Ribin',
+                  weight: FontWeight.bold,
+                  color: Appcolors.kwhiteColor),
             ],
           ),
         ),
         ListTile(
           leading: const Icon(Icons.people_outlined),
-          title: Text('About Us',
-              style: TextStyle(
-                  fontSize: AppDimensions.fontSize16(context),
-                  fontWeight: FontWeight.w600,
-                  color: Appcolors.kblackColor)),
+          title: TextStyles.body(text: 'About Us',
+              weight: FontWeight.bold,
+              color: Appcolors.kblackColor),
           onTap: () {},
         ),
         ListTile(
           leading: const Icon(Icons.add_ic_call_outlined),
-          title: Text('Contact Us',
-              style: TextStyle(
-                  fontSize: AppDimensions.fontSize16(context),
-                  fontWeight: FontWeight.w600,
-                  color: Appcolors.kblackColor)),
+          title: TextStyles.body(text: 'Contact Us',
+              weight: FontWeight.bold,
+              color: Appcolors.kblackColor),
           onTap: () {},
         ),
         ListTile(
           leading: const Icon(Icons.policy_outlined),
-          title: Text('Privacy Policy',
-              style: TextStyle(
-                  fontSize: AppDimensions.fontSize16(context),
-                  fontWeight: FontWeight.w600,
-                  color: Appcolors.kblackColor)),
+          title: TextStyles.body(text: 'Privacy Policy',
+              weight: FontWeight.bold,
+              color: Appcolors.kblackColor),    
           onTap: () {},
         ),
         ListTile(
           leading: const Icon(Icons.policy_outlined),
-          title: Text('Terms & Condition',
-              style: TextStyle(
-                  fontSize: AppDimensions.fontSize16(context),
-                  fontWeight: FontWeight.w600,
-                  color: Appcolors.kblackColor)),
+          title: TextStyles.body(text: 'Terms & Condition',
+              weight: FontWeight.bold,
+              color: Appcolors.kblackColor),
           onTap: () {},
         ),
         const Divider(),
@@ -218,16 +207,12 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(
                 Icons.logout,
               ),
-              title: Text('Logout',
-                  style: TextStyle(
-                      fontSize: AppDimensions.fontSize16(context),
-                      fontWeight: FontWeight.w600,
-                      color: Appcolors.kblackColor)),
+              title: TextStyles.body(text: 'Logout',
+                  weight: FontWeight.bold,
+                  color: Appcolors.kblackColor),
               onTap: () async {},
             ),
-            SizedBox(
-              height: h(context) * .02,
-            ),
+          ResponsiveSizedBox.height10,
           ],
         ),
       ],

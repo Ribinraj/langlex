@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
 
 class SearchIdle extends StatefulWidget {
   const SearchIdle({super.key});
@@ -80,7 +81,7 @@ class _SearchIdleState extends State<SearchIdle> {
                     child: GestureDetector(
                       onTap: () {},
                       child: Container(
-                        height: h(context) * 0.13,
+                        height: ResponsiveUtils.hp(.13),
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Appcolors.kwhiteColor,
@@ -92,7 +93,7 @@ class _SearchIdleState extends State<SearchIdle> {
                           //   begin: Alignment.topLeft,
                           //   end: Alignment.bottomRight,
                           // ),
-                          borderRadius: AppDimensions.kradius10,
+                          borderRadius: BorderRadiusStyles.kradius10(),
                           border: Border.all(
                               color: Appcolors.kgreenColor.withOpacity(.4),
                               width: 1.5),
@@ -116,7 +117,7 @@ class _SearchIdleState extends State<SearchIdle> {
                                   caroselimages[index],
                                   fit: BoxFit.cover,
                                   //height: h(context) * .095,
-                                  width: w(context) * .3,
+                                  width: ResponsiveUtils.wp(1),
                                 ),
                               ),
                             ),
@@ -126,9 +127,7 @@ class _SearchIdleState extends State<SearchIdle> {
                             //   width: w(context) * .4,
                             //   fit: BoxFit.cover,
                             // ),
-                            SizedBox(
-                              width: w(context) * .1,
-                            ),
+                            ResponsiveSizedBox.width5,
                             Text(
                               words[index],
                               style: const TextStyle(

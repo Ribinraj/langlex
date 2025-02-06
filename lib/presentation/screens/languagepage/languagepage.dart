@@ -192,6 +192,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:langlex/core/responsive_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:langlex/core/colors.dart';
@@ -385,24 +386,17 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
       body: DiagonalWaveBackground(
         child: Column(
           children: [
-            SizedBox(
-              height: h(context) * .15,
-            ),
+          ResponsiveSizedBox.height10,
             Image.asset(
               logo,
               fit: BoxFit.contain,
-              height: h(context) * 0.15,
-              width: w(context) * 0.5,
+              height: ResponsiveUtils.hp(2),
+              width: ResponsiveUtils.wp(2),
             ),
-            SizedBox(
-              height: h(context) * .05,
-            ),
-            Text(
-              'Choose Language',
-              style: TextStyle(
-                  color: Appcolors.kblackColor,
-                  fontSize: AppDimensions.fontSize20(context),
-                  fontWeight: FontWeight.bold),
+         ResponsiveSizedBox.height10,
+            TextStyles.body(
+             text:  'Choose Language',
+           weight: FontWeight.bold
             ),
 
             // Wrapping ListView.builder with Flexible to avoid overflow

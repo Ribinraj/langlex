@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 
+
 class CustomSqureElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String buttonText;
@@ -24,7 +25,7 @@ class CustomSqureElevatedButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: AppDimensions.kradius10,
+              borderRadius:BorderRadiusStyles.kradius10(),
             ),
             backgroundColor:backgroundcolor,
           ),

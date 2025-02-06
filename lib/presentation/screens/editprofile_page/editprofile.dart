@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/presentation/blocs/image_picker_bloc/image_picker_bloc.dart';
 import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editing_textfield.dart';
 import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editprofile.dart';
@@ -106,52 +107,44 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
-                    Text(
-                      'Username',
-                      style: TextStyle(
-                          color: Appcolors.khinttextColor,
-                          fontSize: AppDimensions.fontSize17(context),
-                          fontWeight: FontWeight.w600),
+                    TextStyles.body(
+                     text:  'Username',
+                    color: Appcolors.khinttextColor,
+                        weight: FontWeight.w600
                     ),
                     CustomEditingTextfield(controller: usernameController),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
-                    Text(
-                      'Phone number',
-                      style: TextStyle(
-                          color: Appcolors.khinttextColor,
-                          fontSize: AppDimensions.fontSize17(context),
-                          fontWeight: FontWeight.w600),
+                    TextStyles.body(
+                     text:  'Phone number',
+                        color: Appcolors.khinttextColor,
+                        weight: FontWeight.w600
                     ),
                     CustomEditingTextfield(controller: phonenumberController),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
-                    Text(
-                      'email',
-                      style: TextStyle(
-                          color: Appcolors.khinttextColor,
-                          fontSize: AppDimensions.fontSize17(context),
-                          fontWeight: FontWeight.w600),
+                    TextStyles.body(
+                     text:  'email',
+                        color: Appcolors.khinttextColor,
+                        weight: FontWeight.w600   
                     ),
                     CustomEditingTextfield(controller: emailController),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
-                    Text(
-                      'Password',
-                      style: TextStyle(
-                          color: Appcolors.khinttextColor,
-                          fontSize: AppDimensions.fontSize17(context),
-                          fontWeight: FontWeight.w600),
+                    TextStyles.body(
+                      text: 'Password',
+                      color: Appcolors.khinttextColor,
+                      weight: FontWeight.w600
                     ),
                     CustomEditingTextfield(controller: passwordcController),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.04,
                     ),
                     Container(
-                      height: h(context) * .06,
+                      height:  ResponsiveUtils.hp(6),
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Appcolors.kwhiteColor,
@@ -164,12 +157,10 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: Row(
                             children: [
-                              Text(
-                                'Select languages',
-                                style: TextStyle(
-                                    color: Appcolors.khinttextColor,
-                                    fontSize: AppDimensions.fontSize17(context),
-                                    fontWeight: FontWeight.w600),
+                              TextStyles.body(
+                                text: 'Select languages',
+                              weight: FontWeight.w600,
+                              color: Appcolors.khinttextColor
                               ),
                               Spacer(),
                               IconButton(

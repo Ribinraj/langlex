@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 
+
 class CustomEditingTextfield extends StatelessWidget {
   const CustomEditingTextfield({
     super.key,
@@ -45,19 +46,19 @@ class CustomEditingTextfield extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 16),
           enabledBorder: OutlineInputBorder(
-              borderRadius: AppDimensions.kradius10,
+              borderRadius: BorderRadiusStyles.kradius10(),
               borderSide:
                   BorderSide(color: Appcolors.kgreenColor.withOpacity(.4))),
           focusedBorder: OutlineInputBorder(
-              borderRadius: AppDimensions.kradius10,
+              borderRadius:BorderRadiusStyles.kradius10(),
               borderSide:
                   const BorderSide(color: Appcolors.kgreenColor, width: 1.5)),
           errorBorder: OutlineInputBorder(
-              borderRadius: AppDimensions.kradius10,
+              borderRadius: BorderRadiusStyles.kradius10(),
               borderSide:
                   const BorderSide(color: Appcolors.kredcolor, width: 1.5)),
           focusedErrorBorder: OutlineInputBorder(
-              borderRadius: AppDimensions.kradius30,
+              borderRadius: BorderRadiusStyles.kradius30(),
               borderSide:
                   const BorderSide(color: Appcolors.kredcolor, width: 1.5))),
     );

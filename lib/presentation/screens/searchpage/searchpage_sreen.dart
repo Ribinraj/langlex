@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
+
 
 import 'package:langlex/presentation/screens/searchpage/widgets/search_Idle.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
@@ -75,10 +77,8 @@ class ScreenSearchPage extends StatelessWidget {
               ),
             ),
           ),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 10,
-            ),
+           SliverToBoxAdapter(
+            child:ResponsiveSizedBox.height10,
           ),
           SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -105,8 +105,8 @@ class ScreenSearchPage extends StatelessWidget {
                         children: [
                           Image.asset(
                             caroselimages[index],
-                            height: h(context) * .09,
-                            width: w(context) * .2,
+                            height:ResponsiveUtils.hp(.09),
+                            width:ResponsiveUtils.wp(.15),
                             fit: BoxFit.cover,
                           ),
                           const SizedBox(

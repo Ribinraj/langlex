@@ -33,9 +33,7 @@ class SplashPage extends StatelessWidget {
                 height: 200, // Adjust height as needed
                 fit: BoxFit.contain, // Adjust to fit the image properly
               ),
-              SizedBox(
-                height: h(context) * 0.05,
-              ),
+            ResponsiveSizedBox.height5,
               LoadingAnimationWidget.staggeredDotsWave(
                   color: Appcolors.kgreenColor, size: 40)
             ],

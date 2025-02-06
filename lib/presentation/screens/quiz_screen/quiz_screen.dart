@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/presentation/blocs/quiz_answer_selection_bloc/qiuz_answer_selection_bloc.dart';
 
 import 'package:langlex/presentation/widgets/custom_elevatedbutton.dart';
@@ -52,12 +53,10 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
           child: Center(
             child: Column(
               children: [
-                SizedBox(
-                  height: h(context) * .06,
-                ),
+                ResponsiveSizedBox.height10,
                 Container(
-                  height: h(context) * .07,
-                  width: w(context) * .35,
+                  height: ResponsiveUtils.hp(.07),
+                  width: ResponsiveUtils.wp(.35),
                   decoration: const BoxDecoration(
                       color: Appcolors.kgreenColor,
                       borderRadius: BorderRadius.only(
@@ -69,13 +68,13 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Appcolors.kwhiteColor,
-                          fontSize: AppDimensions.fontSize30(context)),
+                          fontSize: ResponsiveUtils.hp(3)),
                     ),
                   ),
                 ),
                 Container(
-                  height: h(context) * .37,
-                  width: w(context) * .9,
+                  height: ResponsiveUtils.hp(.37),
+                  width:ResponsiveUtils.wp(.9),
                   decoration: BoxDecoration(
                       color: Appcolors.kgreenColor,
                       borderRadius: BorderRadius.circular(50)),
@@ -87,12 +86,9 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(20),
-                            child: Text(
-                              'which planet is solar system is smallest ?',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Appcolors.kwhiteColor,
-                                  fontSize: AppDimensions.fontSize20(context)),
+                            child: TextStyles.subheadline(
+                             text:  'which planet is solar system is smallest ?',
+                              
                             ),
                           ),
                         ),
@@ -102,13 +98,11 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
                           child: Image.asset(
                             'assets/images/leopard.jpg',
                             fit: BoxFit.cover,
-                            height: h(context) * .2,
-                            width: w(context) * .5,
+                            height: ResponsiveUtils.hp(.2),
+                            width: ResponsiveUtils.wp(.5),
                           ),
                         ),
-                        SizedBox(
-                          height: h(context) * .02,
-                        ),
+                       ResponsiveSizedBox.height5,
                       ],
                     ),
                   ),
@@ -125,11 +119,11 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
                             titleStyle: TextStyle(
                                 color: Appcolors.korangBorderColor,
                                 fontWeight: FontWeight.bold,
-                                fontSize: AppDimensions.fontSize24(context)),
+                                fontSize: ResponsiveUtils.hp(4)),
                             msgStyle: TextStyle(
                                 color: Appcolors.kgreenColor,
                                 fontWeight: FontWeight.bold,
-                                fontSize: AppDimensions.fontSize18(context)),
+                                fontSize: ResponsiveUtils.hp(4)),
                             title: 'Congratulations',
                             lottieBuilder: Lottie.asset(
                               'assets/animations/Animation - 1727247389325.json',
@@ -199,9 +193,7 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: w(context) * .07,
-                                  ),
+                                ResponsiveSizedBox.width10,
                                   Text(
                                     answerOptions[index],
                                     style: TextStyle(
@@ -218,9 +210,7 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
                                       Icons.check_circle,
                                       color: Appcolors.kwhiteColor,
                                     ),
-                                  SizedBox(
-                                    width: w(context) * .02,
-                                  ),
+                                ResponsiveSizedBox.width10,
                                 ],
                               ),
                             ),
@@ -254,11 +244,11 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
                           titleStyle: TextStyle(
                               color: Appcolors.korangBorderColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: AppDimensions.fontSize24(context)),
+                              fontSize: ResponsiveUtils.hp(2)),
                           msgStyle: TextStyle(
                               color: Appcolors.kredcolor,
                               fontWeight: FontWeight.bold,
-                              fontSize: AppDimensions.fontSize18(context)),
+                              fontSize: ResponsiveUtils.hp(1.5)),
                           title: 'Sorry !!!',
                           lottieBuilder: Lottie.asset(
                             'assets/animations/Animation - 1727249749638.json',
@@ -303,11 +293,11 @@ class _ScreenQuizPageState extends State<ScreenQuizPage> {
                         titleStyle: TextStyle(
                             color: Appcolors.korangBorderColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: AppDimensions.fontSize24(context)),
+                            fontSize: ResponsiveUtils.hp(2)),
                         msgStyle: TextStyle(
                             color: Appcolors.kredcolor,
                             fontWeight: FontWeight.bold,
-                            fontSize: AppDimensions.fontSize18(context)),
+                            fontSize:  ResponsiveUtils.hp(2)),
                         title: 'Sorry !!!',
                         lottieBuilder: Lottie.asset(
                           'assets/animations/Animation - 1727249749638.json',

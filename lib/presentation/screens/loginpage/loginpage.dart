@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
 import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
 import 'package:langlex/presentation/screens/signup_page/screen_signup_page.dart';
@@ -42,27 +43,21 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: h(context) * .1,
-                    ),
+                 ResponsiveSizedBox.height10,
                     Image.asset(
                       logo,
                       fit: BoxFit.contain,
-                      height: h(context) * 0.15,
-                      width: w(context) * 0.5,
+                      height: ResponsiveUtils.hp(2),
+                      width:  ResponsiveUtils.wp(2),
                     ),
-                    SizedBox(
-                      height: h(context) * .03,
-                    ),
+                    ResponsiveSizedBox.height10,
                     CustomTextfield(
                       validator: validateUsername,
                       controller: usernameController,
                       labelText: 'Username',
                       textInputType: TextInputType.name,
                     ),
-                    SizedBox(
-                      height: h(context) * .03,
-                    ),
+                  ResponsiveSizedBox.height10,
                     BlocBuilder<TogglepasswordCubit, bool>(
                       builder: (context, state) {
                         return CustomTextfield(
@@ -74,9 +69,7 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                             labelText: 'Password');
                       },
                     ),
-                    SizedBox(
-                      height: h(context) * .01,
-                    ),
+                  ResponsiveSizedBox.height10,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -84,19 +77,14 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                           padding: const EdgeInsets.only(right: 10),
                           child: InkWell(
                             onTap: () {},
-                            child: Text('Forgot Password?',
-                                style: TextStyle(
-                                    color: Appcolors.ktextColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        AppDimensions.fontSize15(context))),
+                            child: TextStyles.body(text: 'Forgot Password?',
+                        weight: FontWeight.bold
+                                        ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: h(context) * .03,
-                    ),
+                  ResponsiveSizedBox.height10,
                     CustomElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate() &&
@@ -109,18 +97,13 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                           }
                         },
                         buttonText: 'Go'),
-                    SizedBox(
-                      height: h(context) * .03,
-                    ),
+                 ResponsiveSizedBox.height10,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Dont Have Account yet?',
-                          style: TextStyle(
-                              color: Appcolors.ktextColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: AppDimensions.fontSize15(context)),
+                        TextStyles.medium(
+                         text:  'Dont Have Account yet?',
+                          weight: FontWeight.bold,
                         ),
                         InkWell(
                           onTap: () {
@@ -130,12 +113,9 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                                     builder: (context) =>
                                         const ScreenSignupPage()));
                           },
-                          child: Text(
-                            'Signup',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: AppDimensions.fontSize17(context),
-                                color: Appcolors.kgreenColor),
+                          child: TextStyles.body(
+                           text:  'Signup',
+                       
                           ),
                         ),
                         const SizedBox(

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
 import 'package:langlex/presentation/widgets/audio_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -64,9 +65,7 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                 padding: const EdgeInsets.all(15),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: h(context) * .06,
-                    ),
+                 ResponsiveSizedBox.height10,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -86,7 +85,7 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                               textStyle: TextStyle(
                                   color: Appcolors.kgreenColor,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: AppDimensions.fontSize25(context))),
+                                  fontSize:ResponsiveUtils.hp(4))),
                         ),
                         SizedBox(
                           height: 60,
@@ -106,9 +105,7 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: h(context) * .04,
-                    ),
+                 ResponsiveSizedBox.height10,
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
@@ -132,8 +129,8 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                           File(
                               '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.img}'),
                           fit: BoxFit.cover,
-                          height: h(context) * .5,
-                          width: w(context) * .8,
+                          height:ResponsiveUtils.hp(2),
+                          width: ResponsiveUtils.wp(4),
                         ),
                       ),
                     ),
@@ -146,13 +143,13 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                           textStyle: const TextStyle(
                               color: Appcolors.kgreenColor,
                               fontWeight: FontWeight.w600),
-                          fontSize: AppDimensions.fontSize30(context)),
+                          fontSize: ResponsiveUtils.hp(4)),
                     ),
                     const Expanded(
                       child: SizedBox(),
                     ),
                     SizedBox(
-                      height: h(context) * 0.12,
+                      height: ResponsiveUtils.hp(2),
                       child: Padding(
                         padding: const EdgeInsets.all(15),
                         child: Row(
@@ -249,9 +246,7 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                       height: 10,
                     ),
                     Text('Item ${currentIndex + 1} of ${dataItems.length}'),
-                    SizedBox(
-                      height: h(context) * .06,
-                    )
+                  ResponsiveSizedBox.height10,
                   ],
                 ),
               ),

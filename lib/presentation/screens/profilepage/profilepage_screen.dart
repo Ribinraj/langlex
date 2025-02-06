@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
+
 import 'package:langlex/presentation/screens/editprofile_page/editprofile.dart';
 
 import 'package:langlex/presentation/screens/profilepage/widgets/custom_profilecontainer.dart';
@@ -34,12 +36,10 @@ class ScreenProfilePage extends StatelessWidget {
               // mainAxisAlignment: MainAxisAlignment.center,
               //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: h(context) * .06,
-                ),
+               ResponsiveSizedBox.height10,
                 Container(
-                  width: w(context) * .85,
-                  height: h(context) * .22,
+                  width: ResponsiveUtils.hp(.2),
+                  height:  ResponsiveUtils.wp(22),
                   decoration: BoxDecoration(
                       color: Appcolors.kgreycolor,
                       gradient: const LinearGradient(
@@ -57,20 +57,16 @@ class ScreenProfilePage extends StatelessWidget {
                           color: Appcolors.kgreenColor.withOpacity(.7))),
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: h(context) * .05,
-                      ),
+                    ResponsiveSizedBox.height10,
                       const CustomRoundImage(
                           circleContainerSize: 100,
                           imageUrl:
                               'https://w7.pngwing.com/pngs/878/170/png-transparent-student-cartoon-kids-child-people-reading-thumbnail.png'),
-                      SizedBox(
-                        width: h(context) * .05,
-                      ),
-                      Text('Ribinraj',
-                          style: TextStyle(
-                              fontSize: AppDimensions.fontSize20(context),
-                              fontWeight: FontWeight.w700)),
+                     ResponsiveSizedBox.height10,
+                      TextStyles.body(text: 'Ribinraj',
+                      weight: FontWeight.bold,
+
+                        ),
                     ],
                   ),
                 ),
@@ -78,9 +74,7 @@ class ScreenProfilePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: h(context) * .05,
-                      ),
+                     ResponsiveSizedBox.height10,
                       InkWell(
                         onTap: () {
                           navigatePush(context, ScreenEditProfile());
@@ -90,9 +84,7 @@ class ScreenProfilePage extends StatelessWidget {
                           icon: CupertinoIcons.person,
                         ),
                       ),
-                      SizedBox(
-                        height: h(context) * .025,
-                      ),
+                    ResponsiveSizedBox.height10,
                       InkWell(
                         onTap: () {
                           navigatePush(context, ScreenQuizPage());
@@ -102,38 +94,30 @@ class ScreenProfilePage extends StatelessWidget {
                           icon: CupertinoIcons.briefcase,
                         ),
                       ),
-                      SizedBox(
-                        height: h(context) * .025,
-                      ),
+                     ResponsiveSizedBox.height10,
                       const CustomProfileContainer(
                         containerText: 'Packages',
                         icon: CupertinoIcons.collections,
                       ),
-                      SizedBox(
-                        height: h(context) * .025,
-                      ),
+                    ResponsiveSizedBox.height10,
                       const CustomProfileContainer(
                         containerText: 'Privacy & Policy',
                         icon: CupertinoIcons.exclamationmark_shield,
                       ),
-                      SizedBox(
-                        height: h(context) * .025,
-                      ),
+                     ResponsiveSizedBox.height10,
                       const CustomProfileContainer(
                         containerText: 'About Us',
                         icon: Icons.arrow_drop_down_circle_outlined,
                       ),
-                      SizedBox(
-                        height: h(context) * .025,
-                      ),
+                     ResponsiveSizedBox.height10,
                       InkWell(
                         onTap: () {
                           print('logout');
                           _logout(context);
                         },
                         child: Container(
-                          height: h(context) * 0.065,
-                          width: w(context) * 0.85,
+                          height:  ResponsiveUtils.hp(2),
+                          width: ResponsiveUtils.wp(2),
                           decoration: BoxDecoration(
                               color: Appcolors.kbackgroundcolor,
                               borderRadius: const BorderRadius.only(
@@ -155,13 +139,10 @@ class ScreenProfilePage extends StatelessWidget {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                  'Logout',
-                                  style: TextStyle(
-                                      fontSize:
-                                          AppDimensions.fontSize18(context),
-                                      fontWeight: FontWeight.w700,
-                                      color: Appcolors.kredcolor),
+                                TextStyles.medium(
+                                 text:  'Logout',
+                                weight: FontWeight.bold,
+                                color: Appcolors.kredcolor
                                 ),
                                 const Spacer(),
                                 const Icon(

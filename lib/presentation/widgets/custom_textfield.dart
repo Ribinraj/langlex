@@ -47,18 +47,18 @@ class CustomTextfield extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 16),
             enabledBorder: OutlineInputBorder(
-                borderRadius: AppDimensions.kradius30,
+                borderRadius:BorderRadiusStyles.kradius30(),
                 borderSide: BorderSide.none),
             focusedBorder: OutlineInputBorder(
-                borderRadius: AppDimensions.kradius30,
+                borderRadius:BorderRadiusStyles.kradius30(),
                 borderSide: const BorderSide(
                     color: Appcolors.korangelightColor, width: 1.5)),
             errorBorder: OutlineInputBorder(
-                borderRadius: AppDimensions.kradius30,
+                borderRadius:BorderRadiusStyles.kradius30(),
                 borderSide:
                     const BorderSide(color: Appcolors.kredcolor, width: 1.5)),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: AppDimensions.kradius30,
+              borderRadius: BorderRadiusStyles.kradius30(),
               borderSide:
                     const BorderSide(color: Appcolors.kredcolor, width: 1.5)
             )),

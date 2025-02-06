@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/responsive_utils.dart';
+
 
 class CustomProfileContainer extends StatelessWidget {
   const CustomProfileContainer({
@@ -14,8 +16,8 @@ class CustomProfileContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: h(context) * 0.06,
-      width: w(context) * 0.85,
+      height:  ResponsiveUtils.hp(.06),
+      width:  ResponsiveUtils.wp(.85),
       decoration: BoxDecoration(
           color: Appcolors.kbackgroundcolor,
           borderRadius: const BorderRadius.only(
@@ -31,11 +33,9 @@ class CustomProfileContainer extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            Text(
-              containerText,
-              style: TextStyle(
-                  fontSize: AppDimensions.fontSize18(context),
-                  fontWeight: FontWeight.w700),
+            TextStyles.medium(
+            text:   containerText,
+              weight: FontWeight.bold,
             ),
             Spacer(),
             const Icon(CupertinoIcons.chevron_forward)
