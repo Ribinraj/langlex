@@ -386,20 +386,22 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
       body: DiagonalWaveBackground(
         child: Column(
           children: [
-          ResponsiveSizedBox.height10,
+            SizedBox(
+              height: ResponsiveUtils.hp(13),
+            ),
             Image.asset(
               logo,
               fit: BoxFit.contain,
-              height: ResponsiveUtils.hp(2),
-              width: ResponsiveUtils.wp(2),
+              height: ResponsiveUtils.hp(15),
+              width: ResponsiveUtils.wp(30),
             ),
-         ResponsiveSizedBox.height10,
-            TextStyles.body(
-             text:  'Choose Language',
-           weight: FontWeight.bold
-            ),
+            ResponsiveSizedBox.height20,
+            TextStyles.subheadline(
+                color: Appcolors.kgreenColor,
+                text: 'Choose Language',
+                weight: FontWeight.bold),
 
-            // Wrapping ListView.builder with Flexible to avoid overflow
+      
             Flexible(
               child: ListView.builder(
                 itemCount: buttonlanguages.length,

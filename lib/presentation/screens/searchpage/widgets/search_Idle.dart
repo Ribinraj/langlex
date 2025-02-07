@@ -81,8 +81,8 @@ class _SearchIdleState extends State<SearchIdle> {
                     child: GestureDetector(
                       onTap: () {},
                       child: Container(
-                        height: ResponsiveUtils.hp(.13),
-                        padding: const EdgeInsets.all(10),
+                        height: ResponsiveUtils.hp(10),
+                        padding: EdgeInsets.all(ResponsiveUtils.wp(2)),
                         decoration: BoxDecoration(
                           color: Appcolors.kwhiteColor,
                           // gradient: LinearGradient(
@@ -116,8 +116,8 @@ class _SearchIdleState extends State<SearchIdle> {
                                 child: Image.asset(
                                   caroselimages[index],
                                   fit: BoxFit.cover,
-                                  //height: h(context) * .095,
-                                  width: ResponsiveUtils.wp(1),
+                                  // height: ResponsiveUtils.hp(17),
+                                  width: ResponsiveUtils.wp(25),
                                 ),
                               ),
                             ),
@@ -127,14 +127,11 @@ class _SearchIdleState extends State<SearchIdle> {
                             //   width: w(context) * .4,
                             //   fit: BoxFit.cover,
                             // ),
-                            ResponsiveSizedBox.width5,
-                            Text(
-                              words[index],
-                              style: const TextStyle(
-                                  color: Appcolors.ktextColor,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500),
-                            )
+                            ResponsiveSizedBox.width20,
+                            TextStyles.body(
+                                text: words[index],
+                                color: Appcolors.ktextColor,
+                                weight: FontWeight.bold)
                           ],
                         ),
                       ),

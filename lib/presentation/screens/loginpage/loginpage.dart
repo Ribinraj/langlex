@@ -43,12 +43,14 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                 ResponsiveSizedBox.height10,
+                    SizedBox(
+                      height: ResponsiveUtils.hp(10),
+                    ),
                     Image.asset(
                       logo,
                       fit: BoxFit.contain,
-                      height: ResponsiveUtils.hp(2),
-                      width:  ResponsiveUtils.wp(2),
+                      height: ResponsiveUtils.hp(15),
+                      width: ResponsiveUtils.wp(30),
                     ),
                     ResponsiveSizedBox.height10,
                     CustomTextfield(
@@ -57,7 +59,7 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                       labelText: 'Username',
                       textInputType: TextInputType.name,
                     ),
-                  ResponsiveSizedBox.height10,
+                    ResponsiveSizedBox.height10,
                     BlocBuilder<TogglepasswordCubit, bool>(
                       builder: (context, state) {
                         return CustomTextfield(
@@ -69,7 +71,7 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                             labelText: 'Password');
                       },
                     ),
-                  ResponsiveSizedBox.height10,
+                    ResponsiveSizedBox.height10,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -77,34 +79,35 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                           padding: const EdgeInsets.only(right: 10),
                           child: InkWell(
                             onTap: () {},
-                            child: TextStyles.body(text: 'Forgot Password?',
-                        weight: FontWeight.bold
-                                        ),
+                            child: TextStyles.body(
+                                text: 'Forgot Password?',
+                                color: Appcolors.korangeColor,
+                                weight: FontWeight.bold),
                           ),
                         ),
                       ],
                     ),
-                  ResponsiveSizedBox.height10,
+                    ResponsiveSizedBox.height20,
                     CustomElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate() &&
                               usernameController.text == 'ribin' &&
                               passwordController.text == '1234Ribin') {
-                            navigatePush(context,Screenmainpage());
+                            CustomNavigation.replace(context, Screenmainpage());
                           } else {
                             customSnackbar(context, 'Fill all fields',
                                 Appcolors.kredcolor);
                           }
                         },
-                        buttonText: 'Go'),
-                 ResponsiveSizedBox.height10,
+                        buttonText: 'Sign in'),
+                    ResponsiveSizedBox.height10,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextStyles.medium(
-                         text:  'Dont Have Account yet?',
-                          weight: FontWeight.bold,
-                        ),
+                            text: 'Dont Have Account yet?',
+                            weight: FontWeight.bold,
+                            color: Appcolors.ktextColor),
                         InkWell(
                           onTap: () {
                             Navigator.push(
@@ -114,9 +117,9 @@ class _ScreenLoginpageState extends State<ScreenLoginpage> {
                                         const ScreenSignupPage()));
                           },
                           child: TextStyles.body(
-                           text:  'Signup',
-                       
-                          ),
+                              text: 'Signup',
+                              weight: FontWeight.bold,
+                              color: Appcolors.kgreenColor),
                         ),
                         const SizedBox(
                           width: 10,

@@ -4,7 +4,6 @@ import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
 
-
 class CustomProfileContainer extends StatelessWidget {
   const CustomProfileContainer({
     super.key,
@@ -16,8 +15,8 @@ class CustomProfileContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:  ResponsiveUtils.hp(.06),
-      width:  ResponsiveUtils.wp(.85),
+      height: ResponsiveUtils.hp(6),
+      // width: ResponsiveUtils.wp(80),
       decoration: BoxDecoration(
           color: Appcolors.kbackgroundcolor,
           borderRadius: const BorderRadius.only(
@@ -34,7 +33,7 @@ class CustomProfileContainer extends StatelessWidget {
               width: 10,
             ),
             TextStyles.medium(
-            text:   containerText,
+              text: containerText,
               weight: FontWeight.bold,
             ),
             Spacer(),

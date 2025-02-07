@@ -80,7 +80,7 @@ class ScreenHomePage extends StatelessWidget {
               scaffoldKey.currentState?.openEndDrawer(); // Open the end drawer
             },
           ),
-       ResponsiveSizedBox.height10,
+          ResponsiveSizedBox.height10,
         ],
       ),
       body: Container(
@@ -95,7 +95,7 @@ class ScreenHomePage extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(15),
           children: [
-          ResponsiveSizedBox.height10,
+            ResponsiveSizedBox.height10,
             CarouselSlider.builder(
               itemCount: caroselimages.length,
               options: CarouselOptions(
@@ -108,11 +108,9 @@ class ScreenHomePage extends StatelessWidget {
               itemBuilder: (context, itemIndex, pageViewIndex) {
                 return Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                        15), // Set the desired border radius
+                    borderRadius: BorderRadius.circular(15),
                     border: Border.all(
-                      color: Appcolors.kgreenColor
-                          .withOpacity(.4), // Set the desired border color
+                      color: Appcolors.kgreenColor.withOpacity(.4),
                       width: 1, // Set the border width
                     ),
                   ),
@@ -127,7 +125,7 @@ class ScreenHomePage extends StatelessWidget {
                 );
               },
             ),
-          ResponsiveSizedBox.height10,
+            ResponsiveSizedBox.height10,
             Padding(
               padding: const EdgeInsets.all(10),
               child: GridView.builder(
@@ -163,8 +161,8 @@ class ScreenHomePage extends StatelessWidget {
                                         children: [
                                           Image.asset(
                                             numberimage,
-                                            height: ResponsiveUtils.hp(2),
-                                            width:ResponsiveUtils.wp(2),
+                                            height: ResponsiveUtils.hp(10),
+                                            width: ResponsiveUtils.wp(20),
                                             fit: BoxFit.cover,
                                           ),
                                           const SizedBox(
@@ -181,7 +179,7 @@ class ScreenHomePage extends StatelessWidget {
                                       ))),
                               Positioned(
                                 top: ResponsiveUtils.hp(2),
-                                right:ResponsiveUtils.wp(2),
+                                right: ResponsiveUtils.wp(2),
                                 child: IconButton(
                                     onPressed: () {
                                       context
@@ -215,8 +213,8 @@ class ScreenHomePage extends StatelessWidget {
                                         children: [
                                           Image.asset(
                                             numberimage,
-                                            height: ResponsiveUtils.hp(2),
-                                            width:ResponsiveUtils.wp(2),
+                                            height: ResponsiveUtils.hp(10),
+                                            width: ResponsiveUtils.wp(20),
                                             fit: BoxFit.cover,
                                           ),
                                           const SizedBox(
@@ -246,7 +244,7 @@ class ScreenHomePage extends StatelessWidget {
                               Positioned.fill(
                                   child: InkWell(
                                 onTap: () {
-                                   navigatePush(context,  ScreenIndividualPage());
+                                  CustomNavigation.push(context, ScreenIndividualPage());
                                 },
                                 child: Container(
                                     decoration: BoxDecoration(
@@ -262,13 +260,11 @@ class ScreenHomePage extends StatelessWidget {
                                       children: [
                                         Image.asset(
                                           numberimage,
-                                          height:ResponsiveUtils.hp(2),
-                                          width:ResponsiveUtils.wp(2),
+                                         height: ResponsiveUtils.hp(10),
+                                            width: ResponsiveUtils.wp(20),
                                           fit: BoxFit.cover,
                                         ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
+                                       ResponsiveSizedBox.height10,
                                         const LocaleText(
                                           "numbers",
                                           style: TextStyle(
@@ -281,7 +277,7 @@ class ScreenHomePage extends StatelessWidget {
                               )),
                               Positioned(
                                 top: ResponsiveUtils.hp(2),
-                                right:ResponsiveUtils.wp(2),
+                                right: ResponsiveUtils.wp(2),
                                 child: Icon(
                                   CupertinoIcons.play_circle,
                                   color: Appcolors.kgreenlightColor,

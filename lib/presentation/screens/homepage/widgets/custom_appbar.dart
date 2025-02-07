@@ -116,8 +116,9 @@ class _DropdownExampleState extends State<DropdownExample> {
         iconSize: 28,
         elevation: 14,
         style: TextStyle(
-            color: Appcolors.kwhiteColor,
-            fontSize: ResponsiveUtils.hp(4),),
+          color: Appcolors.kwhiteColor,
+          fontSize: ResponsiveUtils.hp(2),
+        ),
         underline: Container(
           height: 2,
           color: Appcolors.kgreenlightColor,
@@ -157,16 +158,22 @@ class CustomDrawer extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: ResponsiveUtils.hp(2),
-                height: ResponsiveUtils.wp(2),
+              Container(
+                padding: EdgeInsets.all(ResponsiveUtils.wp(4)),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Appcolors.kwhiteColor,
+                ),
+                width: ResponsiveUtils.hp(12.5),
+                height: ResponsiveUtils.wp(25),
                 child: Image.asset(
                   logo,
                   fit: BoxFit.contain,
                 ),
               ),
-           ResponsiveSizedBox.height10,
-              TextStyles.medium(text: 'Hii Ribin',
+              ResponsiveSizedBox.height10,
+              TextStyles.body(
+                  text: 'Hii Ribin',
                   weight: FontWeight.bold,
                   color: Appcolors.kwhiteColor),
             ],
@@ -174,28 +181,32 @@ class CustomDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.people_outlined),
-          title: TextStyles.body(text: 'About Us',
+          title: TextStyles.body(
+              text: 'About Us',
               weight: FontWeight.bold,
               color: Appcolors.kblackColor),
           onTap: () {},
         ),
         ListTile(
           leading: const Icon(Icons.add_ic_call_outlined),
-          title: TextStyles.body(text: 'Contact Us',
+          title: TextStyles.body(
+              text: 'Contact Us',
               weight: FontWeight.bold,
               color: Appcolors.kblackColor),
           onTap: () {},
         ),
         ListTile(
           leading: const Icon(Icons.policy_outlined),
-          title: TextStyles.body(text: 'Privacy Policy',
+          title: TextStyles.body(
+              text: 'Privacy Policy',
               weight: FontWeight.bold,
-              color: Appcolors.kblackColor),    
+              color: Appcolors.kblackColor),
           onTap: () {},
         ),
         ListTile(
           leading: const Icon(Icons.policy_outlined),
-          title: TextStyles.body(text: 'Terms & Condition',
+          title: TextStyles.body(
+              text: 'Terms & Condition',
               weight: FontWeight.bold,
               color: Appcolors.kblackColor),
           onTap: () {},
@@ -207,12 +218,13 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(
                 Icons.logout,
               ),
-              title: TextStyles.body(text: 'Logout',
+              title: TextStyles.body(
+                  text: 'Logout',
                   weight: FontWeight.bold,
                   color: Appcolors.kblackColor),
               onTap: () async {},
             ),
-          ResponsiveSizedBox.height10,
+            ResponsiveSizedBox.height10,
           ],
         ),
       ],

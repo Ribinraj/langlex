@@ -62,10 +62,10 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(ResponsiveUtils.wp(4)),
                 child: Column(
                   children: [
-                 ResponsiveSizedBox.height10,
+                    ResponsiveSizedBox.height50,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -85,27 +85,24 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                               textStyle: TextStyle(
                                   color: Appcolors.kgreenColor,
                                   fontWeight: FontWeight.w600,
-                                  fontSize:ResponsiveUtils.hp(4))),
+                                  fontSize: ResponsiveUtils.hp(3.5))),
                         ),
-                        SizedBox(
-                          height: 60,
-                          child: CircularPercentIndicator(
-                            radius: 20.0,
-                            center: Text(
-                              "${((currentIndex + 1) / dataItems.length * 100).toInt()}%",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
-                            ),
-                            lineWidth: 3.0,
-                            animation: true,
-                            percent: (currentIndex + 1) / dataItems.length,
-                            circularStrokeCap: CircularStrokeCap.round,
-                            progressColor: Appcolors.kgreenColor,
+                        CircularPercentIndicator(
+                          radius: 20.0,
+                          center: Text(
+                            "${((currentIndex + 1) / dataItems.length * 100).toInt()}%",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
+                          lineWidth: 3.0,
+                          animation: true,
+                          percent: (currentIndex + 1) / dataItems.length,
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: Appcolors.kgreenColor,
                         ),
                       ],
                     ),
-                 ResponsiveSizedBox.height10,
+                    ResponsiveSizedBox.height30,
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(
@@ -123,20 +120,17 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                       //       '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.img}')),
                       // ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            10), 
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.file(
                           File(
                               '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.img}'),
                           fit: BoxFit.cover,
-                          height:ResponsiveUtils.hp(2),
-                          width: ResponsiveUtils.wp(4),
+                          height: ResponsiveUtils.hp(50),
+                          //width: ResponsiveUtils.wp(40),
                         ),
                       ),
                     ),
-                    const Expanded(
-                      child: SizedBox(),
-                    ),
+                    ResponsiveSizedBox.height20,
                     Text(
                       'Leopard',
                       style: GoogleFonts.playpenSans(
@@ -145,108 +139,82 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage> {
                               fontWeight: FontWeight.w600),
                           fontSize: ResponsiveUtils.hp(4)),
                     ),
-                    const Expanded(
-                      child: SizedBox(),
-                    ),
-                    SizedBox(
-                      height: ResponsiveUtils.hp(2),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              onPressed: currentIndex > 0
-                                  ? () {
-                                      setState(() {
-                                        currentIndex--;
-                                      });
-                                      _audioService.stopAudio();
-                                    }
-                                  : null,
-                              icon: Icon(
-                                CupertinoIcons
-                                    .arrowshape_turn_up_left_circle_fill,
-                                color: Appcolors.kgreenColor,
-                                size: 55,
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: currentIndex > 0
+                                ? () {
+                                    setState(() {
+                                      currentIndex--;
+                                    });
+                                    _audioService.stopAudio();
+                                  }
+                                : null,
+                            icon: Icon(
+                              CupertinoIcons
+                                  .arrowshape_turn_up_left_circle_fill,
+                              color: Appcolors.kgreenColor,
+                              size: 55,
                             ),
-                            // InkWell(
-                            //   onTap: () {},
-                            //   child: Image.asset(
-                            //     'assets/images/arrow previous.png',
-                            //     fit: BoxFit.cover,
-                            //     height: h(context) * .1,
-                            //     //width: w(context) * .2,
-                            //   ),
-                            // ),
-                            // InkWell(
-                            //   onTap: () {
-                            //     _audioService.playAudioFromFile('sounds/audio.mp3');
-                            //     print('audio');
-                            //   },
-                            //   child: Image.asset(
-                            //     'assets/images/playbutton.png',
-                            //     fit: BoxFit.cover,
-                            //     height: h(context) * .1,
-                            //     // width: w(context) * .1,
-                            //   ),
-                            // ),
-                            IconButton(
-                              onPressed: () {
-                                _audioService.playAudioFromFile(
-                                    '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.mp3}');
-                              },
-                              icon: Icon(
-                                CupertinoIcons.play_circle_fill,
-                                color: Appcolors.kgreenColor,
-                                size: 55,
-                              ),
+                          ),
+
+                          IconButton(
+                            onPressed: () {
+                              _audioService.playAudioFromFile(
+                                  '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.mp3}');
+                            },
+                            icon: Icon(
+                              CupertinoIcons.play_circle_fill,
+                              color: Appcolors.kgreenColor,
+                              size: 55,
                             ),
-                            IconButton(
-                              onPressed: () {
-                                _audioService.pauseAudio();
-                              },
-                              icon: Icon(
-                                CupertinoIcons.pause_circle_fill,
-                                color: Appcolors.kgreenColor,
-                                size: 55,
-                              ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              _audioService.pauseAudio();
+                            },
+                            icon: Icon(
+                              CupertinoIcons.pause_circle_fill,
+                              color: Appcolors.kgreenColor,
+                              size: 55,
                             ),
-                            // InkWell(
-                            //   onTap: () {},
-                            //   child: Image.asset(
-                            //     'assets/images/arrow next.png',
-                            //     fit: BoxFit.cover,
-                            //     height: h(context) * .1,
-                            //     // width: w(context) * .2,
-                            //   ),
-                            // ),
-                            IconButton(
-                              onPressed: currentIndex < dataItems.length - 1
-                                  ? () {
-                                      setState(() {
-                                        currentIndex++;
-                                      });
-                                      _audioService.stopAudio();
-                                    }
-                                  : null,
-                              icon: Icon(
-                                CupertinoIcons
-                                    .arrowshape_turn_up_right_circle_fill,
-                                color: Appcolors.kgreenColor,
-                                size: 55,
-                              ),
+                          ),
+                          // InkWell(
+                          //   onTap: () {},
+                          //   child: Image.asset(
+                          //     'assets/images/arrow next.png',
+                          //     fit: BoxFit.cover,
+                          //     height: h(context) * .1,
+                          //     // width: w(context) * .2,
+                          //   ),
+                          // ),
+                          IconButton(
+                            onPressed: currentIndex < dataItems.length - 1
+                                ? () {
+                                    setState(() {
+                                      currentIndex++;
+                                    });
+                                    _audioService.stopAudio();
+                                  }
+                                : null,
+                            icon: Icon(
+                              CupertinoIcons
+                                  .arrowshape_turn_up_right_circle_fill,
+                              color: Appcolors.kgreenColor,
+                              size: 55,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text('Item ${currentIndex + 1} of ${dataItems.length}'),
-                  ResponsiveSizedBox.height10,
+                    ResponsiveSizedBox.height10,
                   ],
                 ),
               ),

@@ -43,10 +43,10 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
               CupertinoIcons.back,
               color: Appcolors.kwhiteColor,
             )),
-        title: const Text(
-          'Edit Profile',
-          style: TextStyle(color: Appcolors.kwhiteColor),
-        ),
+        title: TextStyles.body(
+            text: 'Edit Profile',
+            color: Appcolors.kwhiteColor,
+            weight: FontWeight.bold),
         centerTitle: true,
         backgroundColor: Appcolors.kgreenColor,
       ),
@@ -61,7 +61,7 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
           ),
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(15),
+          padding: EdgeInsets.all(ResponsiveUtils.wp(4)),
           child: Center(
             child: Column(
               children: [
@@ -108,43 +108,39 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
                     TextStyles.body(
-                     text:  'Username',
-                    color: Appcolors.khinttextColor,
-                        weight: FontWeight.w600
-                    ),
+                        text: 'Username',
+                        color: Appcolors.khinttextColor,
+                        weight: FontWeight.w600),
                     CustomEditingTextfield(controller: usernameController),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     TextStyles.body(
-                     text:  'Phone number',
+                        text: 'Phone number',
                         color: Appcolors.khinttextColor,
-                        weight: FontWeight.w600
-                    ),
+                        weight: FontWeight.w600),
                     CustomEditingTextfield(controller: phonenumberController),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     TextStyles.body(
-                     text:  'email',
+                        text: 'email',
                         color: Appcolors.khinttextColor,
-                        weight: FontWeight.w600   
-                    ),
+                        weight: FontWeight.w600),
                     CustomEditingTextfield(controller: emailController),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     TextStyles.body(
-                      text: 'Password',
-                      color: Appcolors.khinttextColor,
-                      weight: FontWeight.w600
-                    ),
+                        text: 'Password',
+                        color: Appcolors.khinttextColor,
+                        weight: FontWeight.w600),
                     CustomEditingTextfield(controller: passwordcController),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.04,
                     ),
                     Container(
-                      height:  ResponsiveUtils.hp(6),
+                      height: ResponsiveUtils.hp(6),
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Appcolors.kwhiteColor,
@@ -158,10 +154,9 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                           child: Row(
                             children: [
                               TextStyles.body(
-                                text: 'Select languages',
-                              weight: FontWeight.w600,
-                              color: Appcolors.khinttextColor
-                              ),
+                                  text: 'Select languages',
+                                  weight: FontWeight.w600,
+                                  color: Appcolors.khinttextColor),
                               Spacer(),
                               IconButton(
                                   onPressed: () {

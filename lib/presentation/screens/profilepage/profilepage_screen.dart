@@ -11,7 +11,9 @@ import 'package:langlex/presentation/screens/profilepage/widgets/custom_profilec
 import 'package:langlex/presentation/screens/quiz_screen/quiz_screen.dart';
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
+
 import 'package:langlex/presentation/widgets/custom_profile_image.dart';
+import 'package:langlex/presentation/widgets/navigate_mainpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenProfilePage extends StatelessWidget {
@@ -32,92 +34,96 @@ class ScreenProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-               ResponsiveSizedBox.height10,
-                Container(
-                  width: ResponsiveUtils.hp(.2),
-                  height:  ResponsiveUtils.wp(22),
-                  decoration: BoxDecoration(
-                      color: Appcolors.kgreycolor,
-                      gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color.fromARGB(
-                              255, 220, 213, 213), // Start color (bottom)
-                          Appcolors.kwhiteColor, // End color (top)
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          width: 1.5,
-                          color: Appcolors.kgreenColor.withOpacity(.7))),
-                  child: Row(
-                    children: [
-                    ResponsiveSizedBox.height10,
-                      const CustomRoundImage(
-                          circleContainerSize: 100,
-                          imageUrl:
-                              'https://w7.pngwing.com/pngs/878/170/png-transparent-student-cartoon-kids-child-people-reading-thumbnail.png'),
-                     ResponsiveSizedBox.height10,
-                      TextStyles.body(text: 'Ribinraj',
-                      weight: FontWeight.bold,
-
-                        ),
-                    ],
+            Padding(
+              padding: EdgeInsets.all(ResponsiveUtils.wp(5)),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                //crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: ResponsiveUtils.hp(10),
                   ),
-                ),
-                Center(
-                  child: Column(
+                  Container(
+                    padding: EdgeInsets.all(ResponsiveUtils.wp(4)),
+                    // width: ResponsiveUtils.wp(80),
+                    height: ResponsiveUtils.hp(22),
+                    decoration: BoxDecoration(
+                        color: Appcolors.kgreycolor,
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color.fromARGB(
+                                255, 220, 213, 213), // Start color (bottom)
+                            Appcolors.kwhiteColor, // End color (top)
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                            width: 1.5,
+                            color: Appcolors.kgreenColor.withOpacity(.7))),
+                    child: Row(
+                      children: [
+                        ResponsiveSizedBox.height10,
+                        CustomRoundImage(
+                            circleContainerSize: ResponsiveUtils.wp(20),
+                            imageUrl:
+                                'https://w7.pngwing.com/pngs/878/170/png-transparent-student-cartoon-kids-child-people-reading-thumbnail.png'),
+                        ResponsiveSizedBox.width20,
+                        TextStyles.body(
+                          text: 'Ribinraj',
+                          weight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                     ResponsiveSizedBox.height10,
+                      ResponsiveSizedBox.height30,
                       InkWell(
                         onTap: () {
-                          navigatePush(context, ScreenEditProfile());
+                          CustomNavigation.push(context, ScreenEditProfile());
                         },
                         child: const CustomProfileContainer(
                           containerText: 'Edit profile',
                           icon: CupertinoIcons.person,
                         ),
                       ),
-                    ResponsiveSizedBox.height10,
+                      ResponsiveSizedBox.height10,
                       InkWell(
                         onTap: () {
-                          navigatePush(context, ScreenQuizPage());
+                          CustomNavigation.push(context, ScreenQuizPage());
                         },
                         child: CustomProfileContainer(
                           containerText: 'My Courses',
                           icon: CupertinoIcons.briefcase,
                         ),
                       ),
-                     ResponsiveSizedBox.height10,
+                      ResponsiveSizedBox.height10,
                       const CustomProfileContainer(
                         containerText: 'Packages',
                         icon: CupertinoIcons.collections,
                       ),
-                    ResponsiveSizedBox.height10,
+                      ResponsiveSizedBox.height10,
                       const CustomProfileContainer(
                         containerText: 'Privacy & Policy',
                         icon: CupertinoIcons.exclamationmark_shield,
                       ),
-                     ResponsiveSizedBox.height10,
+                      ResponsiveSizedBox.height10,
                       const CustomProfileContainer(
                         containerText: 'About Us',
                         icon: Icons.arrow_drop_down_circle_outlined,
                       ),
-                     ResponsiveSizedBox.height10,
+                      ResponsiveSizedBox.height10,
                       InkWell(
                         onTap: () {
                           print('logout');
                           _logout(context);
                         },
                         child: Container(
-                          height:  ResponsiveUtils.hp(2),
-                          width: ResponsiveUtils.wp(2),
+                          height: ResponsiveUtils.hp(6),
+                          // width: ResponsiveUtils.wp(80),
                           decoration: BoxDecoration(
                               color: Appcolors.kbackgroundcolor,
                               borderRadius: const BorderRadius.only(
@@ -140,10 +146,9 @@ class ScreenProfilePage extends StatelessWidget {
                                   width: 10,
                                 ),
                                 TextStyles.medium(
-                                 text:  'Logout',
-                                weight: FontWeight.bold,
-                                color: Appcolors.kredcolor
-                                ),
+                                    text: 'Logout',
+                                    weight: FontWeight.bold,
+                                    color: Appcolors.kredcolor),
                                 const Spacer(),
                                 const Icon(
                                   CupertinoIcons.chevron_forward,
@@ -155,9 +160,9 @@ class ScreenProfilePage extends StatelessWidget {
                         ),
                       )
                     ],
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             )
           ],
         ));
@@ -168,7 +173,10 @@ class ScreenProfilePage extends StatelessWidget {
 Future<void> _logout(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove('selectedLanguage');
-  // After logging out, navigate back to the homepage
-  navigatePushandRemoveuntil(
-      context, SplashPage()); // Ensure that '/' route is Homepage
+  navigateToMainPage(context, 0);
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => const SplashPage()),
+    (route) => false, 
+  );
 }

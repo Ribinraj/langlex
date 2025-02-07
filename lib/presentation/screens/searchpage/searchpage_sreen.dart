@@ -4,7 +4,6 @@ import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
 
-
 import 'package:langlex/presentation/screens/searchpage/widgets/search_Idle.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
 
@@ -64,7 +63,8 @@ class ScreenSearchPage extends StatelessWidget {
             elevation: 0.5,
             title: InkWell(
               onTap: () {
-                navigatePush(context, SearchIdle());
+             
+              CustomNavigation.push(context, SearchIdle());
               },
               child: CupertinoSearchTextField(
                 enabled: false,
@@ -77,8 +77,8 @@ class ScreenSearchPage extends StatelessWidget {
               ),
             ),
           ),
-           SliverToBoxAdapter(
-            child:ResponsiveSizedBox.height10,
+          SliverToBoxAdapter(
+            child: ResponsiveSizedBox.height10,
           ),
           SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -90,9 +90,7 @@ class ScreenSearchPage extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 return InkWell(
-                  onTap: () {
-                   
-                  },
+                  onTap: () {},
                   child: Container(
                       decoration: BoxDecoration(
                           color: Colors.white.withOpacity(.8),
@@ -105,20 +103,15 @@ class ScreenSearchPage extends StatelessWidget {
                         children: [
                           Image.asset(
                             caroselimages[index],
-                            height:ResponsiveUtils.hp(.09),
-                            width:ResponsiveUtils.wp(.15),
+                            height: ResponsiveUtils.hp(12),
+                            width: ResponsiveUtils.wp(25),
                             fit: BoxFit.cover,
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            words[index],
-                            style: const TextStyle(
-                                color: Appcolors.ktextColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400),
-                          )
+                          ResponsiveSizedBox.height10,
+                          TextStyles.medium(
+                              text: words[index],
+                              color: Appcolors.ktextColor,
+                              weight: FontWeight.w600)
                         ],
                       )),
                   // child: ClipRRect(

@@ -6,8 +6,6 @@ import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
 import 'package:langlex/presentation/screens/languagepage/languagepage.dart';
 
-
-
 import 'package:langlex/presentation/widgets/custom_elevatedbutton.dart';
 import 'package:langlex/presentation/widgets/custom_textfield.dart';
 import 'package:langlex/presentation/widgets/custom_validators.dart';
@@ -45,12 +43,12 @@ class _ScreenSignupPageState extends State<ScreenSignupPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  ResponsiveSizedBox.height5,
+                    ResponsiveSizedBox.height50,
                     Image.asset(
                       logo,
                       fit: BoxFit.contain,
-                      height: ResponsiveUtils.hp(.15),
-                      width: ResponsiveUtils.wp(.5),
+                      height: ResponsiveUtils.hp(15),
+                      width: ResponsiveUtils.wp(30),
                     ),
                     CustomTextfield(
                       validator: validateUsername,
@@ -58,18 +56,18 @@ class _ScreenSignupPageState extends State<ScreenSignupPage> {
                       labelText: 'Username',
                       textInputType: TextInputType.name,
                     ),
-                  ResponsiveSizedBox.height5,
+                    ResponsiveSizedBox.height5,
                     CustomTextfield(
                         validator: validateMobileNumber,
                         controller: phonenumberController,
                         labelText: 'Mobile number'),
-                   ResponsiveSizedBox.height5,
+                    ResponsiveSizedBox.height5,
                     CustomTextfield(
                         validator: validateEmail,
                         controller: emailController,
                         labelText: 'Email id'),
-                   ResponsiveSizedBox.height5,
-                    BlocBuilder<TogglepasswordCubit,bool>(
+                    ResponsiveSizedBox.height5,
+                    BlocBuilder<TogglepasswordCubit, bool>(
                       builder: (context, state) {
                         return CustomTextfield(
                             suffixIcon: togglePassword(),
@@ -93,13 +91,17 @@ class _ScreenSignupPageState extends State<ScreenSignupPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextStyles.caption(text:'Already you hava an account?',weight: FontWeight.bold ),
-                       
+                        TextStyles.medium(
+                            text: 'Already you hava an account?',
+                            weight: FontWeight.bold),
                         InkWell(
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: TextStyles.medium(text: 'Sign in',color: Appcolors.kgreenColor,weight: FontWeight.bold),
+                          child: TextStyles.body(
+                              text: 'Sign in',
+                              color: Appcolors.kgreenColor,
+                              weight: FontWeight.bold),
                         ),
                         const SizedBox(
                           width: 10,
