@@ -95,19 +95,19 @@ class _SearchIdleState extends State<SearchIdle> {
                           // ),
                           borderRadius: BorderRadiusStyles.kradius10(),
                           border: Border.all(
-                              color: Appcolors.kgreenColor.withOpacity(.4),
-                              width: 1.5),
+                              color: Appcolors.kpurplecolor.withOpacity(.4),
+                              width: 1),
                         ),
                         child: Row(
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(
-                                    10), // Set the desired border radius
+                                    5), // Set the desired border radius
                                 border: Border.all(
                                   color: Appcolors.kgreenColor.withOpacity(
                                       .4), // Set the desired border color
-                                  width: 1, // Set the border width
+                                  width: .2, // Set the border width
                                 ),
                               ),
                               child: ClipRRect(

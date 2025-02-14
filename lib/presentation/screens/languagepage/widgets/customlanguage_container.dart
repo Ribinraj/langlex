@@ -20,13 +20,22 @@ class CustomLanguageContainer extends StatelessWidget {
       child: Container(
         height: ResponsiveUtils.hp(6.5),
         decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(width: 1.2, color: Appcolors.kgreenColor)),
+            //color: Colors.transparent,
+            gradient: LinearGradient(
+              colors: [
+                Appcolors.kgreenColor,
+                const Color.fromARGB(255, 196, 164, 228)
+              ], // Replace with your preferred colors
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+                width: .5, color: const Color.fromARGB(255, 120, 179, 162))),
         child: Center(
           child: TextStyles.body(
             text: languageText,
-            color: Appcolors.korangeColor,
+            color: Appcolors.kwhiteColor,
             weight: FontWeight.w600,
           ),
         ),

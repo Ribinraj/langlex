@@ -18,25 +18,31 @@ class CustomProfileContainer extends StatelessWidget {
       height: ResponsiveUtils.hp(6),
       // width: ResponsiveUtils.wp(80),
       decoration: BoxDecoration(
-          color: Appcolors.kbackgroundcolor,
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromARGB(255, 235, 228, 228), // Start color (bottom)
+              Appcolors.kwhiteColor, // End color (top)
+            ],
+          ),
+          borderRadius: BorderRadius.circular(5),
+          // borderRadius: const BorderRadius.only(
+          //     topLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
           border: Border.all(
-              width: 1.5, color: Appcolors.kgreenColor.withOpacity(.7))),
+              width: .5, color: Appcolors.kgreenColor.withOpacity(.7))),
       child: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12),
         child: Row(
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Icon(icon),
-            SizedBox(
-              width: 10,
-            ),
+            ResponsiveSizedBox.width10,
             TextStyles.medium(
               text: containerText,
               weight: FontWeight.bold,
             ),
-            Spacer(),
+            const Spacer(),
             const Icon(CupertinoIcons.chevron_forward)
           ],
         ),

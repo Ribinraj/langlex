@@ -63,8 +63,7 @@ class ScreenSearchPage extends StatelessWidget {
             elevation: 0.5,
             title: InkWell(
               onTap: () {
-             
-              CustomNavigation.push(context, SearchIdle());
+                CustomNavigation.push(context, SearchIdle());
               },
               child: CupertinoSearchTextField(
                 enabled: false,
@@ -83,7 +82,7 @@ class ScreenSearchPage extends StatelessWidget {
           SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              crossAxisSpacing: 3,
+              crossAxisSpacing: 5,
               mainAxisSpacing: 5,
               childAspectRatio: .75,
             ),
@@ -94,9 +93,10 @@ class ScreenSearchPage extends StatelessWidget {
                   child: Container(
                       decoration: BoxDecoration(
                           color: Colors.white.withOpacity(.8),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: Appcolors.korangeColor.withOpacity(.4),
+                            width: .6,
+                            color: Appcolors.kpurplecolor.withOpacity(.5),
                           )),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

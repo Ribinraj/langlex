@@ -286,8 +286,8 @@ class DiagonalWaveBackground extends StatelessWidget {
                         Colors.green.shade200.withOpacity(0.5),
                         Colors.white.withOpacity(0.6),
                       ] else ...[
-                        Appcolors.kgreenColor.withOpacity(0.2),
-                        Colors.white.withOpacity(0.3),
+                        Appcolors.kpurplecolor.withOpacity(0.3),
+                        Colors.white.withOpacity(0.2),
                       ]
                     ],
                     stops: [0.2, 0.8], // More concentrated gradient
@@ -400,8 +400,6 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
                 color: Appcolors.kgreenColor,
                 text: 'Choose Language',
                 weight: FontWeight.bold),
-
-      
             Flexible(
               child: ListView.builder(
                 itemCount: buttonlanguages.length,
