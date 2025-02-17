@@ -64,12 +64,12 @@ class ScreenHomePage extends StatelessWidget {
             CustomRoundImage(
               circleContainerSize: 45,
               imageUrl:
-                  'https://w7.pngwing.com/pngs/878/170/png-transparent-student-cartoon-kids-child-people-reading-thumbnail.png',
+                  'https://anakoskaphotography.com/wp-content/uploads/2018/09/outdoor-children-photo-of-a-girl.jpg',
             ),
           ],
         ),
         actions: [
-          DropdownExample(),
+          const DropdownExample(),
           IconButton(
             icon: const Icon(
               Icons.menu,
@@ -278,7 +278,7 @@ class ScreenHomePage extends StatelessWidget {
                               Positioned(
                                 top: ResponsiveUtils.hp(2),
                                 right: ResponsiveUtils.wp(2),
-                                child: Icon(
+                                child: const Icon(
                                   CupertinoIcons.play_circle,
                                   color: Appcolors.kgreenlightColor,
                                   size: 33,
