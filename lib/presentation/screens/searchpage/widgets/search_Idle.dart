@@ -95,8 +95,7 @@ class _SearchIdleState extends State<SearchIdle> {
                           // ),
                           borderRadius: BorderRadiusStyles.kradius10(),
                           border: Border.all(
-                              color: Appcolors.kpurplecolor.withOpacity(.4),
-                              width: 1),
+                              color: Appcolors.kborderColor, width: 1),
                         ),
                         child: Row(
                           children: [

@@ -24,7 +24,7 @@ class CustomLanguageContainer extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 Appcolors.kgreenColor,
-                const Color.fromARGB(255, 196, 164, 228)
+                const Color.fromARGB(255, 103, 189, 193)
               ], // Replace with your preferred colors
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

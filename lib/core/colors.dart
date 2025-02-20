@@ -7,6 +7,7 @@ class Appcolors {
   // static const korangecolor = Color(0xFFFE0000);
   ///////
   static const kblackColor = Colors.black;
+  static const kborderColor = Colors.redAccent;
   static const kwhiteColor = Colors.white;
   static const korangeColor = Color.fromARGB(255, 218, 147, 65);
   static const kgreenlightColor = Color.fromARGB(255, 107, 197, 172);

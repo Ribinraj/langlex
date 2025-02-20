@@ -286,7 +286,8 @@ class DiagonalWaveBackground extends StatelessWidget {
                         Colors.green.shade200.withOpacity(0.5),
                         Colors.white.withOpacity(0.6),
                       ] else ...[
-                        Appcolors.kpurplecolor.withOpacity(0.3),
+                        const Color.fromARGB(255, 115, 240, 190)
+                            .withOpacity(0.3),
                         Colors.white.withOpacity(0.2),
                       ]
                     ],

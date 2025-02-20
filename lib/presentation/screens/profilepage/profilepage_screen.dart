@@ -309,12 +309,12 @@ class ScreenProfilePage extends StatelessWidget {
                     {
                       'icon': CupertinoIcons.briefcase,
                       'label': "My Courses",
-                      'page': ScreenEditProfile()
+                      'page': const ScreenEditProfile()
                     },
                     {
                       'icon': CupertinoIcons.collections,
                       'label': "Packages",
-                      'page': ScreenQuizPage()
+                      'page': const ScreenQuizPage()
                     },
                     {
                       'icon': CupertinoIcons.exclamationmark_shield,
@@ -343,7 +343,7 @@ class ScreenProfilePage extends StatelessWidget {
                         border: Border.all(
                             color: Colors.redAccent.withOpacity(0.5),
                             width: 1.5),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 5,
@@ -356,13 +356,13 @@ class ScreenProfilePage extends StatelessWidget {
                         children: [
                           Icon(
                             categories[index]['icon'],
-                            size: ResponsiveUtils.wp(8),
+                            size: ResponsiveUtils.wp(6),
                             color: Colors.redAccent.withOpacity(.6),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             categories[index]['label'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -378,15 +378,15 @@ class ScreenProfilePage extends StatelessWidget {
           // Logout Button
           Row(
             children: [
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: ResponsiveUtils.wp(5),
                     vertical: ResponsiveUtils.hp(3)),
                 child: ElevatedButton.icon(
                   onPressed: () => _logout(context),
-                  icon: Icon(Icons.logout, color: Colors.white),
-                  label: Text(
+                  icon: const Icon(Icons.logout, color: Colors.white),
+                  label: const Text(
                     "Logout",
                   ),
                   style: ElevatedButton.styleFrom(

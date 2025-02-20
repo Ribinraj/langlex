@@ -82,8 +82,8 @@ class ScreenSearchPage extends StatelessWidget {
           SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
+              crossAxisSpacing: 6,
+              mainAxisSpacing: 6,
               childAspectRatio: .75,
             ),
             delegate: SliverChildBuilderDelegate(
@@ -95,8 +95,8 @@ class ScreenSearchPage extends StatelessWidget {
                           color: Colors.white.withOpacity(.8),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            width: .6,
-                            color: Appcolors.kpurplecolor.withOpacity(.5),
+                            width: 1,
+                            color: Appcolors.kborderColor,
                           )),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
