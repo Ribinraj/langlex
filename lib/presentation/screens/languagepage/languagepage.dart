@@ -192,6 +192,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:langlex/core/responsive_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -384,29 +385,69 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DiagonalWaveBackground(
-        child: Column(
-          children: [
-            SizedBox(
-              height: ResponsiveUtils.hp(13),
-            ),
-            Image.asset(
-              logo,
-              fit: BoxFit.contain,
-              height: ResponsiveUtils.hp(15),
-              width: ResponsiveUtils.wp(30),
-            ),
-            ResponsiveSizedBox.height20,
-            TextStyles.subheadline(
-                color: Appcolors.kgreenColor,
-                text: 'Choose Language',
-                weight: FontWeight.bold),
-            Flexible(
-              child: ListView.builder(
+      backgroundColor: Appcolors.kbackgroundcolor,
+      body: Column(
+        children: [
+          Container(
+              height: ResponsiveUtils.hp(50),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Appcolors.kgreenColor,
+                      Color.fromARGB(255, 99, 233, 179)
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15))),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      'assets/images/3-d-illustration-abc-sign-icon.png',
+                      height: ResponsiveUtils.hp(28),
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  ResponsiveSizedBox.height50,
+                  Text(
+                    "Choose Language",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.fredoka(
+                      fontSize: ResponsiveUtils.wp(6),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 3.0,
+                          color: Colors.black.withOpacity(0.5),
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ResponsiveSizedBox.height50,
+                ],
+              )),
+          ResponsiveSizedBox.height50,
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(ResponsiveUtils.wp(4)),
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.85, // Adjust this value to control height
+                ),
                 itemCount: buttonlanguages.length,
                 itemBuilder: (context, index) {
                   String languageKey = buttonlanguages.keys.elementAt(index);
-                  return InkWell(
+                  return GestureDetector(
                     onTap: () async {
                       currentIndex = index;
                       SharedPreferences prefs =
@@ -434,9 +475,106 @@ class _ScreenLanguagePageState extends State<ScreenLanguagePage> {
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: Column(
+  //       children: [
+  //         Container(
+  //             //padding: EdgeInsets.symmetric(vertical: ResponsiveUtils.wp(4)),
+  //             decoration: const BoxDecoration(
+  //                 gradient: LinearGradient(
+  //                   colors: [
+  //                     Color.fromARGB(255, 101, 159, 149),
+  //                     Color.fromARGB(255, 255, 255, 255)
+  //                   ],
+  //                   begin: Alignment.topLeft,
+  //                   end: Alignment.bottomRight,
+  //                 ),
+  //                 borderRadius: BorderRadius.only(
+  //                     bottomLeft: Radius.circular(15),
+  //                     bottomRight: Radius.circular(15))),
+  //             child: Column(
+  //               children: [
+  //                 ClipRRect(
+  //                   borderRadius: BorderRadius.circular(10),
+  //                   child: Image.asset(
+  //                     'assets/images/3-d-illustration-abc-sign-icon.png', // Replace with your asset image path
+  //                     height: ResponsiveUtils.hp(28),
+  //                     width: double.infinity,
+  //                     fit: BoxFit.cover,
+  //                   ),
+  //                 ),
+  //                 ResponsiveSizedBox.height50,
+  //                 Text(
+  //                   "Choose Language",
+  //                   textAlign: TextAlign.center,
+  //                   style: GoogleFonts.fredoka(
+  //                     fontSize: ResponsiveUtils.wp(6),
+  //                     fontWeight: FontWeight.bold,
+  //                     color: Colors.white,
+  //                     shadows: [
+  //                       Shadow(
+  //                         blurRadius: 3.0,
+  //                         color: Colors.black.withOpacity(0.5),
+  //                         offset: Offset(2, 2),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 ResponsiveSizedBox.height50
+  //               ],
+  //             )),
+  //         // SizedBox(
+  //         //   height: ResponsiveUtils.hp(13),
+  //         // ),
+  //         // Image.asset(
+  //         //   logo,
+  //         //   fit: BoxFit.contain,
+  //         //   height: ResponsiveUtils.hp(15),
+  //         //   width: ResponsiveUtils.wp(30),
+  //         // ),
+  //         // ResponsiveSizedBox.height20,
+
+  //         Flexible(
+  //           child: ListView.builder(
+  //             itemCount: buttonlanguages.length,
+  //             itemBuilder: (context, index) {
+  //               String languageKey = buttonlanguages.keys.elementAt(index);
+  //               return InkWell(
+  //                 onTap: () async {
+  //                   currentIndex = index;
+  //                   SharedPreferences prefs =
+  //                       await SharedPreferences.getInstance();
+  //                   await prefs.setString(
+  //                       'selectedLanguage', localCodes[index]);
+  //                   // ignore: use_build_context_synchronously
+  //                   context
+  //                       .read<LanguageCubit>()
+  //                       .changeLanguage(localCodes[index]);
+  //                   // ignore: use_build_context_synchronously
+  //                   Locales.change(context, localCodes[index]);
+  //                   Navigator.pushReplacement(
+  //                     // ignore: use_build_context_synchronously
+  //                     context,
+  //                     MaterialPageRoute(builder: (context) => Screenmainpage()),
+  //                   );
+  //                 },
+  //                 child: CustomLanguageContainer(
+  //                   languageText: languageKey,
+  //                   heroTag: localCodes[index],
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
