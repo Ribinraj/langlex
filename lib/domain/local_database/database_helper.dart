@@ -2,7 +2,6 @@ import 'package:langlex/data/models/Data_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
   static Database? _database;
@@ -43,5 +42,20 @@ class DatabaseHelper {
     return List.generate(maps.length, (i) {
       return DataItem.fromMap(maps[i]);
     });
+  }
+
+  // New method to clear all data
+  Future<void> clearAllData() async {
+    final db = await database;
+    await db.delete('data_items');
+  }
+
+  // New method to check if data exists
+  Future<bool> hasData() async {
+    final db = await database;
+    final count = Sqflite.firstIntValue(
+      await db.rawQuery('SELECT COUNT(*) FROM data_items')
+    ) ?? 0;
+    return count > 0;
   }
 }

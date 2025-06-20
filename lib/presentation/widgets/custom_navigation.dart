@@ -1,17 +1,9 @@
-// import 'package:flutter/material.dart';
 
-// void navigatePushandRemoveuntil(BuildContext context, Widget screenMainPage) {
-//   Navigator.of(context).pushAndRemoveUntil(
-//     MaterialPageRoute(builder: (context) => screenMainPage),
-//     (route) => false,
-//   );
-// }
-// void navigatePush(BuildContext context, Widget screenMainPage) {
-//   Navigator.of(context).push(
-//     MaterialPageRoute(builder: (context) => screenMainPage),
-//   );
-// }
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigation_bloc.dart';
+import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
+
 
 class CustomNavigation {
   // Private constructor to prevent instantiation
@@ -62,8 +54,30 @@ class CustomNavigation {
   }
 
 
-
-
+////////////////
+  static void pushReplaceWithTransition(
+    BuildContext context, 
+    Widget page, {
+    Offset beginOffset = const Offset(1.0, 0.0),
+    Curve curve = Curves.easeInOut,
+  }) {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = beginOffset;
+          var end = Offset.zero;
+          
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      )
+    );
+  }
 
   /// Pop the current route with an optional result
   static void pop<T>(BuildContext context, [T? result]) {
@@ -107,3 +121,35 @@ class CustomNavigation {
 
 // // Pop with a result
 // CustomNavigation.pop(context, 'Some return value');
+// void navigateToMainPage(BuildContext context, int pageIndex) {
+//   // Navigate to ScreenMainPage
+//   Navigator.of(context).pushReplacement(
+//     MaterialPageRoute(builder: (context) => ScreenMainPage()),
+//   );
+
+//   // After navigation, update the BLoC to show the desired page
+//   BlocProvider.of<BottomNavigationBloc>(context).add(
+//     NavigateToPageEvent(pageIndex: pageIndex),
+//   );
+// }
+void navigateToMainPage(BuildContext context, int pageIndex) {
+  Navigator.of(context).pushReplacement(
+    PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Screenmainpage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    ),
+  );
+
+  // Delay updating BLoC to ensure smooth transition
+  Future.delayed(const Duration(milliseconds: 100), () {
+    // ignore: use_build_context_synchronously
+    BlocProvider.of<BottomNavigationBloc>(context).add(
+      NavigateToPageEvent(pageIndex: pageIndex),
+    );
+  });
+}

@@ -76,6 +76,7 @@ import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigat
 
 import 'package:langlex/presentation/screens/homepage/homepage.dart';
 import 'package:langlex/presentation/screens/profilepage/profilepage_screen.dart';
+import 'package:langlex/presentation/screens/screen_connectivitypage/screen_connectivitypage.dart';
 import 'package:langlex/presentation/screens/searchpage/searchpage_sreen.dart';
 
 // final ValueNotifier<int> currentPage = ValueNotifier(0);
@@ -164,14 +165,16 @@ class Screenmainpage extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
         builder: (context, state) {
-          return PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: pages,
-            onPageChanged: (index) {
-              context.read<BottomNavigationBloc>()
-                  .add(NavigateToPageEvent(pageIndex: index));
-            },
+          return ConnectivityAwareWidget(
+            child: PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: pages,
+              onPageChanged: (index) {
+                context.read<BottomNavigationBloc>()
+                    .add(NavigateToPageEvent(pageIndex: index));
+              },
+            ),
           );
         },
       ),

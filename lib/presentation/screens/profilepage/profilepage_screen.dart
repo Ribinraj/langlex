@@ -213,6 +213,7 @@ import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/presentation/screens/editprofile_page/editprofile.dart';
+import 'package:langlex/presentation/screens/loginpage/loginpage.dart';
 import 'package:langlex/presentation/screens/quiz_screen/quiz_screen.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
 
@@ -407,11 +408,17 @@ class ScreenProfilePage extends StatelessWidget {
       ),
     );
   }
-}
-
 // Logout Function
 Future<void> _logout(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove('selectedLanguage');
-  Navigator.pushReplacementNamed(context, '/splash');
+
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => ScreenLoginpage()),
+    (route) => false,
+  );
 }
+}
+
+

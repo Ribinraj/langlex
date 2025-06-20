@@ -119,10 +119,7 @@ class _DropdownExampleState extends State<DropdownExample> {
           color: Appcolors.kwhiteColor,
           fontSize: ResponsiveUtils.hp(2),
         ),
-        underline: Container(
-          height: 2,
-          color: Appcolors.kgreenlightColor,
-        ),
+        underline: SizedBox.shrink(),
         onChanged: (String? newValue) {
           if (newValue != null) {
             context.read<LanguageCubit>().changeLanguage(newValue);

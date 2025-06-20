@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 
-
 class CustomSqureElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String buttonText;
@@ -11,7 +10,8 @@ class CustomSqureElevatedButton extends StatelessWidget {
   const CustomSqureElevatedButton({
     super.key,
     required this.onPressed,
-    required this.buttonText, required this.backgroundcolor,
+    required this.buttonText,
+    required this.backgroundcolor,
   });
 
   @override
@@ -20,14 +20,14 @@ class CustomSqureElevatedButton extends StatelessWidget {
       height: 67,
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(7.0),
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius:BorderRadiusStyles.kradius10(),
+              borderRadius: BorderRadiusStyles.kradius10(),
             ),
-            backgroundColor:backgroundcolor,
+            backgroundColor: backgroundcolor,
           ),
           child: Text(
             buttonText,

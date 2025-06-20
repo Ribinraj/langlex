@@ -8,6 +8,7 @@ import 'package:langlex/domain/repository/Datadownload_repository.dart';
 import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
 import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigation_bloc.dart';
+import 'package:langlex/presentation/blocs/connectivity_bloc/connectivity_bloc.dart';
 import 'package:langlex/presentation/blocs/image_picker_bloc/image_picker_bloc.dart';
 import 'package:langlex/presentation/blocs/quiz_answer_selection_bloc/qiuz_answer_selection_bloc.dart';
 import 'package:langlex/presentation/cubits/language_change.dart';
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>QiuzAnswerSelectionBloc()),
         BlocProvider(create: (context)=>ContentDownloadBloc(repository: DownloadRepository())),
         BlocProvider(create: (context)=>FetchdataFromDatabaseBloc()),
-        BlocProvider(create: (context)=>BottomNavigationBloc())
+        BlocProvider(create: (context)=>BottomNavigationBloc()),
+         BlocProvider(create: (context)=>ConnectivityBloc())
       ],
       child: BlocBuilder<LanguageCubit, String>(
         builder: (context, languageCode) {
