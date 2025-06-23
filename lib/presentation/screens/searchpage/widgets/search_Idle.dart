@@ -47,7 +47,7 @@ class _SearchIdleState extends State<SearchIdle> {
                 },
                 child: const Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: Appcolors.kgreenColor,
+                  color: Appcolors.kprimarycolor,
                 ),
               ),
               title: CupertinoSearchTextField(
@@ -55,7 +55,7 @@ class _SearchIdleState extends State<SearchIdle> {
                 backgroundColor: Appcolors.kgreenlightColor.withOpacity(0.4),
                 prefixIcon: const Icon(
                   CupertinoIcons.search,
-                  color: Appcolors.kgreenColor,
+                  color: Appcolors.kprimarycolor,
                 ),
                 suffixIcon: const Icon(
                   CupertinoIcons.xmark_circle_fill,
@@ -87,7 +87,7 @@ class _SearchIdleState extends State<SearchIdle> {
                           color: Appcolors.kwhiteColor,
                           // gradient: LinearGradient(
                           //   colors: [
-                          //     Appcolors.kgreenColor.withOpacity(.1),
+                          //     Appcolors.kprimarycolor.withOpacity(.1),
                           //     Appcolors.kwhiteColor
                           //   ],
                           //   begin: Alignment.topLeft,
@@ -95,7 +95,7 @@ class _SearchIdleState extends State<SearchIdle> {
                           // ),
                           borderRadius: BorderRadiusStyles.kradius10(),
                           border: Border.all(
-                              color: Appcolors.kborderColor, width: 1),
+                              color: Appcolors.kborderColor, width: .5),
                         ),
                         child: Row(
                           children: [
@@ -104,7 +104,7 @@ class _SearchIdleState extends State<SearchIdle> {
                                 borderRadius: BorderRadius.circular(
                                     5), // Set the desired border radius
                                 border: Border.all(
-                                  color: Appcolors.kgreenColor.withOpacity(
+                                  color: Appcolors.kprimarycolor.withOpacity(
                                       .4), // Set the desired border color
                                   width: .2, // Set the border width
                                 ),
@@ -130,7 +130,20 @@ class _SearchIdleState extends State<SearchIdle> {
                             TextStyles.body(
                                 text: words[index],
                                 color: Appcolors.ktextColor,
-                                weight: FontWeight.bold)
+                                weight: FontWeight.bold),
+                            Spacer(),
+                            Container(
+                              padding: EdgeInsets.all(ResponsiveUtils.wp(1.5)),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Appcolors.kprimarycolor.withOpacity(.2),
+                              ),
+                              child: Icon(
+                                CupertinoIcons.chevron_forward,
+                                color: Appcolors.kprimarycolor,
+                              ),
+                            ),
+                            ResponsiveSizedBox.width10
                           ],
                         ),
                       ),

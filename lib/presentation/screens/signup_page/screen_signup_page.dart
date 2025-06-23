@@ -100,7 +100,7 @@ class _ScreenSignupPageState extends State<ScreenSignupPage> {
                           },
                           child: TextStyles.body(
                               text: 'Sign in',
-                              color: Appcolors.kgreenColor,
+                              color: Appcolors.kprimarycolor,
                               weight: FontWeight.bold),
                         ),
                         const SizedBox(

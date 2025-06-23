@@ -48,7 +48,7 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
             color: Appcolors.kwhiteColor,
             weight: FontWeight.bold),
         centerTitle: true,
-        backgroundColor: Appcolors.kgreenColor,
+        backgroundColor: Appcolors.kprimarycolor,
       ),
       body: Container(
         height: double.infinity,
@@ -147,7 +147,7 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                               width: 1,
-                              color: Appcolors.kgreenColor.withOpacity(0.5))),
+                              color: Appcolors.kprimarycolor.withOpacity(0.5))),
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),

@@ -16,7 +16,7 @@ class CustomRoundImage extends StatelessWidget {
       height: circleContainerSize,
       width: circleContainerSize,
       decoration: BoxDecoration(
-        border: Border.all(width: 1.5, color: Appcolors.kgreenColor),
+        border: Border.all(width: 1.5, color: Appcolors.kprimarycolor),
         shape: BoxShape.circle,
         color: Colors.white,
       ),

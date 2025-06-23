@@ -35,8 +35,8 @@
 // //       ),
 // //       bottomNavigationBar: CurvedNavigationBar(
 // //         backgroundColor: Appcolors.kgreenlightColor,
-// //         buttonBackgroundColor: Appcolors.kgreenColor,
-// //         color: Appcolors.kgreenColor,
+// //         buttonBackgroundColor: Appcolors.kprimarycolor,
+// //         color: Appcolors.kprimarycolor,
 // //         height: 55,
 // //         index: currentPage.value,
 // //         items: const <Widget>[
@@ -116,8 +116,8 @@ import 'package:langlex/presentation/screens/searchpage/searchpage_sreen.dart';
 //       ),
 //       bottomNavigationBar: CurvedNavigationBar(
 //         backgroundColor: Appcolors.kgreenlightColor,
-//         buttonBackgroundColor: Appcolors.kgreenColor,
-//         color: Appcolors.kgreenColor,
+//         buttonBackgroundColor: Appcolors.kprimarycolor,
+//         color: Appcolors.kprimarycolor,
 //         height: 55,
 //         index: currentPage.value,
 //         items: const <Widget>[
@@ -182,8 +182,8 @@ class Screenmainpage extends StatelessWidget {
         builder: (context, state) {
           return CurvedNavigationBar(
               backgroundColor: Appcolors.kgreenlightColor,
-        buttonBackgroundColor: Appcolors.kgreenColor,
-        color: Appcolors.kgreenColor,
+        buttonBackgroundColor: Appcolors.kprimarycolor,
+        color: Appcolors.kprimarycolor,
         height: 55,
             index: state.currentPageIndex,
             items: const <Widget>[

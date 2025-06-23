@@ -23,7 +23,7 @@ import 'package:langlex/core/responsive_utils.dart';
 //         decoration: BoxDecoration(
 //             gradient: const LinearGradient(
 //               colors: [
-//                 Appcolors.kgreenColor,
+//                 Appcolors.kprimarycolor,
 //                 Color.fromARGB(255, 99, 233, 179)
 //               ],
 //               begin: Alignment.topLeft,
@@ -71,7 +71,7 @@ class CustomLanguageContainer extends StatelessWidget {
         color: Appcolors.kwhiteColor,
         // gradient: const LinearGradient(
         //   colors: [
-        //     Appcolors.kgreenColor,
+        //     Appcolors.kprimarycolor,
         //     Color.fromARGB(255, 99, 233, 179)
         //   ],
         //   begin: Alignment.topLeft,
@@ -86,7 +86,7 @@ class CustomLanguageContainer extends StatelessWidget {
           Icon(
             Icons.language,
             size: ResponsiveUtils.wp(9),
-            color: Appcolors.kgreenColor,
+            color: Appcolors.kprimarycolor,
           ),
           ResponsiveSizedBox.height10,
           Text(
@@ -95,7 +95,7 @@ class CustomLanguageContainer extends StatelessWidget {
             style: GoogleFonts.fredoka(
               fontSize: ResponsiveUtils.wp(4.5),
               fontWeight: FontWeight.w500,
-              color: Appcolors.kgreenColor,
+              color: Appcolors.kprimarycolor,
             ),
           ),
         ],

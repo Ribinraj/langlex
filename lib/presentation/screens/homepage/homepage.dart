@@ -51,7 +51,7 @@
 //           decoration: const BoxDecoration(
 //             gradient: LinearGradient(
 //               colors: [
-//                 Appcolors.kgreenColor,
+//                 Appcolors.kprimarycolor,
 //                 Color.fromARGB(255, 75, 209, 155)
 //               ],
 //               begin: Alignment.topLeft,
@@ -95,7 +95,7 @@
 //             decoration: const BoxDecoration(
 //               gradient: LinearGradient(
 //                 colors: [
-//                   Appcolors.kgreenColor,
+//                   Appcolors.kprimarycolor,
 //                   Color.fromARGB(255, 99, 233, 179)
 //                 ],
 //                 begin: Alignment.topLeft,
@@ -222,9 +222,9 @@
 //           borderRadius: BorderRadius.circular(12),
 //           border: Border.all(
 //             color: isDownloaded
-//                 ? Appcolors.kgreenColor.withOpacity(.5)
+//                 ? Appcolors.kprimarycolor.withOpacity(.5)
 //                 : isLoading
-//                     ? Appcolors.kgreenColor.withOpacity(.5)
+//                     ? Appcolors.kprimarycolor.withOpacity(.5)
 //                     : Colors.redAccent.withOpacity(.5),
 //             width: isDownloaded ? 1.2 : 1.5,
 //           ),
@@ -261,14 +261,14 @@
 //                 children: [
 //                   Icon(
 //                     Icons.check_circle,
-//                     color: Appcolors.kgreenColor,
+//                     color: Appcolors.kprimarycolor,
 //                     size: 16,
 //                   ),
 //                   const SizedBox(width: 4),
 //                   Text(
 //                     'Downloaded',
 //                     style: TextStyle(
-//                       color: Appcolors.kgreenColor,
+//                       color: Appcolors.kprimarycolor,
 //                       fontSize: 12,
 //                       fontWeight: FontWeight.w500,
 //                     ),
@@ -307,7 +307,7 @@
 //             value: 'play',
 //             child: Row(
 //               children: [
-//                 Icon(CupertinoIcons.play_circle, color: Appcolors.kgreenColor),
+//                 Icon(CupertinoIcons.play_circle, color: Appcolors.kprimarycolor),
 //                 SizedBox(width: 8),
 //                 Text('Play'),
 //               ],
@@ -369,7 +369,7 @@
 //               context.read<ContentDownloadBloc>().add(RedownloadButtonClickEvent());
 //             },
 //             style: ElevatedButton.styleFrom(
-//               backgroundColor: Appcolors.kgreenColor,
+//               backgroundColor: Appcolors.kprimarycolor,
 //             ),
 //             child: const Text(
 //               'Redownload',
@@ -599,7 +599,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Appcolors.kgreenColor,
+                Appcolors.kprimarycolor,
                 Appcolors.kgreenlightColor,
                 // Color(0xFF4CAF50),
                 // Color(0xFF66BB6A),
@@ -946,7 +946,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
 
     if (isDownloaded) {
       containerColor = Colors.white;
-      borderColor = Appcolors.kgreenColor;
+      borderColor = Appcolors.kprimarycolor;
       gradientColors = [
         const Color.fromARGB(255, 96, 219, 198).withOpacity(0.1),
         Colors.white,
@@ -1059,7 +1059,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Appcolors.kgreenColor,
+                    color: Appcolors.kprimarycolor,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -1183,7 +1183,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
         child: PopupMenuButton<String>(
           icon: const Icon(
             Icons.more_vert,
-            color: Appcolors.kgreenColor,
+            color: Appcolors.kprimarycolor,
             size: 24,
           ),
           shape: RoundedRectangleBorder(

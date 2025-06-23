@@ -103,7 +103,7 @@ class NoNetworkOverlay extends StatelessWidget {
               CustomSqureElevatedButton(
                 onPressed: () {},
                 buttonText: 'Retry',
-                backgroundcolor: Appcolors.kgreenColor,
+                backgroundcolor: Appcolors.kprimarycolor,
               )
             ],
           ),

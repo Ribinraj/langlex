@@ -18,7 +18,7 @@ class CustomEditprofileContainer extends StatelessWidget {
       height: circleContainerSize,
       width: circleContainerSize,
       decoration: BoxDecoration(
-        border: Border.all(width: 1.5, color: Appcolors.kgreenColor),
+        border: Border.all(width: 1.5, color: Appcolors.kprimarycolor),
         shape: BoxShape.circle,
         color: Colors.white,
       ),
@@ -40,7 +40,7 @@ class CustomEditprofileContainer extends StatelessWidget {
                 ? Icon(
                     Icons.person, // Use any icon you prefer here
                     size: circleContainerSize / 2,
-                    color: Appcolors.kgreenColor,
+                    color: Appcolors.kprimarycolor,
                   )
                 : null,
           ),

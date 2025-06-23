@@ -65,7 +65,7 @@
 //           style: TextStyle(color: Appcolors.kwhiteColor),
 //         ),
 //         centerTitle: true,
-//         backgroundColor: Appcolors.kgreenColor,
+//         backgroundColor: Appcolors.kprimarycolor,
 //       ),
 //       body: Container(
 //         height: double.infinity,
@@ -109,7 +109,7 @@
 //                     child: Container(
 //                       decoration: BoxDecoration(
 //                         color: isSelected
-//                             ? Appcolors.kgreenColor.withOpacity(0.2)
+//                             ? Appcolors.kprimarycolor.withOpacity(0.2)
 //                             : Colors.white,
 //                         border: Border.all(
 //                           color: isSelected ? Colors.green : Colors.grey,
@@ -160,7 +160,7 @@
 //                       }
 //                     },
 //                     buttonText: 'Submit',
-//                     backgroundcolor: Appcolors.kgreenColor)),
+//                     backgroundcolor: Appcolors.kprimarycolor)),
 //           ],
 //         ),
 //       ),
@@ -172,7 +172,7 @@
 //     prefs.setStringList('SELECTEDLANGUAGES', selectedLanguages.toList());
 
 //     customSnackbar(
-//         context, 'Languages saved successfully', Appcolors.kgreenColor);
+//         context, 'Languages saved successfully', Appcolors.kprimarycolor);
 //   }
 // }
 import 'package:flutter/cupertino.dart';
@@ -244,7 +244,7 @@ class LanguageSelectionSheetState extends State<LanguageSelectionSheet> {
           style: TextStyle(color: Appcolors.kwhiteColor),
         ),
         centerTitle: true,
-        backgroundColor: Appcolors.kgreenColor,
+        backgroundColor: Appcolors.kprimarycolor,
       ),
       body: Container(
         height: double.infinity,
@@ -288,7 +288,7 @@ class LanguageSelectionSheetState extends State<LanguageSelectionSheet> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? Appcolors.kgreenColor.withOpacity(0.2)
+                            ? Appcolors.kprimarycolor.withOpacity(0.2)
                             : Colors.white,
                         border: Border.all(
                           color: isSelected ? Colors.green : Colors.grey,
@@ -339,7 +339,7 @@ class LanguageSelectionSheetState extends State<LanguageSelectionSheet> {
                       }
                     },
                     buttonText: 'Submit',
-                    backgroundcolor: Appcolors.kgreenColor)),
+                    backgroundcolor: Appcolors.kprimarycolor)),
           ],
         ),
       ),
@@ -351,6 +351,6 @@ class LanguageSelectionSheetState extends State<LanguageSelectionSheet> {
     prefs.setStringList('SELECTEDLANGUAGES', selectedLanguages.toList());
 
     customSnackbar(
-        context, 'Languages saved successfully', Appcolors.kgreenColor);
+        context, 'Languages saved successfully', Appcolors.kprimarycolor);
   }
 }

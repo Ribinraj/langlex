@@ -56,7 +56,7 @@
 //                 height: ResponsiveUtils.hp(5),
 //                 width: ResponsiveUtils.wp(20),
 //                 decoration: const BoxDecoration(
-//                     color: Appcolors.kgreenColor,
+//                     color: Appcolors.kprimarycolor,
 //                     borderRadius: BorderRadius.only(
 //                         topLeft: Radius.circular(100),
 //                         topRight: Radius.circular(100))),
@@ -71,7 +71,7 @@
 //                 height: ResponsiveUtils.hp(40),
 //                 // width: ResponsiveUtils.wp(40),
 //                 decoration: BoxDecoration(
-//                     color: Appcolors.kgreenColor,
+//                     color: Appcolors.kprimarycolor,
 //                     borderRadius: BorderRadius.circular(50)),
 //                 child: Padding(
 //                   padding: EdgeInsets.all(ResponsiveUtils.wp(3)),
@@ -119,7 +119,7 @@
 //                               fontWeight: FontWeight.bold,
 //                               fontSize: ResponsiveUtils.hp(2.5)),
 //                           msgStyle: TextStyle(
-//                               color: Appcolors.kgreenColor,
+//                               color: Appcolors.kprimarycolor,
 //                               fontWeight: FontWeight.bold,
 //                               fontSize: ResponsiveUtils.hp(2)),
 //                           title: 'Congratulations',
@@ -134,7 +134,7 @@
 //                               onPressed: () {},
 //                               text: 'Go to next',
 //                               iconData: Icons.done,
-//                               color: Appcolors.kgreenColor,
+//                               color: Appcolors.kprimarycolor,
 //                               textStyle: const TextStyle(color: Colors.white),
 //                               iconColor: Colors.white,
 //                             ),
@@ -166,7 +166,7 @@
 //                               border: Border.all(
 //                                 color: selectedOptionIndex == index
 //                                     ? Appcolors.kwhiteColor
-//                                     : Appcolors.kgreenColor,
+//                                     : Appcolors.kprimarycolor,
 //                                 width: 2,
 //                               ),
 //                             ),
@@ -185,7 +185,7 @@
 //                                       options[index],
 //                                       style: TextStyle(
 //                                           color: selectedOptionIndex == index
-//                                               ? Appcolors.kgreenColor
+//                                               ? Appcolors.kprimarycolor
 //                                               : Appcolors.kwhiteColor,
 //                                           fontWeight: FontWeight.bold),
 //                                     ),
@@ -199,7 +199,7 @@
 //                                       fontWeight: FontWeight.bold,
 //                                       color: selectedOptionIndex == index
 //                                           ? Appcolors.kwhiteColor
-//                                           : Appcolors.kgreenColor),
+//                                           : Appcolors.kprimarycolor),
 //                                 ),
 //                                 const Spacer(),
 //                                 // Checkmark if selected
@@ -221,7 +221,7 @@
 //               Padding(
 //                 padding: const EdgeInsets.all(12),
 //                 child: NeoPopButton(
-//                   color: Appcolors.kgreenColor,
+//                   color: Appcolors.kprimarycolor,
 
 //                   bottomShadowColor:
 //                       ColorUtils.getVerticalShadow(Appcolors.kgreycolor)
@@ -258,7 +258,7 @@
 //                             onPressed: () {},
 //                             text: 'Go to next',
 //                             iconData: Icons.done,
-//                             color: Appcolors.kgreenColor,
+//                             color: Appcolors.kprimarycolor,
 //                             textStyle: const TextStyle(color: Colors.white),
 //                             iconColor: Colors.white,
 //                           ),
@@ -379,7 +379,7 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Appcolors.kgreenColor.withOpacity(0.1),
+              Appcolors.kprimarycolor.withOpacity(0.1),
               Appcolors.kgreenlightColor.withOpacity(0.05),
               Colors.white,
             ],
@@ -443,8 +443,8 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Appcolors.kgreenColor,
-            Appcolors.kgreenColor.withOpacity(0.8),
+            Appcolors.kprimarycolor,
+            Appcolors.kprimarycolor.withOpacity(0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -452,7 +452,7 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Appcolors.kgreenColor.withOpacity(0.3),
+            color: Appcolors.kprimarycolor.withOpacity(0.3),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -518,14 +518,14 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Appcolors.kgreenColor,
-            Appcolors.kgreenColor.withOpacity(0.9),
+            Appcolors.kprimarycolor,
+            Appcolors.kprimarycolor.withOpacity(0.9),
           ],
         ),
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Appcolors.kgreenColor.withOpacity(0.4),
+            color: Appcolors.kprimarycolor.withOpacity(0.4),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -656,8 +656,8 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
               gradient: isSelected
                   ? LinearGradient(
                       colors: [
-                        Appcolors.kgreenColor,
-                        Appcolors.kgreenColor.withOpacity(0.8),
+                        Appcolors.kprimarycolor,
+                        Appcolors.kprimarycolor.withOpacity(0.8),
                       ],
                     )
                   : null,
@@ -666,13 +666,13 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
               border: Border.all(
                 color: isSelected 
                     ? Appcolors.kwhiteColor.withOpacity(0.5)
-                    : Appcolors.kgreenColor.withOpacity(0.3),
+                    : Appcolors.kprimarycolor.withOpacity(0.3),
                 width: isSelected ? 2 : 1,
               ),
               boxShadow: [
                 BoxShadow(
                   color: isSelected 
-                      ? Appcolors.kgreenColor.withOpacity(0.3)
+                      ? Appcolors.kprimarycolor.withOpacity(0.3)
                       : Colors.grey.withOpacity(0.1),
                   blurRadius: isSelected ? 15 : 5,
                   offset: Offset(0, isSelected ? 8 : 2),
@@ -713,7 +713,7 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
                       options[index],
                       style: TextStyle(
                         color: isSelected 
-                            ? Appcolors.kgreenColor
+                            ? Appcolors.kprimarycolor
                             : Appcolors.kwhiteColor,
                         fontWeight: FontWeight.bold,
                         fontSize: ResponsiveUtils.wp(4.5),
@@ -733,7 +733,7 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
                       fontWeight: FontWeight.w600,
                       color: isSelected 
                           ? Appcolors.kwhiteColor
-                          : Appcolors.kgreenColor,
+                          : Appcolors.kprimarycolor,
                     ),
                   ),
                 ),
@@ -773,12 +773,12 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
         width: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: ResponsiveUtils.wp(4)),
         child: NeoPopButton(
-          color: canSubmit ? Appcolors.kgreenColor : Colors.grey,
+          color: canSubmit ? Appcolors.kprimarycolor : Colors.grey,
           bottomShadowColor: ColorUtils.getVerticalShadow(
-            canSubmit ? Appcolors.kgreenColor : Colors.grey,
+            canSubmit ? Appcolors.kprimarycolor : Colors.grey,
           ).toColor(),
           rightShadowColor: ColorUtils.getHorizontalShadow(
-            canSubmit ? Appcolors.kgreenColor : Colors.grey,
+            canSubmit ? Appcolors.kprimarycolor : Colors.grey,
           ).toColor(),
           border: Border.all(
             color: Appcolors.kwhiteColor,
@@ -828,7 +828,7 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
         fontSize: ResponsiveUtils.hp(2.5),
       ),
       msgStyle: TextStyle(
-        color: isCorrect ? Appcolors.kgreenColor : Appcolors.kredcolor,
+        color: isCorrect ? Appcolors.kprimarycolor : Appcolors.kredcolor,
         fontWeight: FontWeight.w600,
         fontSize: ResponsiveUtils.hp(2),
       ),
@@ -847,7 +847,7 @@ class _ScreenQuizPageState extends State<ScreenQuizPage>
           },
           text: isCorrect ? 'Next Question' : 'Try Again',
           iconData: isCorrect ? Icons.arrow_forward : Icons.refresh,
-          color: Appcolors.kgreenColor,
+          color: Appcolors.kprimarycolor,
           textStyle: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w600,

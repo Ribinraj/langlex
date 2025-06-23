@@ -26,7 +26,7 @@ Future<XFile> showBottomSheetWidget(BuildContext context) async {
               ),
               const Divider(
                 thickness: 2,
-                color: Appcolors.kgreenColor,
+                color: Appcolors.kprimarycolor,
               ),
               SizedBox(
                 height: 20,
@@ -43,7 +43,7 @@ Future<XFile> showBottomSheetWidget(BuildContext context) async {
                     },
                     icon: const Icon(
                       Icons.camera,
-                      color: Appcolors.kgreenColor,
+                      color: Appcolors.kprimarycolor,
                     ),
                     label: const Text(
                       'Camera',
@@ -60,7 +60,7 @@ Future<XFile> showBottomSheetWidget(BuildContext context) async {
                     },
                     icon: const Icon(
                       Icons.image,
-                      color: Appcolors.kgreenColor,
+                      color: Appcolors.kprimarycolor,
                     ),
                     label: const Text(
                       'Gallery',

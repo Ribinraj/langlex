@@ -23,7 +23,7 @@ class CustomEditingTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: Appcolors.kgreenColor,
+      cursorColor: Appcolors.kprimarycolor,
       validator: validator,
       controller: controller,
       obscureText: obscureText ?? false,
@@ -48,11 +48,11 @@ class CustomEditingTextfield extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadiusStyles.kradius10(),
               borderSide:
-                  BorderSide(color: Appcolors.kgreenColor.withOpacity(.4))),
+                  BorderSide(color: Appcolors.kprimarycolor.withOpacity(.4))),
           focusedBorder: OutlineInputBorder(
               borderRadius:BorderRadiusStyles.kradius10(),
               borderSide:
-                  const BorderSide(color: Appcolors.kgreenColor, width: 1.5)),
+                  const BorderSide(color: Appcolors.kprimarycolor, width: 1.5)),
           errorBorder: OutlineInputBorder(
               borderRadius: BorderRadiusStyles.kradius10(),
               borderSide:

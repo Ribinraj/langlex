@@ -8,11 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:langlex/core/responsive_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:langlex/core/colors.dart';
-import 'package:langlex/core/constants.dart';
+
 
 import 'package:langlex/presentation/cubits/language_change.dart';
-import 'package:langlex/presentation/screens/languagepage/widgets/customlanguage_container.dart';
+
 import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
 
 

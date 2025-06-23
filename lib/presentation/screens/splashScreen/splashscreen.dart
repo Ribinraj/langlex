@@ -35,7 +35,7 @@
 // //               ),
 // //             ResponsiveSizedBox.height5,
 // //               LoadingAnimationWidget.staggeredDotsWave(
-// //                   color: Appcolors.kgreenColor, size: 40)
+// //                   color: Appcolors.kprimarycolor, size: 40)
 // //             ],
 // //           ),
 // //         ),
@@ -209,7 +209,7 @@
 //                     width: 20,
 //                     height: 20,
 //                     decoration: BoxDecoration(
-//                       color: Appcolors.kgreenColor.withOpacity(0.5),
+//                       color: Appcolors.kprimarycolor.withOpacity(0.5),
 //                       borderRadius: BorderRadius.circular(10),
 //                     ),
 //                   ),
@@ -604,16 +604,16 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                   // Using your color palette for better gradient
                   Color.lerp(
                     Appcolors.kgreenlightColor.withOpacity(0.8),
-                    Appcolors.kgreenColor.withOpacity(0.9),
+                    Appcolors.kprimarycolor.withOpacity(0.9),
                     _backgroundAnimation.value,
                   )!,
                   Color.lerp(
-                    Appcolors.kgreenColor,
-                    Appcolors.kgreenColor.withOpacity(0.7),
+                    Appcolors.kprimarycolor,
+                    Appcolors.kprimarycolor.withOpacity(0.7),
                     _backgroundAnimation.value,
                   )!,
                   Color.lerp(
-                    Appcolors.kgreenColor.withOpacity(0.8),
+                    Appcolors.kprimarycolor.withOpacity(0.8),
                     Appcolors.ktextColor.withOpacity(0.3),
                     _backgroundAnimation.value,
                   )!,

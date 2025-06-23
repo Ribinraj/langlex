@@ -237,7 +237,7 @@ class ScreenProfilePage extends StatelessWidget {
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Appcolors.kgreenColor,
+                      Appcolors.kprimarycolor,
                       Color.fromARGB(255, 99, 233, 179)
                     ],
                     begin: Alignment.topLeft,

@@ -150,7 +150,7 @@ class CustomDrawer extends StatelessWidget {
       children: <Widget>[
         DrawerHeader(
           decoration: const BoxDecoration(
-            color: Appcolors.kgreenColor,
+            color: Appcolors.kprimarycolor,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
