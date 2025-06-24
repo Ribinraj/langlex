@@ -219,18 +219,9 @@ class _ScreenSearchPageState extends State<ScreenSearchPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FBFF),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Appcolors.kbackgroundcolor,
-              Appcolors.kbackgroundcolor.withOpacity(0.95),
-              Colors.grey.shade50,
-            ],
-          ),
-        ),
+        color: const Color(0xFFF8FBFF),
         child: SafeArea(
           child: Padding(
             padding:
@@ -240,16 +231,17 @@ class _ScreenSearchPageState extends State<ScreenSearchPage>
               slivers: [
                 // Enhanced App Bar
                 SliverAppBar(
+                  foregroundColor: const Color(0xFFF8FBFF),
                   floating: true,
                   automaticallyImplyLeading: false,
                   snap: true,
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: const Color(0xFFF8FBFF),
                   elevation: 0,
                   expandedHeight: 80,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
+                        color: const Color(0xFFF8FBFF),
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(

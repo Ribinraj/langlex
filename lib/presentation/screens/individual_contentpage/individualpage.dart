@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -673,30 +674,56 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Appcolors.kwhiteColor,
       body: BlocBuilder<FetchdataFromDatabaseBloc, FetchdataFromDatabaseState>(
         builder: (context, state) {
           if (state is FetchDataFromDatabaseLoadingState) {
-            return Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFF8FAFC), // Soft white
-                    Color(0xFFF1F5F9), // Light gray-blue
-                    Color(0xFFE2E8F0), // Subtle gray
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Appcolors.kprimarycolor.withOpacity(0.1),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: LoadingAnimationWidget.fourRotatingDots(
+                      color: Appcolors.kprimarycolor,
+                      size: 50,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    'Loading Animals...',
+                    style: GoogleFonts.poppins(
+                      color: Appcolors.ktextColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
-              child: Center(
+            );
+          } else if (state is FetchDataFromDatabaseSuccessState) {
+            final dataItems = state.dataItems;
+            if (dataItems.isEmpty) {
+              return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(30),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(25),
                         boxShadow: [
                           BoxShadow(
                             color: Appcolors.kprimarycolor.withOpacity(0.1),
@@ -705,553 +732,493 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage>
                           ),
                         ],
                       ),
-                      child: LoadingAnimationWidget.fourRotatingDots(
-                        color: Appcolors.kprimarycolor,
-                        size: 50,
+                      child: Icon(
+                        Icons.pets_outlined,
+                        size: 80,
+                        color: Appcolors.kprimarycolor.withOpacity(0.7),
                       ),
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Loading Animals...',
+                      'No Animals Found',
                       style: GoogleFonts.poppins(
                         color: Appcolors.ktextColor,
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Check back later for new content',
+                      style: GoogleFonts.poppins(
+                        color: Appcolors.khinttextColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ],
-                ),
-              ),
-            );
-          } else if (state is FetchDataFromDatabaseSuccessState) {
-            final dataItems = state.dataItems;
-            if (dataItems.isEmpty) {
-              return Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFFF8FAFC),
-                      Color(0xFFF1F5F9),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(30),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Appcolors.kprimarycolor.withOpacity(0.1),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.pets_outlined,
-                          size: 80,
-                          color: Appcolors.kprimarycolor.withOpacity(0.7),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'No Animals Found',
-                        style: GoogleFonts.poppins(
-                          color: Appcolors.ktextColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Check back later for new content',
-                        style: GoogleFonts.poppins(
-                          color: Appcolors.khinttextColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               );
             }
 
             final item = dataItems[currentIndex];
 
-            return Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFFF8FAFC), // Pure white start
-                    Color(0xFFF1F5F9), // Soft blue-gray
-                    Color(0xFFE2E8F0), // Light gray end
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: [0.0, 0.6, 1.0],
-                ),
-              ),
-              child: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.all(ResponsiveUtils.wp(4)),
-                  child: Column(
+            return Column(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                    gradient: LinearGradient(
+                      colors: [
+                        Appcolors.kprimarycolor,
+                        Appcolors.kgreenlightColor,
+                        Color.fromARGB(255, 129, 199, 193),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  padding: EdgeInsets.only(
+                    left: ResponsiveUtils.wp(5),
+                    right: ResponsiveUtils.wp(5),
+                    top: ResponsiveUtils.hp(7),
+                    bottom: ResponsiveUtils.hp(3),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Enhanced Header Section
+                      // Back Button with modern design
+                      Container(
+                        height: ResponsiveUtils.wp(12),
+                        width: ResponsiveUtils.wp(12),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 235, 247, 241),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Appcolors.kprimarycolor.withOpacity(0.1),
+                            width: 1,
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            CupertinoIcons.chevron_back,
+                            color: Appcolors.kprimarycolor,
+                            size: ResponsiveUtils.wp(8),
+                            //weight: 50,
+                          ),
+                        ),
+                      ),
+
+                      // Beautiful Title with gradient background
                       Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: ResponsiveUtils.wp(2),
-                          vertical: ResponsiveUtils.hp(1),
+                          horizontal: ResponsiveUtils.wp(6),
+                          vertical: ResponsiveUtils.hp(1.2),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Back Button with modern design
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Appcolors.kprimarycolor
-                                        .withOpacity(0.15),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                                border: Border.all(
-                                  color:
-                                      Appcolors.kprimarycolor.withOpacity(0.1),
-                                  width: 1,
-                                ),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: Icon(
-                                  CupertinoIcons.arrow_left,
-                                  color: Appcolors.kprimarycolor,
-                                  size: ResponsiveUtils.wp(6),
-                                ),
-                              ),
-                            ),
-
-                            // Beautiful Title with gradient background
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: ResponsiveUtils.wp(6),
-                                vertical: ResponsiveUtils.hp(1.2),
-                              ),
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Appcolors.kprimarycolor,
-                                    Appcolors.kgreenlightColor,
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                borderRadius: BorderRadius.circular(25),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Appcolors.kprimarycolor
-                                        .withOpacity(0.3),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                'Animals',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: ResponsiveUtils.hp(2.5),
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                            ),
-
-                            // Enhanced Progress Indicator
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Appcolors.kprimarycolor
-                                        .withOpacity(0.15),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                                border: Border.all(
-                                  color:
-                                      Appcolors.kprimarycolor.withOpacity(0.1),
-                                  width: 1,
-                                ),
-                              ),
-                              child: CircularPercentIndicator(
-                                radius: ResponsiveUtils.wp(6),
-                                center: Text(
-                                  "${((currentIndex + 1) / dataItems.length * 100).toInt()}%",
-                                  style: GoogleFonts.poppins(
-                                    color: Appcolors.kprimarycolor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 11,
-                                  ),
-                                ),
-                                lineWidth: 4.0,
-                                animation: true,
-                                animationDuration: 800,
-                                percent: (currentIndex + 1) / dataItems.length,
-                                circularStrokeCap: CircularStrokeCap.round,
-                                progressColor: Appcolors.kprimarycolor,
-                                backgroundColor:
-                                    Appcolors.kgreenlightColor.withOpacity(0.3),
-                              ),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Appcolors.kprimarycolor,
+                              Appcolors.kgreenlightColor,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(
+                            color: Appcolors.kwhiteColor,
+                            width: .1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Appcolors.kprimarycolor.withOpacity(0.3),
+                              blurRadius: 15,
+                              offset: const Offset(0, 4),
                             ),
                           ],
                         ),
-                      ),
-
-                      SizedBox(height: ResponsiveUtils.hp(3)),
-
-                      Expanded(
-                        flex: 3,
-                        child: AnimatedBuilder(
-                          animation: _imageScaleAnimation,
-                          builder: (context, child) {
-                            return Transform.scale(
-                              scale: _imageScaleAnimation.value,
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                  horizontal: ResponsiveUtils.wp(2),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(30),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Appcolors.kprimarycolor
-                                          .withOpacity(0.15),
-                                      blurRadius: 25,
-                                      offset: const Offset(0, 15),
-                                      spreadRadius: 2,
-                                    ),
-                                    BoxShadow(
-                                      color: Appcolors.korangeColor
-                                          .withOpacity(0.1),
-                                      blurRadius: 40,
-                                      offset: const Offset(0, 20),
-                                    ),
-                                  ],
-                                  border: Border.all(
-                                    color: Appcolors.kgreenlightColor
-                                        .withOpacity(0.2),
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.transparent,
-                                            Appcolors.kprimarycolor
-                                                .withOpacity(0.03),
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                      ),
-                                      child: Image.file(
-                                        File(
-                                            '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.img}'),
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-
-                      SizedBox(height: ResponsiveUtils.hp(3)),
-
-                      // Enhanced Animal Name with gradient background
-                      SlideTransition(
-                        position: _slideAnimation,
-                        child: FadeTransition(
-                          opacity: _fadeAnimation,
-                          child: Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: ResponsiveUtils.wp(8),
-                              vertical: ResponsiveUtils.hp(1.5),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Appcolors.korangeColor.withOpacity(0.4),
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.2),
-                                width: 1,
-                              ),
-                            ),
-                            child: Text(
-                              'Lion',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: ResponsiveUtils.hp(2.8),
-                                letterSpacing: 1.2,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
+                        child: Text(
+                          'Animals',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: ResponsiveUtils.hp(2.5),
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
 
-                      SizedBox(height: ResponsiveUtils.hp(4)),
-
-                      // Enhanced Progress Bar with modern styling
-                      // SlideTransition(
-                      //   position: _slideAnimation,
-                      //   child: FadeTransition(
-                      //     opacity: _fadeAnimation,
-                      //     child: Container(
-                      //       margin: EdgeInsets.symmetric(
-                      //           horizontal: ResponsiveUtils.wp(4)),
-                      //       padding: const EdgeInsets.all(16),
-                      //       decoration: BoxDecoration(
-                      //         color: Colors.white,
-                      //         borderRadius: BorderRadius.circular(20),
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //             color:
-                      //                 Appcolors.kprimarycolor.withOpacity(0.1),
-                      //             blurRadius: 15,
-                      //             offset: const Offset(0, 4),
-                      //           ),
-                      //         ],
-                      //         border: Border.all(
-                      //           color:
-                      //               Appcolors.kgreenlightColor.withOpacity(0.2),
-                      //           width: 1,
-                      //         ),
-                      //       ),
-                      //       child: Column(
-                      //         children: [
-                      //           Row(
-                      //             mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //             children: [
-                      //               Container(
-                      //                 padding: const EdgeInsets.symmetric(
-                      //                   horizontal: 12,
-                      //                   vertical: 6,
-                      //                 ),
-                      //                 decoration: BoxDecoration(
-                      //                   color: Appcolors.kprimarycolor
-                      //                       .withOpacity(0.1),
-                      //                   borderRadius: BorderRadius.circular(12),
-                      //                 ),
-                      //                 child: Text(
-                      //                   '${currentIndex + 1}',
-                      //                   style: GoogleFonts.poppins(
-                      //                     color: Appcolors.kprimarycolor,
-                      //                     fontSize: 14,
-                      //                     fontWeight: FontWeight.w600,
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //               Container(
-                      //                 padding: const EdgeInsets.symmetric(
-                      //                   horizontal: 12,
-                      //                   vertical: 6,
-                      //                 ),
-                      //                 decoration: BoxDecoration(
-                      //                   color: Appcolors.korangeColor
-                      //                       .withOpacity(0.1),
-                      //                   borderRadius: BorderRadius.circular(12),
-                      //                 ),
-                      //                 child: Text(
-                      //                   '${dataItems.length}',
-                      //                   style: GoogleFonts.poppins(
-                      //                     color: Appcolors.korangeColor,
-                      //                     fontSize: 14,
-                      //                     fontWeight: FontWeight.w600,
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //           const SizedBox(height: 12),
-                      //           TweenAnimationBuilder(
-                      //             duration: const Duration(milliseconds: 600),
-                      //             tween: Tween<double>(
-                      //               begin: 0,
-                      //               end: (currentIndex + 1) / dataItems.length,
-                      //             ),
-                      //             builder: (context, double value, child) {
-                      //               return Container(
-                      //                 height: 8,
-                      //                 decoration: BoxDecoration(
-                      //                   borderRadius: BorderRadius.circular(4),
-                      //                   color: Appcolors.kgreenlightColor
-                      //                       .withOpacity(0.2),
-                      //                 ),
-                      //                 child: ClipRRect(
-                      //                   borderRadius: BorderRadius.circular(4),
-                      //                   child: LinearProgressIndicator(
-                      //                     value: value,
-                      //                     backgroundColor: Colors.transparent,
-                      //                     valueColor:
-                      //                         const AlwaysStoppedAnimation<
-                      //                             Color>(
-                      //                       Appcolors.kprimarycolor,
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //               );
-                      //             },
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-
-                      SizedBox(height: ResponsiveUtils.hp(1)),
-
-                      // Enhanced Control Buttons with modern design
-                      SlideTransition(
-                        position: _slideAnimation,
-                        child: FadeTransition(
-                          opacity: _fadeAnimation,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: ResponsiveUtils.wp(4),
-                              vertical: ResponsiveUtils.hp(2.5),
+                      // Enhanced Progress Indicator
+                      Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Appcolors.kprimarycolor.withOpacity(0.15),
+                              blurRadius: 15,
+                              offset: const Offset(0, 4),
                             ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color:
-                                      Appcolors.kprimarycolor.withOpacity(0.15),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 8),
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                              border: Border.all(
-                                color:
-                                    Appcolors.kgreenlightColor.withOpacity(0.2),
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                // Previous Button
-                                _buildControlButton(
-                                  icon: CupertinoIcons.backward_fill,
-                                  onPressed: currentIndex > 0
-                                      ? () {
-                                          setState(() {
-                                            currentIndex--;
-                                          });
-                                          _audioService.stopAudio();
-                                          _animateItemChange();
-                                        }
-                                      : null,
-                                  isEnabled: currentIndex > 0,
-                                  color: Appcolors.kprimarycolor,
-                                ),
-
-                                // Play Button (Larger with special styling)
-                                _buildControlButton(
-                                  icon: isPlaying
-                                      ? CupertinoIcons.pause_circle_fill
-                                      : CupertinoIcons.play_circle_fill,
-                                  onPressed: () {
-                                    if (isPlaying) {
-                                      _audioService.pauseAudio();
-                                      setState(() {
-                                        isPlaying = false;
-                                      });
-                                    } else {
-                                      _audioService.playAudioFromFile(
-                                        '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.mp3}',
-                                      );
-                                      setState(() {
-                                        isPlaying = true;
-                                      });
-                                    }
-                                  },
-                                  size: 70,
-                                  isEnabled: true,
-                                  color: Appcolors.korangeColor,
-                                  //isMainButton: true,
-                                ),
-
-                                // Stop Button
-                                _buildControlButton(
-                                  icon: CupertinoIcons.stop_circle_fill,
-                                  onPressed: () {
-                                    _audioService.stopAudio();
-                                    setState(() {
-                                      isPlaying = false;
-                                    });
-                                  },
-                                  isEnabled: true,
-                                  color: Appcolors.kredcolor,
-                                ),
-
-                                // Next Button
-                                _buildControlButton(
-                                  icon: CupertinoIcons.forward_fill,
-                                  onPressed: currentIndex < dataItems.length - 1
-                                      ? () {
-                                          setState(() {
-                                            currentIndex++;
-                                          });
-                                          _audioService.stopAudio();
-                                          _animateItemChange();
-                                        }
-                                      : null,
-                                  isEnabled:
-                                      currentIndex < dataItems.length - 1,
-                                  color: Appcolors.kprimarycolor,
-                                ),
-                              ],
-                            ),
+                          ],
+                          border: Border.all(
+                            color: Appcolors.kprimarycolor.withOpacity(0.1),
+                            width: 1,
                           ),
                         ),
+                        child: CircularPercentIndicator(
+                          radius: ResponsiveUtils.wp(5),
+                          center: Text(
+                            "${((currentIndex + 1) / dataItems.length * 100).toInt()}%",
+                            style: GoogleFonts.poppins(
+                              color: Appcolors.kprimarycolor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                            ),
+                          ),
+                          lineWidth: 4.0,
+                          animation: true,
+                          animationDuration: 800,
+                          percent: (currentIndex + 1) / dataItems.length,
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: Appcolors.kprimarycolor,
+                          backgroundColor:
+                              Appcolors.korangelightColor.withOpacity(0.5),
+                        ),
                       ),
-
-                      SizedBox(height: ResponsiveUtils.hp(2)),
                     ],
                   ),
                 ),
-              ),
+                SizedBox(height: ResponsiveUtils.hp(2)),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: AnimatedBuilder(
+                            animation: _imageScaleAnimation,
+                            builder: (context, child) {
+                              return Transform.scale(
+                                scale: _imageScaleAnimation.value,
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: ResponsiveUtils.wp(2),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Appcolors.korangBorderColor
+                                        .withOpacity(.2),
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Appcolors.korangeColor
+                                          .withOpacity(.4),
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.transparent,
+                                              Appcolors.kprimarycolor
+                                                  .withOpacity(0.03),
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                        ),
+                                        child: Image.file(
+                                          File(
+                                              '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.img}'),
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: ResponsiveUtils.hp(3)),
+
+                        // Enhanced Animal Name with gradient background
+                        SlideTransition(
+                          position: _slideAnimation,
+                          child: FadeTransition(
+                            opacity: _fadeAnimation,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: ResponsiveUtils.wp(2),
+                                  ),
+                                  width: double.infinity,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: ResponsiveUtils.wp(10),
+                                    vertical: ResponsiveUtils.hp(1.5),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Appcolors.kprimarycolor.withOpacity(
+                                        0.2), // More visible background
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Appcolors.kprimarycolor,
+                                      width: .8,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Lion',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: ResponsiveUtils.hp(2.8),
+                                      letterSpacing: 1.2,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: ResponsiveUtils.hp(2)),
+
+                        // Enhanced Progress Bar with modern styling
+                        // SlideTransition(
+                        //   position: _slideAnimation,
+                        //   child: FadeTransition(
+                        //     opacity: _fadeAnimation,
+                        //     child: Container(
+                        //       margin: EdgeInsets.symmetric(
+                        //           horizontal: ResponsiveUtils.wp(4)),
+                        //       padding: const EdgeInsets.all(16),
+                        //       decoration: BoxDecoration(
+                        //         color: Colors.white,
+                        //         borderRadius: BorderRadius.circular(20),
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //             color:
+                        //                 Appcolors.kprimarycolor.withOpacity(0.1),
+                        //             blurRadius: 15,
+                        //             offset: const Offset(0, 4),
+                        //           ),
+                        //         ],
+                        //         border: Border.all(
+                        //           color:
+                        //               Appcolors.kgreenlightColor.withOpacity(0.2),
+                        //           width: 1,
+                        //         ),
+                        //       ),
+                        //       child: Column(
+                        //         children: [
+                        //           Row(
+                        //             mainAxisAlignment:
+                        //                 MainAxisAlignment.spaceBetween,
+                        //             children: [
+                        //               Container(
+                        //                 padding: const EdgeInsets.symmetric(
+                        //                   horizontal: 12,
+                        //                   vertical: 6,
+                        //                 ),
+                        //                 decoration: BoxDecoration(
+                        //                   color: Appcolors.kprimarycolor
+                        //                       .withOpacity(0.1),
+                        //                   borderRadius: BorderRadius.circular(12),
+                        //                 ),
+                        //                 child: Text(
+                        //                   '${currentIndex + 1}',
+                        //                   style: GoogleFonts.poppins(
+                        //                     color: Appcolors.kprimarycolor,
+                        //                     fontSize: 14,
+                        //                     fontWeight: FontWeight.w600,
+                        //                   ),
+                        //                 ),
+                        //               ),
+                        //               Container(
+                        //                 padding: const EdgeInsets.symmetric(
+                        //                   horizontal: 12,
+                        //                   vertical: 6,
+                        //                 ),
+                        //                 decoration: BoxDecoration(
+                        //                   color: Appcolors.korangeColor
+                        //                       .withOpacity(0.1),
+                        //                   borderRadius: BorderRadius.circular(12),
+                        //                 ),
+                        //                 child: Text(
+                        //                   '${dataItems.length}',
+                        //                   style: GoogleFonts.poppins(
+                        //                     color: Appcolors.korangeColor,
+                        //                     fontSize: 14,
+                        //                     fontWeight: FontWeight.w600,
+                        //                   ),
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //           const SizedBox(height: 12),
+                        //           TweenAnimationBuilder(
+                        //             duration: const Duration(milliseconds: 600),
+                        //             tween: Tween<double>(
+                        //               begin: 0,
+                        //               end: (currentIndex + 1) / dataItems.length,
+                        //             ),
+                        //             builder: (context, double value, child) {
+                        //               return Container(
+                        //                 height: 8,
+                        //                 decoration: BoxDecoration(
+                        //                   borderRadius: BorderRadius.circular(4),
+                        //                   color: Appcolors.kgreenlightColor
+                        //                       .withOpacity(0.2),
+                        //                 ),
+                        //                 child: ClipRRect(
+                        //                   borderRadius: BorderRadius.circular(4),
+                        //                   child: LinearProgressIndicator(
+                        //                     value: value,
+                        //                     backgroundColor: Colors.transparent,
+                        //                     valueColor:
+                        //                         const AlwaysStoppedAnimation<
+                        //                             Color>(
+                        //                       Appcolors.kprimarycolor,
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //               );
+                        //             },
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+
+                        SizedBox(height: ResponsiveUtils.hp(1)),
+
+                        // Enhanced Control Buttons with modern design
+                        SlideTransition(
+                          position: _slideAnimation,
+                          child: FadeTransition(
+                            opacity: _fadeAnimation,
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: ResponsiveUtils.wp(2),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: ResponsiveUtils.wp(3),
+                                vertical: ResponsiveUtils.hp(2),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                  color: Appcolors.kgreenlightColor,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // Previous Button
+                                  _buildControlButton(
+                                    icon: CupertinoIcons.backward_fill,
+                                    onPressed: currentIndex > 0
+                                        ? () {
+                                            setState(() {
+                                              currentIndex--;
+                                            });
+                                            _audioService.stopAudio();
+                                            _animateItemChange();
+                                          }
+                                        : null,
+                                    isEnabled: currentIndex > 0,
+                                    color: Appcolors.kprimarycolor,
+                                  ),
+
+                                  // Play Button (Larger with special styling)
+                                  _buildControlButton(
+                                    icon: isPlaying
+                                        ? CupertinoIcons.pause_circle_fill
+                                        : CupertinoIcons.play_circle_fill,
+                                    onPressed: () {
+                                      if (isPlaying) {
+                                        _audioService.pauseAudio();
+                                        setState(() {
+                                          isPlaying = false;
+                                        });
+                                      } else {
+                                        _audioService.playAudioFromFile(
+                                          '/data/user/0/com.example.langlex/app_flutter/extracted/file/${item.mp3}',
+                                        );
+                                        setState(() {
+                                          isPlaying = true;
+                                        });
+                                      }
+                                    },
+                                    size: 70,
+                                    isEnabled: true,
+                                    color: Appcolors.korangeColor,
+                                    //isMainButton: true,
+                                  ),
+
+                                  // Stop Button
+                                  _buildControlButton(
+                                    icon: CupertinoIcons.stop_circle_fill,
+                                    onPressed: () {
+                                      _audioService.stopAudio();
+                                      setState(() {
+                                        isPlaying = false;
+                                      });
+                                    },
+                                    isEnabled: true,
+                                    color: Appcolors.kredcolor,
+                                  ),
+
+                                  // Next Button
+                                  _buildControlButton(
+                                    icon: CupertinoIcons.forward_fill,
+                                    onPressed:
+                                        currentIndex < dataItems.length - 1
+                                            ? () {
+                                                setState(() {
+                                                  currentIndex++;
+                                                });
+                                                _audioService.stopAudio();
+                                                _animateItemChange();
+                                              }
+                                            : null,
+                                    isEnabled:
+                                        currentIndex < dataItems.length - 1,
+                                    color: Appcolors.kprimarycolor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: ResponsiveUtils.hp(2)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             );
           }
           return const SizedBox();

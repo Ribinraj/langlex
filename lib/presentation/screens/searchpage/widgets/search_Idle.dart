@@ -35,6 +35,7 @@ class _SearchIdleState extends State<SearchIdle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FBFF),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -53,6 +54,11 @@ class _SearchIdleState extends State<SearchIdle> {
               title: CupertinoSearchTextField(
                 controller: searchcontroller,
                 backgroundColor: Appcolors.kgreenlightColor.withOpacity(0.4),
+                placeholder: "Search categories...",
+                placeholderStyle: TextStyle(
+                  color: Appcolors.kprimarycolor.withOpacity(0.6),
+                  fontSize: 16,
+                ),
                 prefixIcon: const Icon(
                   CupertinoIcons.search,
                   color: Appcolors.kprimarycolor,
@@ -64,7 +70,7 @@ class _SearchIdleState extends State<SearchIdle> {
                 style: const TextStyle(color: Appcolors.ktextColor),
                 onChanged: (value) {},
               ),
-              backgroundColor: Appcolors.kbackgroundcolor,
+              backgroundColor: const Color(0xFFF8FBFF),
             ),
             // Add space below the search bar
             const SliverToBoxAdapter(

@@ -226,7 +226,7 @@ class ScreenProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Appcolors.kbackgroundcolor,
+      backgroundColor: const Color(0xFFF8FBFF),
       body: Column(
         children: [
           // Top Profile Section with Wave Background
@@ -408,17 +408,16 @@ class ScreenProfilePage extends StatelessWidget {
       ),
     );
   }
+
 // Logout Function
-Future<void> _logout(BuildContext context) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('selectedLanguage');
+  Future<void> _logout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('selectedLanguage');
 
-  Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(builder: (context) => ScreenLoginpage()),
-    (route) => false,
-  );
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => ScreenLoginpage()),
+      (route) => false,
+    );
+  }
 }
-}
-
-
