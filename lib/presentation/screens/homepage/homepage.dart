@@ -599,11 +599,13 @@ class _ScreenHomePageState extends State<ScreenHomePage>
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
+                // const Color(0xFF667EEA),
+                // const Color(0xFF764BA2),
                 Appcolors.kprimarycolor,
                 Appcolors.kgreenlightColor,
-                // Color(0xFF4CAF50),
-                // Color(0xFF66BB6A),
-                Color.fromARGB(255, 129, 199, 193),
+                // // Color(0xFF4CAF50),
+                // // Color(0xFF66BB6A),
+                // Color.fromARGB(255, 129, 199, 193),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -683,6 +685,8 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                     // Color(0xFF4CAF50),
                     // Color(0xFF66BB6A),
                     // Color(0xFF81C784),
+                    // const Color(0xFF667EEA),
+                    // const Color(0xFF764BA2),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -1170,12 +1174,12 @@ class _ScreenHomePageState extends State<ScreenHomePage>
     } else if (state is ContentDownloadSuccessState) {
       return Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color.fromARGB(255, 255, 255, 255),
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
+              blurRadius: 4,
               offset: const Offset(0, 2),
             ),
           ],
@@ -1184,7 +1188,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
           icon: const Icon(
             Icons.more_vert,
             color: Appcolors.kprimarycolor,
-            size: 24,
+            size: 18,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

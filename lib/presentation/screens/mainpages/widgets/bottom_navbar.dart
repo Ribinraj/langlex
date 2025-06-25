@@ -1,73 +1,3 @@
-
-// // import 'package:flutter/material.dart';
-// // import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-// // import 'package:langlex/core/colors.dart';
-// // import 'package:langlex/presentation/screens/homepage/homepage.dart';
-// // import 'package:langlex/presentation/screens/profilepage/profilepage_screen.dart';
-// // import 'package:langlex/presentation/screens/searchpage/searchpage_sreen.dart';
-
-// // final ValueNotifier<int> currentPage = ValueNotifier(0);
-
-// // class Screenmainpage extends StatefulWidget {
-// //   const Screenmainpage({super.key});
-
-// //   @override
-// //   State<Screenmainpage> createState() => _SCreenmainpageState();
-// // }
-
-// // class _SCreenmainpageState extends State<Screenmainpage> {
-// //   final List<Widget> pages = [
-// //     ScreenHomePage(),
-// //     ScreenSearchPage(),
-// //     const ScreenProfilePage(),
-// //     //const ScreenUserProfile(),
-// //   ];
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       body: ValueListenableBuilder<int>(
-// //         valueListenable: currentPage,
-// //         builder: (context, value, child) => IndexedStack(
-// //           index: value,
-// //           children: pages,
-// //         ),
-// //       ),
-// //       bottomNavigationBar: CurvedNavigationBar(
-// //         backgroundColor: Appcolors.kgreenlightColor,
-// //         buttonBackgroundColor: Appcolors.kprimarycolor,
-// //         color: Appcolors.kprimarycolor,
-// //         height: 55,
-// //         index: currentPage.value,
-// //         items: const <Widget>[
-// //           Icon(
-// //             Icons.home,
-// //             size: 30,
-// //             color: Appcolors.kwhiteColor,
-// //           ),
-// //           Icon(
-// //             Icons.search,
-// //             size: 30,
-// //             color: Appcolors.kwhiteColor,
-// //           ),
-// //           // Icon(
-// //           //   Icons.add,
-// //           //   size: 30,
-// //           //   color: Appcolors.kwhiteColor,
-// //           // ),
-// //           Icon(
-// //             Icons.person,
-// //             size: 30,
-// //             color: Appcolors.kwhiteColor,
-// //           )
-// //         ],
-// //         onTap: (index) {
-// //           currentPage.value = index;
-// //         },
-// //       ),
-// //     );
-// //   }
-// // }
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -154,7 +84,7 @@ class Screenmainpage extends StatelessWidget {
   final PageController _pageController = PageController();
   final List<Widget> pages = [
     ScreenHomePage(),
-    ScreenSearchPage(),
+    const ScreenSearchPage(),
     const ScreenProfilePage(),
   ];
 
@@ -171,34 +101,43 @@ class Screenmainpage extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: pages,
               onPageChanged: (index) {
-                context.read<BottomNavigationBloc>()
+                context
+                    .read<BottomNavigationBloc>()
                     .add(NavigateToPageEvent(pageIndex: index));
               },
             ),
           );
         },
       ),
-      bottomNavigationBar: BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
+      bottomNavigationBar:
+          BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
         builder: (context, state) {
           return CurvedNavigationBar(
-              backgroundColor: Appcolors.kgreenlightColor,
-        buttonBackgroundColor: Appcolors.kprimarycolor,
-        color: Appcolors.kprimarycolor,
-        height: 55,
+            backgroundColor: Appcolors.kgreenlightColor,
+            buttonBackgroundColor: Appcolors.kprimarycolor,
+            color: Appcolors.kprimarycolor,
+            height: 55,
             index: state.currentPageIndex,
             items: const <Widget>[
-              Icon(Icons.home,
+              Icon(
+                Icons.home,
                 size: 30,
-         color: Appcolors.kwhiteColor,),
-              Icon(Icons.search,
+                color: Appcolors.kwhiteColor,
+              ),
+              Icon(
+                Icons.search,
                 size: 30,
-          color: Appcolors.kwhiteColor,),
-              Icon(Icons.person,
+                color: Appcolors.kwhiteColor,
+              ),
+              Icon(
+                Icons.person,
                 size: 30,
-           color: Appcolors.kwhiteColor,),
+                color: Appcolors.kwhiteColor,
+              ),
             ],
             onTap: (index) {
-              context.read<BottomNavigationBloc>()
+              context
+                  .read<BottomNavigationBloc>()
                   .add(NavigateToPageEvent(pageIndex: index));
               _pageController.jumpToPage(index);
             },
