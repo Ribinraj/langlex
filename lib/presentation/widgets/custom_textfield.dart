@@ -41,27 +41,26 @@ class CustomTextfield extends StatelessWidget {
             suffixIcon: suffixIcon,
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-            labelText: labelText,
-            labelStyle: const TextStyle(
+            hintText: labelText,
+            hintStyle: const TextStyle(
                 color: Appcolors.khinttextColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 16),
             enabledBorder: OutlineInputBorder(
-                borderRadius:BorderRadiusStyles.kradius30(),
+                borderRadius: BorderRadiusStyles.kradius30(),
                 borderSide: BorderSide.none),
             focusedBorder: OutlineInputBorder(
-                borderRadius:BorderRadiusStyles.kradius30(),
+                borderRadius: BorderRadiusStyles.kradius30(),
                 borderSide: const BorderSide(
                     color: Appcolors.korangelightColor, width: 1.5)),
             errorBorder: OutlineInputBorder(
-                borderRadius:BorderRadiusStyles.kradius30(),
+                borderRadius: BorderRadiusStyles.kradius30(),
                 borderSide:
                     const BorderSide(color: Appcolors.kredcolor, width: 1.5)),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadiusStyles.kradius30(),
-              borderSide:
-                    const BorderSide(color: Appcolors.kredcolor, width: 1.5)
-            )),
+                borderRadius: BorderRadiusStyles.kradius30(),
+                borderSide:
+                    const BorderSide(color: Appcolors.kredcolor, width: 1.5))),
       ),
     );
   }

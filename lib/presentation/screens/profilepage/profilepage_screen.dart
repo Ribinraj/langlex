@@ -214,6 +214,7 @@ import 'package:langlex/core/colors.dart';
 import 'package:langlex/presentation/screens/editprofile_page/editprofile.dart';
 import 'package:langlex/presentation/screens/loginpage/loginpage.dart';
 import 'package:langlex/presentation/screens/quiz_screen/quiz_screen.dart';
+import 'package:langlex/presentation/widgets/custom_navigation.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -1103,7 +1104,7 @@ class _ScreenProfilePageState extends State<ScreenProfilePage>
   Future<void> _logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('selectedLanguage');
-
+    navigateToMainPage(context, 0);
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const ScreenLoginpage()),
