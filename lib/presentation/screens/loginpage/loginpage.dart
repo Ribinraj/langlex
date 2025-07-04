@@ -1,12 +1,20 @@
+import 'dart:developer';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
+import 'package:langlex/presentation/blocs/send_otp_bloc/send_otp_bloc.dart';
 
-import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
+import 'package:langlex/presentation/screens/verify_newuser/verify_newuser.dart';
+import 'package:langlex/presentation/screens/verify_otp_page/verify_otp_page.dart';
 
 import 'package:langlex/presentation/widgets/custom_elevatedbutton.dart';
+import 'package:langlex/presentation/widgets/custom_loadingbutton.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
 import 'package:langlex/presentation/widgets/custom_snakebar.dart';
 import 'package:langlex/presentation/widgets/custom_textfield.dart';
@@ -21,7 +29,7 @@ class ScreenLoginpage extends StatefulWidget {
 
 class _ScreenLoginpageState extends State<ScreenLoginpage>
     with SingleTickerProviderStateMixin {
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController mobilenumberController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   late AnimationController _animationController;
@@ -58,7 +66,7 @@ class _ScreenLoginpageState extends State<ScreenLoginpage>
   @override
   void dispose() {
     _animationController.dispose();
-    usernameController.dispose();
+    mobilenumberController.dispose();
     super.dispose();
   }
 
@@ -98,7 +106,7 @@ class _ScreenLoginpageState extends State<ScreenLoginpage>
                           color: Colors.white.withOpacity(0.15),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withOpacity(0.18),
                               blurRadius: 20,
                               spreadRadius: 0,
                             ),
@@ -119,90 +127,135 @@ class _ScreenLoginpageState extends State<ScreenLoginpage>
                   // Login Form
                   SlideTransition(
                     position: _slideAnimation,
-                    child: Container(
-                      padding: const EdgeInsets.all(32),
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                          width: 1,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 20,
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          // Welcome Text
-                          FadeTransition(
-                            opacity: _fadeAnimation,
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Welcome Back',
-                                  style: TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    shadows: [
-                                      Shadow(
-                                        offset: const Offset(0, 2),
-                                        blurRadius: 4,
-                                        color: Colors.black.withOpacity(0.8),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Enter your mobile number to continue',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white.withOpacity(0.8),
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          padding: const EdgeInsets.all(32),
+                          margin: const EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 21, 132, 78)
+                                .withOpacity(.3),
+                            borderRadius: BorderRadius.circular(24),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
+                              width: 1,
                             ),
                           ),
+                          child: Column(
+                            children: [
+                              // Welcome Text
+                              FadeTransition(
+                                opacity: _fadeAnimation,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Welcome Back',
+                                      style: TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        shadows: [
+                                          Shadow(
+                                            offset: const Offset(0, 2),
+                                            blurRadius: 4,
+                                            color:
+                                                Colors.black.withOpacity(0.8),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Enter your mobile number to continue',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white.withOpacity(0.8),
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
 
-                          ResponsiveSizedBox.height10,
+                              ResponsiveSizedBox.height10,
 
-                          // Mobile Number Field
-                          CustomTextfield(
-                            validator: validateUsername,
-                            controller: usernameController,
-                            labelText: 'Enter Mobile Number',
-                            textInputType: TextInputType.phone,
+                              // Mobile Number Field
+                              CustomTextfield(
+                                validator: validateMobileNumber,
+                                controller: mobilenumberController,
+                                labelText: 'Enter Mobile Number',
+                                textInputType: TextInputType.phone,
+                              ),
+
+                              ResponsiveSizedBox.height10,
+
+                              // Sign In Button
+                              BlocConsumer<SendOtpBloc, SendOtpState>(
+                                listener: (context, state) {
+                                  if (state is SendOtpSuccessState) {
+                                    log('usertype${state.customerType}');
+                                    if (state.customerType == 'New') {
+                                      CustomNavigation
+                                          .pushReplaceWithTransition(
+                                              context,
+                                              ScreenNewuserVerification(
+                                                  customerId: state.userId,
+                                                  mobileNumber:
+                                                      mobilenumberController
+                                                          .text));
+                                    } else {
+                                      CustomNavigation
+                                          .pushReplaceWithTransition(
+                                              context,
+                                              ScreenOtpVerification(
+                                                  customerId: state.userId,
+                                                  mobileNumber:
+                                                      mobilenumberController
+                                                          .text));
+                                    }
+                                  } else if (state is SendOtpErrorState) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(state.message),
+                                    ));
+                                  }
+                                },
+                                builder: (context, state) {
+                                  if (state is SendOtpLoadingState) {
+                                    return CustomLoadingElevatedButton(
+                                        loading: SpinKitCircle(
+                                          size: 15,
+                                          color: Appcolors.korangeColor,
+                                        ),
+                                        color: Appcolors.kwhiteColor);
+                                  }
+                                  return CustomElevatedButton(
+                                    onPressed: () {
+                                      FocusScope.of(context).unfocus();
+                                      if (formKey.currentState!.validate()) {
+                                        context.read<SendOtpBloc>().add(
+                                            SendOtpButtonClickEvent(
+                                                mobileNumber:
+                                                    mobilenumberController
+                                                        .text));
+                                      } else {
+                                        customSnackbar(
+                                          context,
+                                          'Please enter a valid mobile number',
+                                          Appcolors.kredcolor,
+                                        );
+                                      }
+                                    },
+                                    buttonText: 'Continue',
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-
-                          ResponsiveSizedBox.height10,
-
-                          // Sign In Button
-                          CustomElevatedButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate() &&
-                                  usernameController.text == 'ribin') {
-                                CustomNavigation.replace(
-                                    context, Screenmainpage());
-                              } else {
-                                customSnackbar(
-                                  context,
-                                  'Please enter a valid mobile number',
-                                  Appcolors.kredcolor,
-                                );
-                              }
-                            },
-                            buttonText: 'Sign In',
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

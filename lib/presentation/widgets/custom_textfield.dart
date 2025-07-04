@@ -33,7 +33,7 @@ class CustomTextfield extends StatelessWidget {
           fontSize: 15,
         ),
         decoration: InputDecoration(
-            fillColor: Appcolors.kwhiteColor,
+            fillColor: const Color.fromARGB(255, 229, 226, 226),
             filled: true,
             // border: InputBorder.none,
             isDense: true,
