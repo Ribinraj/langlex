@@ -37,25 +37,31 @@ class Loginrepo {
       Response response = await dio
           .post(Endpoints.sendOtp, data: {"mobileNumber": mobileNumber});
       final responseData = response.data;
-      if (!responseData["error"] && responseData["statusCode"] == 200) {
-        final usererId = responseData["data"]["userId"].toString();
-        final customerType = responseData["data"]["customerType"].toString();
-        log("otp:${responseData["data"]["otp"]}");
+      if (!responseData["error"] && responseData["status"] == 200) {
+        final data = responseData["data"] ?? {};
+        final user = data["user"];
+        final userId =
+            (user != null && user["id"] != null) ? user["id"].toString() : '';
+        
+        final customerType =
+            responseData["data"]["customerType"]?.toString() ?? '';
+  
         log(customerType.toString());
         return ApiResponse(
-            data: {"userId": usererId, "customerType": customerType},
+            data: {"userId": userId, "customerType": customerType},
             message: responseData["message"] ?? 'Success',
             error: false,
-            status: responseData["statusCode"]);
+            status: responseData["status"]);
       } else {
         return ApiResponse(
             data: null,
             message: responseData["message"],
             error: true,
-            status: responseData["statusCode"]);
+            status: responseData["status"]);
       }
     } on DioException catch (e) {
       debugPrint(e.message);
+      log("flsdjflksdjflkdsjfks");
       log(e.toString());
       return ApiResponse(
           message: 'Network or server error occured', error: true, status: 500);
@@ -63,26 +69,73 @@ class Loginrepo {
   }
 
   //////////------------verifyotp-----------/////////////////
-  Future<ApiResponse> verifyotp({required VerifyOtpmodel user}) async {
-    log('pushtoken when login ${user.pushToken}');
+  Future<ApiResponse> verifyexistinguser(
+      {required String userId, required String otp}) async {
+    log(userId);
+    log(otp);
     try {
-      Response response = await dio.post(Endpoints.verifyotpExistinguser, data: user);
+      Response response = await dio.post(Endpoints.verifyotp,
+          data: {"id": userId, "otp": otp});
       final responseData = response.data;
-      log('responsestatus${responseData['status']}');
-      log('usertoken${responseData["data"]["token"]}');
+      log('responsestatus${responseData["statusCode"]}');
+      //log('usertoken${responseData["data"]["token"]}');
       if (!responseData["error"] && responseData["status"] == 200) {
+        final data = responseData["data"];
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences..setString('USER_TOKEN', responseData["data"]["token"]);
+        preferences.setString('USER_TOKEN', data["token"]);
         return ApiResponse(
           data: null,
-          message: responseData['messages'] ?? 'Success',
+          message: responseData['message'] ?? 'Success',
           error: false,
           status: responseData["status"],
         );
       } else {
         return ApiResponse(
           data: null,
-          message: responseData['messages'] ?? 'Something went wrong',
+          message: responseData['message'] ?? 'Something went wrong',
+          error: true,
+          status: responseData["status"],
+        );
+      }
+    } on DioException catch (e) {
+      debugPrint(e.message);
+      log("kkkkkkkkkkkkkkkk");
+
+      log(e.toString());
+      return ApiResponse(
+        data: null,
+        message: 'Network or server error occurred',
+        error: true,
+        status: 500,
+      );
+    }
+  }
+
+  //////////------------verifyNewuser-----------/////////////////
+  Future<ApiResponse> verifynewuser({required UserRegisterModel user}) async {
+    try {
+      Response response = await dio.post(Endpoints.userRegister, data: user);
+      final responseData = response.data;
+      log('responsestatus${responseData["status"]}');
+      //log('usertoken${responseData["data"]["token"]}');
+      log(responseData.toString());
+      if (!responseData["error"] && responseData["status"] == 201) {
+        final data = responseData["data"] ?? {};
+        final user = data["user"];
+        final userId =
+            (user != null && user["id"] != null) ? user["id"].toString() : '';
+        // SharedPreferences preferences = await SharedPreferences.getInstance();
+        // preferences.setString('USER_TOKEN', responseData["token"]);
+        return ApiResponse(
+          data: userId,
+          message: responseData['message'] ?? 'Success',
+          error: false,
+          status: responseData["status"],
+        );
+      } else {
+        return ApiResponse(
+          data: null,
+          message: responseData['message'] ?? 'Something went wrong',
           error: true,
           status: responseData["status"],
         );

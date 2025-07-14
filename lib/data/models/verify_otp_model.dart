@@ -1,25 +1,21 @@
-class VerifyOtpmodel {
-  final String userId;
-  final String userLoginOTP;
-  final String? userFullName;
-  final String? userOccupation;
-  final String pushToken;
+class UserRegisterModel {
+  final String userName;
+  final String emailAdress;
+  final String mobileNumber;
 
-  VerifyOtpmodel({
-    required this.userId,
-    required this.userLoginOTP,
-    this.userFullName,
-    this.userOccupation,
-    required this.pushToken,
-  });
+  UserRegisterModel({required this.userName, required this.emailAdress, required this.mobileNumber});
+
+
+ 
+
+
 
   Map<String, dynamic> toJson() {
     return {
-      'userId': userId,
-      'userLoginOTP': userLoginOTP,
-      if (userFullName != null) 'userFullName': userFullName,
-      if (userOccupation != null) 'userOccupation': userOccupation,
-      'pushToken': pushToken,
+      'userName': userName,
+      'emailAddress': emailAdress,
+      'mobileNumber':mobileNumber,
+     
     };
   }
 }

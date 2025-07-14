@@ -202,7 +202,7 @@ class _ScreenLoginpageState extends State<ScreenLoginpage>
                                           .pushReplaceWithTransition(
                                               context,
                                               ScreenNewuserVerification(
-                                                  customerId: state.userId,
+                                                  // customerId: state.userId,
                                                   mobileNumber:
                                                       mobilenumberController
                                                           .text));

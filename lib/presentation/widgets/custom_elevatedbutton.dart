@@ -3,7 +3,7 @@ import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String buttonText;
   final Color backgroundcolor;
 

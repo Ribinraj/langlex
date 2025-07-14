@@ -1,7 +1,14 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:langlex/presentation/blocs/send_otp_bloc/send_otp_bloc.dart';
+import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dart';
+import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
+import 'package:langlex/presentation/widgets/custom_loadingbutton.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'package:langlex/core/colors.dart';
@@ -18,7 +25,8 @@ class ScreenOtpVerification extends StatefulWidget {
 
   const ScreenOtpVerification({
     super.key,
-    required this.mobileNumber, required this.customerId,
+    required this.mobileNumber,
+    required this.customerId,
   });
 
   @override
@@ -123,13 +131,15 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
 
     // Reset and restart the timer
     _resetResendTimer();
-
-    // Show success message
-    customSnackbar(
-      context,
-      'OTP sent successfully',
-      Appcolors.kgreenlightColor,
-    );
+    context
+        .read<SendOtpBloc>()
+        .add(SendOtpButtonClickEvent(mobileNumber: widget.mobileNumber));
+    // // Show success message
+    // customSnackbar(
+    //   context,
+    //   'OTP sent successfully',
+    //   Appcolors.kgreenlightColor,
+    // );
   }
 
   void _verifyOtp() {
@@ -355,10 +365,50 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
                             // Verify Button
                             FadeTransition(
                               opacity: _fadeAnimation,
-                              child: CustomElevatedButton(
-                                // onPressed: _isButtonEnabled ? _verifyOtp : null,
-                                onPressed: () {},
-                                buttonText: 'Verify OTP',
+                              child:
+                                  BlocConsumer<VerifyUserBloc, VerifyUserState>(
+                                listener: (context, state) {
+                                  if (state is VerifyUserSuccessState) {
+                                    log('success');
+                                    CustomNavigation.pushReplaceWithTransition(
+                                        context, ScreenStudentRegistration());
+                                  } else if (state is VerifyUserErrorState) {
+                                    customSnackbar(
+                                      context,
+                                      state.message,
+                                      Appcolors.kredcolor,
+                                    );
+                                  }
+                                },
+                                builder: (context, state) {
+                                  if (state is VerifyUserLoadingState) {
+                                    return const CustomLoadingElevatedButton(
+                                        loading: SpinKitCircle(
+                                          size: 15,
+                                          color: Appcolors.korangeColor,
+                                        ),
+                                        color: Appcolors.kwhiteColor);
+                                  }
+                                  return CustomElevatedButton(
+                                    onPressed: _isButtonEnabled
+                                        ? () {
+                                            if (_currentOtp.length == 6) {
+                                              context
+                                                  .read<VerifyUserBloc>()
+                                                  .add(VerifyExistingUserEvent(
+                                                      userId: widget.customerId,
+                                                      otp: _currentOtp));
+                                            } else {
+                                              customSnackbar(
+                                                  context,
+                                                  'Please Enter Valid OTP',
+                                                  Appcolors.kredcolor);
+                                            }
+                                          }
+                                        : null,
+                                    buttonText: 'Verify OTP',
+                                  );
+                                },
                               ),
                             ),
 
@@ -377,21 +427,37 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
                                       color: Colors.white.withOpacity(0.7),
                                     ),
                                   ),
-                                  TextButton(
-                                    onPressed:
-                                        _resendTimer == 0 ? _resendOtp : null,
-                                    child: Text(
-                                      _resendTimer > 0
-                                          ? '$_resendTimer seconds'
-                                          : 'Resend',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: _resendTimer > 0
-                                            ? Colors.white.withOpacity(0.5)
-                                            : Colors.white,
-                                      ),
-                                    ),
+                                  BlocConsumer<SendOtpBloc, SendOtpState>(
+                                    listener: (context, state) {
+                                          if (state is SendOtpSuccessState) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("OTP sent successfully")),
+                            );
+                          } else if (state is SendOtpErrorState) {
+                                                       ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)),
+                            );
+                          }
+                                    },
+                                    builder: (context, state) {
+                                      return TextButton(
+                                        onPressed: _resendTimer == 0
+                                            ? _resendOtp
+                                            : null,
+                                        child: Text(
+                                          _resendTimer > 0
+                                              ? '$_resendTimer seconds'
+                                              : 'Resend',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            color: _resendTimer > 0
+                                                ? Colors.white.withOpacity(0.5)
+                                                : Colors.white,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),

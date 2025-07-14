@@ -14,10 +14,15 @@ import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigat
 import 'package:langlex/presentation/blocs/connectivity_bloc/connectivity_bloc.dart';
 import 'package:langlex/presentation/blocs/image_picker_bloc/image_picker_bloc.dart';
 import 'package:langlex/presentation/blocs/quiz_answer_selection_bloc/qiuz_answer_selection_bloc.dart';
+import 'package:langlex/presentation/blocs/user_register_bloc/user_register_bloc.dart';
+import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dart';
 import 'package:langlex/presentation/cubits/language_change.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
+import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
+import 'package:langlex/presentation/screens/signup_page/screen_signup_page.dart';
 
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
+import 'package:langlex/presentation/screens/verify_newuser/verify_newuser.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,8 +55,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => FetchdataFromDatabaseBloc()),
         BlocProvider(create: (context) => BottomNavigationBloc()),
         BlocProvider(create: (context) => ConnectivityBloc()),
-          BlocProvider(create: (context) =>SendOtpBloc(repository: loginrepo)),
-            BlocProvider(create: (context) => LanguageSelectionBloc()),
+        BlocProvider(create: (context) => SendOtpBloc(repository: loginrepo)),
+        BlocProvider(
+            create: (context) => VerifyUserBloc(repository: loginrepo)),
+             BlocProvider(
+            create: (context) => UserRegisterBloc(repository: loginrepo)),
+        BlocProvider(create: (context) => LanguageSelectionBloc()),
       ],
       child: BlocBuilder<LanguageCubit, String>(
         builder: (context, languageCode) {
@@ -67,7 +76,8 @@ class MyApp extends StatelessWidget {
                 scaffoldBackgroundColor: Appcolors.kbackgroundcolor,
                 useMaterial3: true,
               ),
-              home: const SplashPage(),
+              // home: const SplashPage(),
+              home:SplashPage()
             ),
           );
         },
