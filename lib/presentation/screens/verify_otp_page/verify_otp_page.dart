@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:langlex/presentation/blocs/resend_otp_bloc/resend_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/send_otp_bloc/send_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dart';
 import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
@@ -132,8 +133,8 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
     // Reset and restart the timer
     _resetResendTimer();
     context
-        .read<SendOtpBloc>()
-        .add(SendOtpButtonClickEvent(mobileNumber: widget.mobileNumber));
+        .read<ResendOtpBloc>()
+        .add(ResendOtpButtonClickEvent(mobileNumber: widget.mobileNumber));
     // // Show success message
     // customSnackbar(
     //   context,
@@ -427,13 +428,13 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
                                       color: Colors.white.withOpacity(0.7),
                                     ),
                                   ),
-                                  BlocConsumer<SendOtpBloc, SendOtpState>(
+                                  BlocConsumer<ResendOtpBloc, ResendOtpState>(
                                     listener: (context, state) {
-                                          if (state is SendOtpSuccessState) {
+                                          if (state is ResendOtpSuccessState) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("OTP sent successfully")),
                             );
-                          } else if (state is SendOtpErrorState) {
+                          } else if (state is ResendOtpErrorState) {
                                                        ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(state.message)),
                             );

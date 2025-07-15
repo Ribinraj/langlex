@@ -77,7 +77,7 @@ class Loginrepo {
       Response response = await dio.post(Endpoints.verifyotp,
           data: {"id": userId, "otp": otp});
       final responseData = response.data;
-      log('responsestatus${responseData["statusCode"]}');
+     // log('responsestatus${responseData["statusCode"]}');
       //log('usertoken${responseData["data"]["token"]}');
       if (!responseData["error"] && responseData["status"] == 200) {
         final data = responseData["data"];
@@ -153,15 +153,16 @@ class Loginrepo {
   }
 
 //////////---------------resendotp--------------------////////
-  Future<ApiResponse<String>> resendotp({required String userId}) async {
+  Future<ApiResponse<String>> resendotp({required String mobilenumber}) async {
     try {
       Response response =
-          await dio.post(Endpoints.resendotp, data: {"userId": userId});
+          await dio.post(Endpoints.resendotp, data: {"mobileNumber": mobilenumber});
 
       final responseData = response.data;
       if (!responseData["error"] && responseData["status"] == 200) {
+        final id=responseData["data"]["user"]["id"];
         return ApiResponse(
-          data: responseData["data"]["userId"],
+          data:id.toString(),
           message: responseData['message'] ?? 'Success',
           error: false,
           status: responseData["status"],

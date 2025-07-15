@@ -5,7 +5,8 @@ class Endpoints {
   static const sendOtp = 'login';
   static const verifyotp = 'verifyotp';
   static const userRegister = 'signin';
-  static const verifyotpExistinguser = 'auth/existuser';
-  static const verifyNewuser = 'auth/newuser';
-  static const resendotp = 'login/resend';
+  static const resendotp = 'resendotp';
+  static const fetchlanguages = 'languagelist';
+  // static const verifyotpExistinguser = 'auth/existuser';
+  // static const verifyNewuser = 'auth/newuser';
 }

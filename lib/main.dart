@@ -9,6 +9,7 @@ import 'package:langlex/domain/repository/login_repo.dart';
 import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
 import 'package:langlex/presentation/blocs/language_selection_bloc/languag_selection_bloc.dart';
+import 'package:langlex/presentation/blocs/resend_otp_bloc/resend_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/send_otp_bloc/send_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigation_bloc.dart';
 import 'package:langlex/presentation/blocs/connectivity_bloc/connectivity_bloc.dart';
@@ -58,6 +59,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SendOtpBloc(repository: loginrepo)),
         BlocProvider(
             create: (context) => VerifyUserBloc(repository: loginrepo)),
+               BlocProvider(
+            create: (context) => ResendOtpBloc(repository: loginrepo)),
              BlocProvider(
             create: (context) => UserRegisterBloc(repository: loginrepo)),
         BlocProvider(create: (context) => LanguageSelectionBloc()),
