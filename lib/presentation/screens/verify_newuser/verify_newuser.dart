@@ -503,7 +503,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:langlex/data/models/verify_otp_model.dart';
 import 'package:langlex/presentation/blocs/user_register_bloc/user_register_bloc.dart';
 
-import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
+
 import 'package:langlex/presentation/screens/verify_otp_page/verify_otp_page.dart';
 import 'package:langlex/presentation/widgets/custom_loadingbutton.dart';
 import 'package:langlex/presentation/widgets/custom_textfield.dart';

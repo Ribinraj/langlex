@@ -6,18 +6,18 @@ class CustomSqureElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String buttonText;
   final Color backgroundcolor;
-
-  const CustomSqureElevatedButton({
-    super.key,
-    required this.onPressed,
-    required this.buttonText,
-    required this.backgroundcolor,
-  });
+  final double height;
+  const CustomSqureElevatedButton(
+      {super.key,
+      required this.onPressed,
+      required this.buttonText,
+      required this.backgroundcolor,
+      this.height = 67});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 67,
+      height: height,
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.all(7.0),
@@ -33,7 +33,7 @@ class CustomSqureElevatedButton extends StatelessWidget {
             buttonText,
             style: const TextStyle(
                 color: Appcolors.kwhiteColor,
-                fontSize: 17,
+                fontSize: 15,
                 fontWeight: FontWeight.bold),
           ),
         ),

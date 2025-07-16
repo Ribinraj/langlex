@@ -5,9 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/domain/repository/Datadownload_repository.dart';
+import 'package:langlex/domain/repository/app_repo.dart';
 import 'package:langlex/domain/repository/login_repo.dart';
 import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
+import 'package:langlex/presentation/blocs/fetch_languages_bloc/fetch_languages_bloc.dart';
 import 'package:langlex/presentation/blocs/language_selection_bloc/languag_selection_bloc.dart';
 import 'package:langlex/presentation/blocs/resend_otp_bloc/resend_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/send_otp_bloc/send_otp_bloc.dart';
@@ -20,6 +22,7 @@ import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dar
 import 'package:langlex/presentation/cubits/language_change.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
 import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
+import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
 import 'package:langlex/presentation/screens/signup_page/screen_signup_page.dart';
 
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
@@ -38,6 +41,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ResponsiveUtils().init(context);
     final loginrepo = Loginrepo();
+    final apprepo = AppRepo();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -59,9 +63,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SendOtpBloc(repository: loginrepo)),
         BlocProvider(
             create: (context) => VerifyUserBloc(repository: loginrepo)),
-               BlocProvider(
-            create: (context) => ResendOtpBloc(repository: loginrepo)),
-             BlocProvider(
+        BlocProvider(
+            create: (context) => FetchLanguagesBloc(repository: apprepo)),
+        BlocProvider(create: (context) => ResendOtpBloc(repository: loginrepo)),
+        BlocProvider(
             create: (context) => UserRegisterBloc(repository: loginrepo)),
         BlocProvider(create: (context) => LanguageSelectionBloc()),
       ],
@@ -69,19 +74,18 @@ class MyApp extends StatelessWidget {
         builder: (context, languageCode) {
           return LocaleBuilder(
             builder: (locale) => MaterialApp(
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: Locales.delegates,
-              supportedLocales: Locales.supportedLocales,
-              locale: Locale(languageCode),
-              title: 'LangLex',
-              theme: ThemeData(
-                fontFamily: GoogleFonts.montserrat().fontFamily,
-                scaffoldBackgroundColor: Appcolors.kbackgroundcolor,
-                useMaterial3: true,
-              ),
-              // home: const SplashPage(),
-              home:SplashPage()
-            ),
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: Locales.delegates,
+                supportedLocales: Locales.supportedLocales,
+                locale: Locale(languageCode),
+                title: 'LangLex',
+                theme: ThemeData(
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                  scaffoldBackgroundColor: Appcolors.kbackgroundcolor,
+                  useMaterial3: true,
+                ),
+                // home: const SplashPage(),
+                home: ScreenUserpage()),
           );
         },
       ),

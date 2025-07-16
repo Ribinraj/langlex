@@ -9,6 +9,7 @@ import 'package:langlex/presentation/blocs/resend_otp_bloc/resend_otp_bloc.dart'
 import 'package:langlex/presentation/blocs/send_otp_bloc/send_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dart';
 import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
+import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
 import 'package:langlex/presentation/widgets/custom_loadingbutton.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -372,7 +373,7 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
                                   if (state is VerifyUserSuccessState) {
                                     log('success');
                                     CustomNavigation.pushReplaceWithTransition(
-                                        context, ScreenStudentRegistration());
+                                        context, ScreenUserpage());
                                   } else if (state is VerifyUserErrorState) {
                                     customSnackbar(
                                       context,
