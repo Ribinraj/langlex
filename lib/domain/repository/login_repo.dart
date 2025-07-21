@@ -42,10 +42,10 @@ class Loginrepo {
         final user = data["user"];
         final userId =
             (user != null && user["id"] != null) ? user["id"].toString() : '';
-        
+
         final customerType =
             responseData["data"]["customerType"]?.toString() ?? '';
-  
+
         log(customerType.toString());
         return ApiResponse(
             data: {"userId": userId, "customerType": customerType},
@@ -69,22 +69,23 @@ class Loginrepo {
   }
 
   //////////------------verifyotp-----------/////////////////
-  Future<ApiResponse> verifyexistinguser(
+  Future<ApiResponse<String>> verifyexistinguser(
       {required String userId, required String otp}) async {
     log(userId);
     log(otp);
     try {
-      Response response = await dio.post(Endpoints.verifyotp,
-          data: {"id": userId, "otp": otp});
+      Response response =
+          await dio.post(Endpoints.verifyotp, data: {"id": userId, "otp": otp});
       final responseData = response.data;
-     // log('responsestatus${responseData["statusCode"]}');
+      // log('responsestatus${responseData["statusCode"]}');
       //log('usertoken${responseData["data"]["token"]}');
       if (!responseData["error"] && responseData["status"] == 200) {
         final data = responseData["data"];
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString('USER_TOKEN', data["token"]);
+        preferences.setString('USER_ID', data['user']['id']);
         return ApiResponse(
-          data: null,
+          data: data['user']['username'],
           message: responseData['message'] ?? 'Success',
           error: false,
           status: responseData["status"],
@@ -155,14 +156,14 @@ class Loginrepo {
 //////////---------------resendotp--------------------////////
   Future<ApiResponse<String>> resendotp({required String mobilenumber}) async {
     try {
-      Response response =
-          await dio.post(Endpoints.resendotp, data: {"mobileNumber": mobilenumber});
+      Response response = await dio
+          .post(Endpoints.resendotp, data: {"mobileNumber": mobilenumber});
 
       final responseData = response.data;
       if (!responseData["error"] && responseData["status"] == 200) {
-        final id=responseData["data"]["user"]["id"];
+        final id = responseData["data"]["user"]["id"];
         return ApiResponse(
-          data:id.toString(),
+          data: id.toString(),
           message: responseData['message'] ?? 'Success',
           error: false,
           status: responseData["status"],

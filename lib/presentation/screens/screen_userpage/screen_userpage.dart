@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/presentation/blocs/register_student_bloc/register_student_bloc.dart';
+import 'package:langlex/presentation/blocs/user_register_bloc/user_register_bloc.dart';
 
 import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
 import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
 
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
+import 'package:langlex/presentation/widgets/custom_registerbutton.dart';
+import 'package:langlex/presentation/widgets/custom_snakebar.dart';
 import 'package:langlex/presentation/widgets/custom_squre_elevatedbutton.dart';
 
-class ScreenUserpage extends StatelessWidget {
-  const ScreenUserpage({super.key});
+class ScreenUserpage extends StatefulWidget {
+  final String? userName;
+  const ScreenUserpage({super.key, this.userName});
 
+  @override
+  State<ScreenUserpage> createState() => _ScreenUserpageState();
+}
+
+class _ScreenUserpageState extends State<ScreenUserpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +76,8 @@ class ScreenUserpage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text(
-                    'Ribinraj',
+                  Text(
+                    widget.userName ?? "Username",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -101,32 +112,30 @@ class ScreenUserpage extends StatelessWidget {
 
             // Student Cards
             _buildStudentCard(
-              name: 'Muhammed Akbar',
-              className: 'Grade 8A',
-              age: 14,
-              school: 'St. Mary\'s High School',
-              city: 'Malappuram',
-              color: const Color(0xFF4299E1),
+                name: 'Muhammed Akbar',
+                className: 'Grade 8A',
+                age: 14,
+                school: 'St. Mary\'s High School',
+                city: 'Malappuram',
+                color: const Color(0xFF4299E1),
                 onPressed: () {
                   CustomNavigation.pushWithTransition(
                       context, Screenmainpage());
-                }
-            ),
+                }),
 
             const SizedBox(height: 16),
 
             _buildStudentCard(
-              name: 'Musthafa',
-              className: 'Grade 6B',
-              age: 12,
-              school: 'Riverside Elementary',
-              city: 'Los Angeles',
-              color: const Color(0xFF48BB78),
+                name: 'Musthafa',
+                className: 'Grade 6B',
+                age: 12,
+                school: 'Riverside Elementary',
+                city: 'Los Angeles',
+                color: const Color(0xFF48BB78),
                 onPressed: () {
                   CustomNavigation.pushWithTransition(
                       context, Screenmainpage());
-                }
-            ),
+                }),
 
             const SizedBox(height: 16),
 
@@ -145,39 +154,12 @@ class ScreenUserpage extends StatelessWidget {
             const SizedBox(height: 30),
 
             // Register Button
-            SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                onPressed: () {
-                  CustomNavigation.pushWithTransition(
-                      context, ScreenStudentRegistration());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF667EEA),
-                  foregroundColor: Colors.white,
-                  elevation: 8,
-                  shadowColor: const Color(0xFF667EEA).withOpacity(0.4),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.person_add, size: 24),
-                    SizedBox(width: 12),
-                    Text(
-                      'Register New Student',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            RegisterButton(
+              onPressed: () {
+                CustomNavigation.pushWithTransition(
+                    context, ScreenStudentRegistration());
+              },
+            )
           ],
         ),
       ),

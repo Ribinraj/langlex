@@ -373,7 +373,7 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
                                   if (state is VerifyUserSuccessState) {
                                     log('success');
                                     CustomNavigation.pushReplaceWithTransition(
-                                        context, ScreenUserpage());
+                                        context, ScreenUserpage(userName: state.userName,));
                                   } else if (state is VerifyUserErrorState) {
                                     customSnackbar(
                                       context,

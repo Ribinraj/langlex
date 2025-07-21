@@ -511,22 +511,28 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
-import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:langlex/core/colors.dart';
+import 'package:langlex/data/models/student_model.dart';
 
 import 'package:langlex/presentation/blocs/image_picker_bloc/image_picker_bloc.dart';
+import 'package:langlex/presentation/blocs/register_student_bloc/register_student_bloc.dart';
 
 import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editing_textfield.dart';
 import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editprofile.dart';
 import 'package:langlex/presentation/screens/language_selectionpage/language_selectionpage.dart';
-
+import 'package:langlex/presentation/screens/screen_student_registration/widgets/custom_dobpickerfield.dart';
+import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
 
 import 'package:langlex/presentation/widgets/custom_imagepicker.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
+import 'package:langlex/presentation/widgets/custom_registerbutton.dart';
+import 'package:langlex/presentation/widgets/custom_registerloadingbutton.dart';
+import 'package:langlex/presentation/widgets/custom_snakebar.dart';
 
 class ScreenStudentRegistration extends StatefulWidget {
   final List<int>? selectedLanguages;
@@ -544,6 +550,7 @@ class _ScreenStudentRegistrationState extends State<ScreenStudentRegistration>
   final TextEditingController schoolController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   XFile? selectedimage;
   File? image;
@@ -743,7 +750,51 @@ class _ScreenStudentRegistrationState extends State<ScreenStudentRegistration>
             // Register Button
             FadeTransition(
               opacity: _fadeAnimation,
-              child: _buildRegisterButton(),
+              child: BlocConsumer<RegisterStudentBloc, RegisterStudentState>(
+                listener: (context, state) {
+                  if (state is RegisterStudentSuccessState) {
+                    CustomNavigation.pushReplaceWithTransition(
+                        context, ScreenUserpage());
+                    customSnackbar(
+                      context,
+                      state.message,
+                      Appcolors.kprimarycolor,
+                    );
+                  } else if (state is RegisterStudentErrorState) {
+                    customSnackbar(
+                      context,
+                      state.message,
+                      Appcolors.kprimarycolor,
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is RegisterStudentLoadingState) {
+                    return const RegisterLoadingButton();
+                  }
+                  return SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: RegisterButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate() &&
+                            widget.selectedLanguages != null) {
+                          context.read<RegisterStudentBloc>().add(
+                              RegisterStudentButtonClickEvent(
+                                  student: StudentModel(
+                                      name: nameController.text,
+                                      age: int.parse(ageController.text),
+                                      dob: dobController.text,
+                                      school: schoolController.text,
+                                      city: cityController.text,
+                                      country: countryController.text,
+                                      languageId:widget.selectedLanguages!)));
+                        }
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
 
             const SizedBox(height: 16),
@@ -850,7 +901,12 @@ class _ScreenStudentRegistrationState extends State<ScreenStudentRegistration>
         ),
 
         const SizedBox(height: 20),
-
+        _buildAnimatedField(
+          label: 'Date of Birth',
+          child: DobPickerField(dobController: dobController),
+          icon: Icons.calendar_today_outlined,
+        ),
+        const SizedBox(height: 20),
         // Age Field
         _buildAnimatedField(
           label: 'Age',
@@ -1052,75 +1108,6 @@ class _ScreenStudentRegistrationState extends State<ScreenStudentRegistration>
         ),
       ),
     );
-  }
-
-  Widget _buildRegisterButton() {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: ElevatedButton(
-        onPressed: () {
-          if (formKey.currentState!.validate() &&
-              widget.selectedLanguages!.isNotEmpty) {
-            // Handle registration
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF667EEA),
-          foregroundColor: Colors.white,
-          elevation: 8,
-          shadowColor: const Color(0xFF667EEA).withOpacity(0.4),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.person_add, size: 24),
-            SizedBox(width: 12),
-            Text(
-              'Register New Student',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    // return Container(
-    //   width: double.infinity,
-    //   decoration: BoxDecoration(
-    //     borderRadius: BorderRadius.circular(12),
-    //     gradient: const LinearGradient(
-    //       colors: [
-    //         Appcolors.kprimarycolor,
-    //         Appcolors.kgreenlightColor,
-    //       ],
-    //       begin: Alignment.centerLeft,
-    //       end: Alignment.centerRight,
-    //     ),
-    //     boxShadow: [
-    //       BoxShadow(
-    //         color: Appcolors.kprimarycolor.withOpacity(0.3),
-    //         blurRadius: 15,
-    //         spreadRadius: 2,
-    //         offset: const Offset(0, 5),
-    //       ),
-    //     ],
-    //   ),
-    //   child: CustomElevatedButton(
-    //     onPressed: () {
-    //       if (formKey.currentState!.validate() &&
-    //           widget.selectedLanguages!.isNotEmpty) {
-    //         // Handle registration
-    //       }
-    //     },
-    //     buttonText: 'Register Student',
-    //   ),
-    // );
   }
 
   Widget _buildFooterText() {

@@ -25,7 +25,7 @@ class VerifyUserBloc extends Bloc<VerifyUserEvent, VerifyUserState> {
       final response = await repository.verifyexistinguser(
           userId: event.userId, otp: event.otp);
       if (!response.error && response.status == 200) {
-        emit(VerifyUserSuccessState());
+        emit(VerifyUserSuccessState(userName: response.data!));
       } else {
         emit(VerifyUserErrorState(message: response.message));
       }

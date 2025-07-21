@@ -21,12 +21,11 @@ import 'package:langlex/presentation/blocs/user_register_bloc/user_register_bloc
 import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dart';
 import 'package:langlex/presentation/cubits/language_change.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
-import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
-import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
-import 'package:langlex/presentation/screens/signup_page/screen_signup_page.dart';
 
+import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
-import 'package:langlex/presentation/screens/verify_newuser/verify_newuser.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

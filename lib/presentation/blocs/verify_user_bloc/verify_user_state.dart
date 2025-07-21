@@ -8,7 +8,9 @@ final class VerifyUserInitial extends VerifyUserState {}
 final class VerifyUserLoadingState extends VerifyUserState {}
 
 final class VerifyUserSuccessState extends VerifyUserState {
+  final String userName;
 
+  VerifyUserSuccessState({required this.userName});
 }
 
 final class VerifyUserErrorState extends VerifyUserState {

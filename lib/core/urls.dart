@@ -7,6 +7,7 @@ class Endpoints {
   static const userRegister = 'signin';
   static const resendotp = 'resendotp';
   static const fetchlanguages = 'languagelist';
+  static const registerstudent = 'userkid';
   // static const verifyotpExistinguser = 'auth/existuser';
   // static const verifyNewuser = 'auth/newuser';
 }
