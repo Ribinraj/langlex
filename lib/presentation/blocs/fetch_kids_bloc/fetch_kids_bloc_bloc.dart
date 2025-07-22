@@ -18,6 +18,18 @@ class FetchKidsBlocBloc extends Bloc<FetchKidsBlocEvent, FetchKidsBlocState> {
     on<FetchKidsInitialEvent>(fetchkids);
   }
 
-  FutureOr<void> fetchkids(FetchKidsInitialEvent event, Emitter<FetchKidsBlocState> emit) {
+  FutureOr<void> fetchkids(
+      FetchKidsInitialEvent event, Emitter<FetchKidsBlocState> emit) async {
+    emit(FetchKidsLoadingState());
+    try {
+      final response = await repository.fetchkidsList();
+      if (!response.error && response.status == 200) {
+        emit(FetchKidsSuccessState(students: response.data!));
+      } else {
+        emit(FetchKidsErrorState(message: response.message));
+      }
+    } catch (e) {
+      emit(FetchKidsErrorState(message: e.toString()));
+    }
   }
 }

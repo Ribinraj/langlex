@@ -65,67 +65,127 @@ class AppRepo {
       );
     }
   }
+
   ///////////---------------registerStudent----------/////////////
-  Future<ApiResponse> registerStudent(
-      {required StudentModel student}) async {
-    try {
-      final token = await getUserToken();
-
-      Response response = await dio.post(Endpoints.registerstudent,
-          options: Options(headers: {'Authorization': token}), data:student);
-
-      final responseData = response.data;
-
-      if (!responseData["error"] && responseData["status"] == 200) {
-        return ApiResponse(
-          data: null,
-          message: responseData['message'] ?? 'Success',
-          error: false,
-          status: responseData["status"],
-        );
-      } else {
-        return ApiResponse(
-          data: null,
-          message: responseData['message'] ?? 'Something went wrong',
-          error: true,
-          status: responseData["status"],
-        );
-      }
-    } on DioException catch (e) {
-      debugPrint(e.message);
-      log(e.toString());
+  Future<ApiResponse> registerStudent({required StudentModel student}) async {
+  try {
+    final token = await getUserToken();
+    
+    // Create FormData from student model
+    FormData formData = await student.toFormData();
+    
+    Response response = await dio.post(
+      Endpoints.registerstudent,
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'multipart/form-data', // Important for file uploads
+        }
+      ),
+      data: formData, // Use FormData instead of student object
+    );
+    
+    final responseData = response.data;
+    if (!responseData["error"] && responseData["status"] == 200) {
       return ApiResponse(
         data: null,
-        message: 'Network or server error occurred',
-        error: true,
-        status: 500,
+        message: responseData['message'] ?? 'Success',
+        error: false,
+        status: responseData["status"],
       );
-    } catch (e) {
-      // Add a general catch block for other exceptions
-      log("Unexpected error: $e");
+    } else {
       return ApiResponse(
         data: null,
-        message: 'Unexpected error: $e',
+        message: responseData['message'] ?? 'Something went wrong',
         error: true,
-        status: 500,
+        status: responseData["status"],
       );
     }
+  } on DioException catch (e) {
+    debugPrint(e.message);
+    log(e.toString());
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
+  } catch (e) {
+    // Add a general catch block for other exceptions
+    log("Unexpected error: $e");
+    return ApiResponse(
+      data: null,
+      message: 'Unexpected error: $e',
+      error: true,
+      status: 500,
+    );
   }
+}
+//   Future<ApiResponse> registerStudent({required StudentModel student}) async {
+//     try {
+//       final token = await getUserToken();
+
+//       Response response = await dio.post(Endpoints.registerstudent,
+//          options: Options(headers: {'Authorization': 'Bearer $token'})
+// , data: student);
+
+//       final responseData = response.data;
+
+//       if (!responseData["error"] && responseData["status"] == 200) {
+//         return ApiResponse(
+//           data: null,
+//           message: responseData['message'] ?? 'Success',
+//           error: false,
+//           status: responseData["status"],
+//         );
+//       } else {
+//         return ApiResponse(
+//           data: null,
+//           message: responseData['message'] ?? 'Something went wrong',
+//           error: true,
+//           status: responseData["status"],
+//         );
+//       }
+//     } on DioException catch (e) {
+//       debugPrint(e.message);
+//       log(e.toString());
+//       return ApiResponse(
+//         data: null,
+//         message: 'Network or server error occurred',
+//         error: true,
+//         status: 500,
+//       );
+//     } catch (e) {
+//       // Add a general catch block for other exceptions
+//       log("Unexpected error: $e");
+//       return ApiResponse(
+//         data: null,
+//         message: 'Unexpected error: $e',
+//         error: true,
+//         status: 500,
+//       );
+//     }
+//   }
+
   /////////////------------fetchStudentList-------------//////////////////
-    Future<ApiResponse<List<StudentListModel>>> fetchkidsList() async {
+  Future<ApiResponse<List<StudentListModel>>> fetchkidsList() async {
     try {
-      Response response = await dio.get(Endpoints.fetchlanguages);
+      final token = await getUserToken();
+      log(token);
+      Response response = await dio.get(Endpoints.fetchkids,
+          options: Options(headers: {'Authorization': 'Bearer $token'})
+);
       final responseData = response.data;
-      log(responseData['error'].toString());
+
       if (!responseData['error'] && responseData['status'] == 200) {
-        log(responseData['status'].toString());
+        log('studentlists${responseData['status'].toString()}');
         final List<dynamic> studenlists = responseData['data'];
         List<StudentListModel> students = studenlists
             .map((language) => StudentListModel.fromJson(language))
             .toList();
-    
+
         return ApiResponse(
-            data:students,
+            data: students,
             message: responseData['message'] ?? 'Success',
             error: false,
             status: responseData['status']);
@@ -148,6 +208,7 @@ class AppRepo {
       );
     }
   }
+
   void dispose() {
     dio.close();
   }

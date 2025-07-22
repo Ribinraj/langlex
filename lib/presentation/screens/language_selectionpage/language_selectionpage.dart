@@ -873,14 +873,14 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                   color: Appcolors.kredcolor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.error_outline,
                   size: 48,
                   color: Appcolors.kredcolor,
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Error loading languages',
                 style: TextStyle(
                   fontSize: 18,
@@ -892,7 +892,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   color: Appcolors.khinttextColor,
                 ),
@@ -969,7 +969,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
             ),
             child: Column(
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
@@ -977,7 +977,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                       color: Appcolors.korangeColor,
                       size: 24,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     Text(
                       'Select exactly 3 languages',
                       style: TextStyle(
@@ -998,7 +998,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                   ),
                   child: Text(
                     '${selectedLanguages.length}/3 selected',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: Appcolors.korangeColor,
@@ -1059,7 +1059,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                       height: 50,
                       decoration: BoxDecoration(
                         gradient: isSelected
-                            ? LinearGradient(
+                            ? const LinearGradient(
                                 colors: [
                                   Appcolors.kgreenlightColor,
                                   Appcolors.kprimarycolor,
@@ -1175,14 +1175,14 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (selectedLanguages.isNotEmpty) ...[
-                  Row(
+                  const Row(
                     children: [
                       Icon(
                         Icons.star,
                         color: Appcolors.korangeColor,
                         size: 20,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Text(
                         'Selected Languages:',
                         style: TextStyle(
@@ -1222,7 +1222,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                             const SizedBox(width: 8),
                             Text(
                               language.languageName,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: Appcolors.ktextColor,
@@ -1237,7 +1237,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                                   color: Appcolors.kredcolor.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.close,
                                   size: 16,
                                   color: Appcolors.kredcolor,
@@ -1386,15 +1386,6 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
         ScreenStudentRegistration(
           selectedLanguages: selectedLanguageIds,
         ));
-    // Example: Passing to another page
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => NextPage(languageIds: selectedLanguageIds),
-    //   ),
-    // );
 
-    // Example: Sending to API
-    // sendSelectedLanguagesToApi(selectedLanguageIds);
   }
 }

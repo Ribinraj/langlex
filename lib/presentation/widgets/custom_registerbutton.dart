@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class RegisterButton extends StatelessWidget {
-  final VoidCallback?onPressed;
+  final VoidCallback? onPressed;
   const RegisterButton({
-    super.key, this.onPressed,
+    super.key,
+    this.onPressed,
   });
 
   @override
@@ -11,6 +12,7 @@ class RegisterButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 13),
         backgroundColor: const Color(0xFF667EEA),
         foregroundColor: Colors.white,
         elevation: 8,

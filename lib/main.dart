@@ -9,8 +9,10 @@ import 'package:langlex/domain/repository/app_repo.dart';
 import 'package:langlex/domain/repository/login_repo.dart';
 import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
+import 'package:langlex/presentation/blocs/fetch_kids_bloc/fetch_kids_bloc_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_languages_bloc/fetch_languages_bloc.dart';
 import 'package:langlex/presentation/blocs/language_selection_bloc/languag_selection_bloc.dart';
+import 'package:langlex/presentation/blocs/register_student_bloc/register_student_bloc.dart';
 import 'package:langlex/presentation/blocs/resend_otp_bloc/resend_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/send_otp_bloc/send_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigation_bloc.dart';
@@ -24,8 +26,6 @@ import 'package:langlex/presentation/cubits/password_visiblity.dart';
 
 import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,6 +67,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ResendOtpBloc(repository: loginrepo)),
         BlocProvider(
             create: (context) => UserRegisterBloc(repository: loginrepo)),
+        BlocProvider(
+            create: (context) => FetchKidsBlocBloc(repository: apprepo)),
+        BlocProvider(
+            create: (context) => RegisterStudentBloc(repository: apprepo)),
         BlocProvider(create: (context) => LanguageSelectionBloc()),
       ],
       child: BlocBuilder<LanguageCubit, String>(
@@ -83,7 +87,7 @@ class MyApp extends StatelessWidget {
                   scaffoldBackgroundColor: Appcolors.kbackgroundcolor,
                   useMaterial3: true,
                 ),
-                // home: const SplashPage(),
+                // home: const SplashPage()),
                 home: ScreenUserpage()),
           );
         },
