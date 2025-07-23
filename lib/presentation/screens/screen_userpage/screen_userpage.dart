@@ -315,8 +315,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/core/urls.dart';
 import 'package:langlex/data/models/student_list_model.dart';
 import 'package:langlex/presentation/blocs/fetch_kids_bloc/fetch_kids_bloc_bloc.dart';
+import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dart';
 import 'package:langlex/presentation/screens/languagepage/languagepage.dart';
 import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
 import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
@@ -325,19 +327,25 @@ import 'package:langlex/presentation/widgets/custom_registerbutton.dart';
 import 'package:langlex/presentation/widgets/custom_squre_elevatedbutton.dart';
 
 class ScreenUserpage extends StatefulWidget {
-  final String? userName;
-  const ScreenUserpage({super.key, this.userName});
+  const ScreenUserpage({
+    super.key,
+  });
 
   @override
   State<ScreenUserpage> createState() => _ScreenUserpageState();
 }
 
 class _ScreenUserpageState extends State<ScreenUserpage> {
+   String? userName;
   @override
   void initState() {
     super.initState();
     // Trigger the event to fetch kids when the screen initializes
     context.read<FetchKidsBlocBloc>().add(FetchKidsInitialEvent());
+    final state = context.read<VerifyUserBloc>().state;
+    if (state is VerifyUserSuccessState) {
+      userName = state.userName;
+    }
   }
 
   @override
@@ -397,7 +405,7 @@ class _ScreenUserpageState extends State<ScreenUserpage> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        widget.userName ?? "Username",
+                        userName?? "Username",
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 22,
@@ -523,7 +531,8 @@ class _ScreenUserpageState extends State<ScreenUserpage> {
                           onPressed: () {
                             CustomNavigation.pushWithTransition(
                               context,
-                              ScreenLanguagePage(selectedLanguages: student.languages),
+                              ScreenLanguagePage(
+                                  selectedLanguages: student.languages),
                             );
                           },
                         ),
@@ -610,7 +619,7 @@ class _ScreenUserpageState extends State<ScreenUserpage> {
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Image.network(
-                          student.picture!,
+                          '${Endpoints.imagebaseUrl}${student.picture}',
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(

@@ -87,8 +87,8 @@ class MyApp extends StatelessWidget {
                   scaffoldBackgroundColor: Appcolors.kbackgroundcolor,
                   useMaterial3: true,
                 ),
-                // home: const SplashPage()),
-                home: ScreenUserpage()),
+                 home: const SplashPage()),
+                //home: ScreenUserpage()),
           );
         },
       ),

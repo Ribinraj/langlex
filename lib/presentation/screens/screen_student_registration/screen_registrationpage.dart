@@ -199,7 +199,7 @@ class _ScreenStudentRegistrationState extends State<ScreenStudentRegistration>
                       'Create your student profile',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Appcolors.korangeColor,
+                        color: Appcolors.kwhiteColor,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -214,9 +214,9 @@ class _ScreenStudentRegistrationState extends State<ScreenStudentRegistration>
             margin: const EdgeInsets.symmetric(horizontal: 16),
             child: LinearProgressIndicator(
               value: 0.7,
-              backgroundColor: Appcolors.kwhiteColor.withOpacity(0.8),
+              backgroundColor: Appcolors.kgreycolor.withOpacity(0.8),
               valueColor:
-                  const AlwaysStoppedAnimation<Color>(Appcolors.korangeColor),
+                  const AlwaysStoppedAnimation<Color>(Appcolors.kwhiteColor),
               minHeight: 4,
             ),
           ),
@@ -225,7 +225,7 @@ class _ScreenStudentRegistrationState extends State<ScreenStudentRegistration>
             'Step 2 of 3',
             style: TextStyle(
               fontSize: 12,
-              color: Appcolors.korangeColor,
+              color: Appcolors.kwhiteColor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -429,7 +429,21 @@ class _ScreenStudentRegistrationState extends State<ScreenStudentRegistration>
         const SizedBox(height: 20),
         _buildAnimatedField(
           label: 'Date of Birth',
-          child: DobPickerField(dobController: dobController),
+          child: DobPickerField(
+              dobController: dobController,
+              onDatePicked: (pickedDate) {
+                final currentDate = DateTime.now();
+                int age = currentDate.year - pickedDate.year;
+                if (currentDate.month < pickedDate.month ||
+                    (currentDate.month == pickedDate.month &&
+                        currentDate.day < pickedDate.day)) {
+                  age--; // Adjust if birthday hasn't occurred yet this year
+                }
+                  setState(() {
+        ageController.text = age.toString();
+      });
+              }
+              ),
           icon: Icons.calendar_today_outlined,
         ),
         const SizedBox(height: 20),

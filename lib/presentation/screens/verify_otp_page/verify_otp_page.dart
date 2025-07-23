@@ -372,8 +372,12 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
                                 listener: (context, state) {
                                   if (state is VerifyUserSuccessState) {
                                     log('success');
+                                    log('username ${state.userName}');
                                     CustomNavigation.pushReplaceWithTransition(
-                                        context, ScreenUserpage(userName: state.userName,));
+                                        context,
+                                        const ScreenUserpage(
+                                        
+                                        ));
                                   } else if (state is VerifyUserErrorState) {
                                     customSnackbar(
                                       context,
@@ -431,15 +435,20 @@ class _ScreenOtpVerificationState extends State<ScreenOtpVerification>
                                   ),
                                   BlocConsumer<ResendOtpBloc, ResendOtpState>(
                                     listener: (context, state) {
-                                          if (state is ResendOtpSuccessState) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("OTP sent successfully")),
-                            );
-                          } else if (state is ResendOtpErrorState) {
-                                                       ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.message)),
-                            );
-                          }
+                                      if (state is ResendOtpSuccessState) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              content: Text(
+                                                  "OTP sent successfully")),
+                                        );
+                                      } else if (state is ResendOtpErrorState) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              content: Text(state.message)),
+                                        );
+                                      }
                                     },
                                     builder: (context, state) {
                                       return TextButton(

@@ -68,59 +68,57 @@ class AppRepo {
 
   ///////////---------------registerStudent----------/////////////
   Future<ApiResponse> registerStudent({required StudentModel student}) async {
-  try {
-    final token = await getUserToken();
-    
-    // Create FormData from student model
-    FormData formData = await student.toFormData();
-    
-    Response response = await dio.post(
-      Endpoints.registerstudent,
-      options: Options(
-        headers: {
+    try {
+      final token = await getUserToken();
+
+      // Create FormData from student model
+      FormData formData = await student.toFormData();
+
+      Response response = await dio.post(
+        Endpoints.registerstudent,
+        options: Options(headers: {
           'Authorization': 'Bearer $token',
-          'Content-Type': 'multipart/form-data', // Important for file uploads
-        }
-      ),
-      data: formData, // Use FormData instead of student object
-    );
-    
-    final responseData = response.data;
-    if (!responseData["error"] && responseData["status"] == 200) {
-      return ApiResponse(
-        data: null,
-        message: responseData['message'] ?? 'Success',
-        error: false,
-        status: responseData["status"],
+          'Content-Type': 'multipart/form-data',
+        }),
+        data: formData,
       );
-    } else {
+
+      final responseData = response.data;
+      if (!responseData["error"] && responseData["status"] == 200) {
+        return ApiResponse(
+          data: null,
+          message: responseData['message'] ?? 'Success',
+          error: false,
+          status: responseData["status"],
+        );
+      } else {
+        return ApiResponse(
+          data: null,
+          message: responseData['message'] ?? 'Something went wrong',
+          error: true,
+          status: responseData["status"],
+        );
+      }
+    } on DioException catch (e) {
+      debugPrint(e.message);
+      log(e.toString());
       return ApiResponse(
         data: null,
-        message: responseData['message'] ?? 'Something went wrong',
+        message: 'Network or server error occurred',
         error: true,
-        status: responseData["status"],
+        status: 500,
+      );
+    } catch (e) {
+      // Add a general catch block for other exceptions
+      log("Unexpected error: $e");
+      return ApiResponse(
+        data: null,
+        message: 'Unexpected error: $e',
+        error: true,
+        status: 500,
       );
     }
-  } on DioException catch (e) {
-    debugPrint(e.message);
-    log(e.toString());
-    return ApiResponse(
-      data: null,
-      message: 'Network or server error occurred',
-      error: true,
-      status: 500,
-    );
-  } catch (e) {
-    // Add a general catch block for other exceptions
-    log("Unexpected error: $e");
-    return ApiResponse(
-      data: null,
-      message: 'Unexpected error: $e',
-      error: true,
-      status: 500,
-    );
   }
-}
 //   Future<ApiResponse> registerStudent({required StudentModel student}) async {
 //     try {
 //       final token = await getUserToken();
@@ -173,8 +171,7 @@ class AppRepo {
       final token = await getUserToken();
       log(token);
       Response response = await dio.get(Endpoints.fetchkids,
-          options: Options(headers: {'Authorization': 'Bearer $token'})
-);
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
       final responseData = response.data;
 
       if (!responseData['error'] && responseData['status'] == 200) {
