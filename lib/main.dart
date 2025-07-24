@@ -11,6 +11,7 @@ import 'package:langlex/presentation/blocs/Content_download_bloc/content_downloa
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_kids_bloc/fetch_kids_bloc_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_languages_bloc/fetch_languages_bloc.dart';
+import 'package:langlex/presentation/blocs/fetch_primarycategory_bloc.dart/fetch_primarycategory_bloc.dart';
 import 'package:langlex/presentation/blocs/language_selection_bloc/languag_selection_bloc.dart';
 import 'package:langlex/presentation/blocs/register_student_bloc/register_student_bloc.dart';
 import 'package:langlex/presentation/blocs/resend_otp_bloc/resend_otp_bloc.dart';
@@ -71,7 +72,9 @@ class MyApp extends StatelessWidget {
             create: (context) => FetchKidsBlocBloc(repository: apprepo)),
         BlocProvider(
             create: (context) => RegisterStudentBloc(repository: apprepo)),
-        BlocProvider(create: (context) => LanguageSelectionBloc()),
+                  BlocProvider(
+            create: (context) => FetchPrimarycategoryBloc(repository: apprepo)),
+        // BlocProvider(create: (context) => LanguageSelectionBloc()),
       ],
       child: BlocBuilder<LanguageCubit, String>(
         builder: (context, languageCode) {
@@ -87,8 +90,8 @@ class MyApp extends StatelessWidget {
                   scaffoldBackgroundColor: Appcolors.kbackgroundcolor,
                   useMaterial3: true,
                 ),
-                 home: const SplashPage()),
-                //home: ScreenUserpage()),
+                 //home: const SplashPage()),
+                home: ScreenUserpage()),
           );
         },
       ),

@@ -1,18 +1,19 @@
-// Step 1: Extract just the repeated container into a reusable widget
+
 import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
 
-class CategoryContainer extends StatelessWidget {
+// Updated NetworkimageCategorycontainer with network image
+class NetworkimageCategorycontainer extends StatelessWidget {
   final String title;
-  final String imagePath;
+  final String imageUrl;
   final VoidCallback onTap;
 
-  const CategoryContainer({
+  const NetworkimageCategorycontainer({
     super.key,
     required this.title,
-    required this.imagePath,
+    required this.imageUrl,
     required this.onTap,
   });
 
@@ -77,18 +78,49 @@ class CategoryContainer extends StatelessWidget {
                   ],
                 ),
                 child: ClipOval(
-                  child: Image.asset(
-                    imagePath,
+                  child: Image.network(
+                    imageUrl,
                     fit: BoxFit.cover,
-                    width: ResponsiveUtils.wp(30),
-                    height: ResponsiveUtils.wp(30),
+                    width: ResponsiveUtils.wp(25),
+                    height: ResponsiveUtils.wp(25),
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        width: ResponsiveUtils.wp(25),
+                        height: ResponsiveUtils.wp(25),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white24,
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: ResponsiveUtils.wp(25),
+                        height: ResponsiveUtils.wp(25),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white24,
+                        ),
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
               ResponsiveSizedBox.height10,
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
@@ -101,7 +133,7 @@ class CategoryContainer extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 1.0,
                     shadows: [
@@ -112,6 +144,9 @@ class CategoryContainer extends StatelessWidget {
                       ),
                     ],
                   ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

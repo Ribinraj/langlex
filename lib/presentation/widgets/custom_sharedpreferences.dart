@@ -8,3 +8,7 @@ Future<String> getUserId() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   return preferences.getString('USER_Id') ?? '';
 }
+Future<int> getLanguageId() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  return preferences.getInt('SELECTEDLANGUAGE_ID')??0;
+}
