@@ -4,13 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/responsive_utils.dart';
+import 'package:langlex/core/urls.dart';
 import 'package:langlex/presentation/blocs/fetch_primarycategory_bloc.dart/fetch_primarycategory_bloc.dart';
 
 import 'package:langlex/presentation/screens/primary_categories/widgets/networkimage_categorycontainer.dart';
+import 'package:langlex/presentation/screens/secondary_categories/secondary_categorypge.dart';
+import 'package:langlex/presentation/widgets/custom_navigation.dart';
 
 class PrimaryCategoriesPage extends StatefulWidget {
   final String heading;
-  const PrimaryCategoriesPage({super.key, required this.heading});
+
+  final int languageId;
+  const PrimaryCategoriesPage({super.key, required this.heading, required this.languageId});
 
   @override
   State<PrimaryCategoriesPage> createState() => _PrimaryCategoriesPageState();
@@ -231,8 +236,15 @@ class _PrimaryCategoriesPageState extends State<PrimaryCategoriesPage> {
                           final category = state.primaryCategories[index];
                           return NetworkimageCategorycontainer(
                             title: category.categoryName,
-                            imageUrl: category.categoryPicture,
-                            onTap: () {},
+                              imageUrl: '${Endpoints.imagebaseUrl}/${category.categoryPicture}',
+                            onTap: () {
+                              CustomNavigation.pushWithTransition(context,  SecondaryCategoriesPage(
+      heading: category.categoryName,
+      primaryCategoryId:category.primaryCategoryId,
+      languageId: widget.languageId,
+      parentCategory: widget.heading,
+    ),);
+                            },
                           );
                         },
                       ),

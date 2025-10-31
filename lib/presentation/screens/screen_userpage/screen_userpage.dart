@@ -320,7 +320,7 @@ import 'package:langlex/data/models/student_list_model.dart';
 import 'package:langlex/presentation/blocs/fetch_kids_bloc/fetch_kids_bloc_bloc.dart';
 import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dart';
 import 'package:langlex/presentation/screens/languagepage/languagepage.dart';
-import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
+
 import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
 import 'package:langlex/presentation/widgets/custom_registerbutton.dart';

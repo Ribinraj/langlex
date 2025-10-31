@@ -9,42 +9,10 @@ import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
 
 import 'package:langlex/presentation/cubits/language_change.dart';
+import 'package:langlex/presentation/screens/homepage/widgets/logout_alertbox.dart';
+import 'package:langlex/presentation/screens/loginpage/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// class AppbarSection extends StatelessWidget {
-//   final VoidCallback onDrawerButtonPressed; // Callback to open the drawer
-
-//   AppbarSection({
-//     Key? key,
-//     required this.onDrawerButtonPressed,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SliverAppBar(
-//       automaticallyImplyLeading: false,
-//       backgroundColor: Appcolors.korangeColor,
-//       title: const Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           CustomRoundImage(
-//               circleContainerSize: 44,
-//               imageUrl:
-//                   'https://w7.pngwing.com/pngs/878/170/png-transparent-student-cartoon-kids-child-people-reading-thumbnail.png'),
-//         ],
-//       ),
-//       actions: [
-//         IconButton(
-//           icon: Icon(Icons.menu), // Drawer icon
-//           onPressed: onDrawerButtonPressed,
-//         ),
-//         DropdownExample(),
-//       ],
-//       floating: true,
-//       toolbarHeight: 60,
-//     );
-//   }
-// }
 
 /////////////////////////
 class DropdownExample extends StatefulWidget {
@@ -219,7 +187,29 @@ class CustomDrawer extends StatelessWidget {
                   text: 'Logout',
                   weight: FontWeight.bold,
                   color: Appcolors.kblackColor),
-              onTap: () async {},
+              onTap: ()  {
+                            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return LogoutConfirmationDialog(onLogout: () async {
+                    try {
+                    //  await PushNotifications.instance.deleteDeviceToken();
+
+                      SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      await preferences.clear();
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const ScreenLoginpage()),
+                        (Route<dynamic> route) => false,
+                      );
+                    } catch (e) {
+                      debugPrint("Error during logout :$e");
+                    }
+                  });
+                });
+              },
             ),
             ResponsiveSizedBox.height10,
           ],

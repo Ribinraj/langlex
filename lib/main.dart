@@ -9,10 +9,12 @@ import 'package:langlex/domain/repository/app_repo.dart';
 import 'package:langlex/domain/repository/login_repo.dart';
 import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
+import 'package:langlex/presentation/blocs/bloc/knowledge_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_kids_bloc/fetch_kids_bloc_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_languages_bloc/fetch_languages_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_primarycategory_bloc.dart/fetch_primarycategory_bloc.dart';
-import 'package:langlex/presentation/blocs/language_selection_bloc/languag_selection_bloc.dart';
+import 'package:langlex/presentation/blocs/fetch_secondary_category_bloc/fetch_secondarycategory_bloc.dart';
+
 import 'package:langlex/presentation/blocs/register_student_bloc/register_student_bloc.dart';
 import 'package:langlex/presentation/blocs/resend_otp_bloc/resend_otp_bloc.dart';
 import 'package:langlex/presentation/blocs/send_otp_bloc/send_otp_bloc.dart';
@@ -25,7 +27,7 @@ import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dar
 import 'package:langlex/presentation/cubits/language_change.dart';
 import 'package:langlex/presentation/cubits/password_visiblity.dart';
 
-import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
+
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
 
 void main() async {
@@ -74,6 +76,10 @@ class MyApp extends StatelessWidget {
             create: (context) => RegisterStudentBloc(repository: apprepo)),
                   BlocProvider(
             create: (context) => FetchPrimarycategoryBloc(repository: apprepo)),
+              BlocProvider(
+            create: (context) => FetchSecondarycategoryBloc(repository: apprepo)),
+              BlocProvider(
+            create: (context) => KnowledgeBloc(repository: apprepo)),
         // BlocProvider(create: (context) => LanguageSelectionBloc()),
       ],
       child: BlocBuilder<LanguageCubit, String>(
@@ -90,8 +96,8 @@ class MyApp extends StatelessWidget {
                   scaffoldBackgroundColor: Appcolors.kbackgroundcolor,
                   useMaterial3: true,
                 ),
-                 //home: const SplashPage()),
-                home: ScreenUserpage()),
+                 home: const SplashPage()),
+               // home: ScreenUserpage()),
           );
         },
       ),

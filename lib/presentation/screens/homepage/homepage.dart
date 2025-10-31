@@ -364,12 +364,14 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                                 onTap: () {
                                   context.read<FetchPrimarycategoryBloc>().add(
                                       FetchPrimaryCategoryInitialEvent(
-                                          category: 'knowledge',
+                                          category: 'Knowledge',
                                           languageId: languageId));
                                   CustomNavigation.push(
                                       context,
                                       PrimaryCategoriesPage(
-                                          heading: "Knowledge"));
+                                        languageId: languageId,
+                                     
+                                          heading: 'Knowledge'));
                                 },
                               ),
                               CategoryContainer(
@@ -378,11 +380,13 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                                 onTap: () {
                                         context.read<FetchPrimarycategoryBloc>().add(
                                       FetchPrimaryCategoryInitialEvent(
-                                          category: 'story',
+                                          category: 'Stories',
                                           languageId: languageId));
                                   CustomNavigation.push(
                                       context,
                                       PrimaryCategoriesPage(
+                                            languageId: languageId,
+                              
                                           heading: "Stories"));
                                 },
                               ),
@@ -406,11 +410,13 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                                 onTap: () {
                                           context.read<FetchPrimarycategoryBloc>().add(
                                       FetchPrimaryCategoryInitialEvent(
-                                          category: 'quiz',
+                                          category: 'Quizzes',
                                           languageId: languageId));
                                   CustomNavigation.push(
                                       context,
                                       PrimaryCategoriesPage(
+                                            languageId: languageId,
+                                     
                                           heading: "Quizzes"));
                                 },
                               ),

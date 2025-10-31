@@ -367,7 +367,12 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
+import 'package:langlex/presentation/screens/homepage/homepage.dart';
 import 'package:langlex/presentation/screens/loginpage/loginpage.dart';
+import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
+import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
+import 'package:langlex/presentation/widgets/custom_navigation.dart';
+import 'package:langlex/presentation/widgets/custom_sharedpreferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SplashPage extends StatefulWidget {
@@ -389,45 +394,80 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   late Animation<double> _textFadeAnimation;
   late Animation<Offset> _textSlideAnimation;
   late Animation<double> _shapesAnimation;
-
   @override
-  void initState() {
-    super.initState();
+void initState() {
+  super.initState();
 
-    // Initialize animation controllers
-    _logoController = AnimationController(
-      duration: const Duration(milliseconds: 2000),
-      vsync: this,
-    );
+  // Initialize controllers
+  _logoController = AnimationController(
+    duration: const Duration(milliseconds: 2000),
+    vsync: this,
+  );
 
-    _backgroundController = AnimationController(
-      duration: const Duration(milliseconds: 3000),
-      vsync: this,
-    );
+  _backgroundController = AnimationController(
+    duration: const Duration(milliseconds: 3000),
+    vsync: this,
+  );
 
-    _textController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
+  _textController = AnimationController(
+    duration: const Duration(milliseconds: 1500),
+    vsync: this,
+  );
 
-    _shapesController = AnimationController(
-      duration: const Duration(milliseconds: 2500),
-      vsync: this,
-    );
+  _shapesController = AnimationController(
+    duration: const Duration(milliseconds: 2500),
+    vsync: this,
+  );
 
-    // Setup animations
-    _setupAnimations();
+  // Setup animations
+  _setupAnimations();
 
-    // Start animations
-    _startAnimations();
+  // Start animations
+  _startAnimations();
 
-    // Navigate after delay
-    Timer(const Duration(seconds: 4), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const ScreenLoginpage()),
-      );
-    });
-  }
+  // Wait for final animation to finish
+  _textController.addStatusListener((status) {
+    if (status == AnimationStatus.completed) {
+      checkUserlogin(context);
+    }
+  });
+}
+
+
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     // Initialize animation controllers
+//     _logoController = AnimationController(
+//       duration: const Duration(milliseconds: 2000),
+//       vsync: this,
+//     );
+
+//     _backgroundController = AnimationController(
+//       duration: const Duration(milliseconds: 3000),
+//       vsync: this,
+//     );
+
+//     _textController = AnimationController(
+//       duration: const Duration(milliseconds: 1500),
+//       vsync: this,
+//     );
+
+//     _shapesController = AnimationController(
+//       duration: const Duration(milliseconds: 2500),
+//       vsync: this,
+//     );
+
+//     // Setup animations
+//     _setupAnimations();
+
+//     // Start animations
+//     _startAnimations();
+
+//     // Navigate after delay
+// checkUserlogin(context);
+//   }
 
   void _setupAnimations() {
     // Logo animations
@@ -818,6 +858,15 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         },
       ),
     );
+  }
+    Future<void> checkUserlogin(context) async {
+    final String usertoken = await getUserToken();
+    if (usertoken.isEmpty) {
+      await Future.delayed(const Duration(seconds: 5));
+      CustomNavigation.pushReplaceWithTransition(context, ScreenLoginpage());
+    } else {
+      CustomNavigation.pushReplaceWithTransition(context, ScreenHomePage());
+    }
   }
 }
 
