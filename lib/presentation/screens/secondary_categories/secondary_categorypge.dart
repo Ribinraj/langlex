@@ -824,27 +824,27 @@ class _SecondaryCategoriesPageState extends State<SecondaryCategoriesPage> {
                 ),
               );
 
-              // Show snackbar if loaded from cache with re-download option
-              if (state.isFromCache) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('Loaded from local storage'),
-                    backgroundColor: Appcolors.kgreenlightColor,
-                    duration: const Duration(seconds: 4),
-                    action: SnackBarAction(
-                      label: 'Re-download',
-                      textColor: Colors.white,
-                      onPressed: () {
-                        _showRedownloadConfirmation(
-                          secondaryCategoryId,
-                          categoryName,
-                          true,
-                        );
-                      },
-                    ),
-                  ),
-                );
-              }
+              // // Show snackbar if loaded from cache with re-download option
+              // if (state.isFromCache) {
+              //   ScaffoldMessenger.of(context).showSnackBar(
+              //     SnackBar(
+              //       content: const Text('Loaded from local storage'),
+              //       backgroundColor: Appcolors.kgreenlightColor,
+              //       duration: const Duration(seconds: 4),
+              //       action: SnackBarAction(
+              //         label: 'Re-download',
+              //         textColor: Colors.white,
+              //         onPressed: () {
+              //           _showRedownloadConfirmation(
+              //             secondaryCategoryId,
+              //             categoryName,
+              //             true,
+              //           );
+              //         },
+              //       ),
+              //     ),
+              //   );
+              // }
             } else if (state is KnowledgeFailureState) {
               log('Knowledge download/load failed');
               Navigator.of(dialogContext).pop(); // Close dialog
