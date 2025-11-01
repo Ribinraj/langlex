@@ -1150,24 +1150,7 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage>
     await _audioService.playAudioFromFile(contentAudioPath);
     setState(() => isPlaying = true);
   }
-                                // if (isPlaying) {
-                                //   _audioService.pauseAudio();
-                                //   setState(() {
-                                //     isPlaying = false;
-                                //   });
-                                // } else {
-                                //   // Log audio playback attempt
-                                //   log('=== PLAYING AUDIO ===');
-                                //   log('Audio path: ${item['contentAudio']}');
-                                //   log('File exists: ${File(item['contentAudio']).existsSync()}');
-                                  
-                                //   _audioService.playAudioFromFile(
-                                //     item['contentAudio'],
-                                //   );
-                                //   setState(() {
-                                //     isPlaying = true;
-                                //   });
-                                // }
+                    
                               },
                               size: 70,
                               isEnabled: true,
@@ -1193,12 +1176,7 @@ class _ScreenIndividualPageState extends State<ScreenIndividualPage>
                               onPressed:
                                   currentIndex < widget.contents.length - 1
                                       ? () async{
-                                          // setState(() {
-                                          //   currentIndex++;
-                                          //   isPlaying = false;
-                                          // });
-                                          // _audioService.stopAudio();
-                                          // _animateItemChange();
+                            
                 setState(() {
           currentIndex++;
           isPlaying = false;

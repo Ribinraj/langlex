@@ -1,11 +1,21 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
-// import 'package:langlex/core/colors.dart';
-// import 'package:langlex/core/responsive_utils.dart';
-// import 'package:langlex/presentation/blocs/fetch_secondary_category_bloc/fetch_secondarycategory_bloc.dart';
 
-// import 'package:langlex/presentation/screens/primary_categories/widgets/networkimage_categorycontainer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:langlex/core/colors.dart';
+import 'package:langlex/core/responsive_utils.dart';
+import 'package:langlex/core/urls.dart';
+import 'package:langlex/domain/repository/app_repo.dart';
+import 'package:langlex/presentation/blocs/bloc/knowledge_bloc.dart';
+import 'package:langlex/presentation/blocs/fetch_secondary_category_bloc/fetch_secondarycategory_bloc.dart';
+
+import 'package:langlex/presentation/screens/individual_contentpage/individualpage.dart';
+import 'package:langlex/presentation/screens/primary_categories/widgets/networkimage_categorycontainer.dart';
+
+import 'dart:developer';
+
+import 'package:langlex/presentation/screens/secondary_categories/widgets/networkimage_category_container.dart';
 
 // class SecondaryCategoriesPage extends StatefulWidget {
 //   final String heading;
@@ -29,7 +39,6 @@
 //   @override
 //   void initState() {
 //     super.initState();
-//     // Fetch secondary categories on init
 //     context.read<FetchSecondarycategoryBloc>().add(
 //           FetchsecondaryCategoryButtonClickEvent(
 //             category: widget.parentCategory,
@@ -38,6 +47,146 @@
 //           ),
 //         );
 //   }
+// void _handleCategoryTap(int secondaryCategoryId, String categoryName) {
+//   log('=== CATEGORY TAPPED ===');
+//   log('Category: $categoryName');
+//   log('Secondary Category ID: $secondaryCategoryId');
+
+//   // Show loading dialog
+//   showDialog(
+//     context: context,
+//     barrierDismissible: false,
+//     builder: (dialogContext) => BlocProvider.value(
+//       value: context.read<KnowledgeBloc>(),
+//       child: BlocConsumer<KnowledgeBloc, KnowledgeState>(
+//         listener: (context, state) {
+//           if (state is KnowledgeSuccessState) {
+//             log('Knowledge loaded successfully');
+//             Navigator.of(dialogContext).pop(); // Close dialog
+            
+//             // Navigate to individual page with content
+//             Navigator.of(context).push(
+//               MaterialPageRoute(
+//                 builder: (context) => ScreenIndividualPage(
+//                   contents: state.contents,
+//                   categoryName: categoryName,
+//                 ),
+//               ),
+//             );
+
+//             // Show snackbar if loaded from cache with re-download option
+//             if (state.isFromCache) {
+//               ScaffoldMessenger.of(context).showSnackBar(
+//                 SnackBar(
+//                   content: const Text('Loaded from local storage'),
+//                   backgroundColor: Appcolors.kgreenlightColor,
+//                   duration: const Duration(seconds: 4),
+//                   action: SnackBarAction(
+//                     label: 'Re-download',
+//                     textColor: Colors.white,
+//                     onPressed: () {
+//                       _showRedownloadConfirmation(
+//                         secondaryCategoryId,
+//                         categoryName,
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               );
+//             }
+//           } else if (state is KnowledgeFailureState) {
+//             log('Knowledge download/load failed');
+//             Navigator.of(dialogContext).pop(); // Close dialog
+            
+//             // Show error snackbar
+//             ScaffoldMessenger.of(context).showSnackBar(
+//               SnackBar(
+//                 content: Text(state.errorMessage),
+//                 backgroundColor: Colors.red,
+//                 duration: const Duration(seconds: 4),
+//                 action: SnackBarAction(
+//                   label: 'Retry',
+//                   textColor: Colors.white,
+//                   onPressed: () {
+//                     _handleCategoryTap(secondaryCategoryId, categoryName);
+//                   },
+//                 ),
+//               ),
+//             );
+//           }
+//         },
+//         builder: (context, state) {
+//           double progress = 0.0;
+//           String message = 'Checking local storage...';
+
+//           if (state is KnowledgeDownloadingState) {
+//             progress = state.progress;
+//             message = 'Downloading... ${(progress * 100).toStringAsFixed(0)}%';
+//           } else if (state is KnowledgeExtractingState) {
+//             progress = 1.0;
+//             message = 'Extracting files...';
+//           } else if (state is KnowledgeLoadingState) {
+//             progress = 1.0;
+//             message = 'Loading from storage...';
+//           }
+
+//           return Dialog(
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(20),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.all(24),
+//               child: Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   const SpinKitFoldingCube(
+//                     color: Appcolors.kgreenlightColor,
+//                     size: 50,
+//                   ),
+//                   const SizedBox(height: 24),
+//                   Text(
+//                     message,
+//                     style: const TextStyle(
+//                       fontSize: 16,
+//                       fontWeight: FontWeight.w600,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 16),
+//                   LinearProgressIndicator(
+//                     value: progress,
+//                     backgroundColor: Colors.grey[200],
+//                     valueColor: const AlwaysStoppedAnimation<Color>(
+//                       Appcolors.kgreenlightColor,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   Text(
+//                     '${(progress * 100).toStringAsFixed(0)}%',
+//                     style: TextStyle(
+//                       fontSize: 14,
+//                       color: Colors.grey[600],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     ),
+//   );
+
+//   // Trigger download (will check if exists first)
+//   context.read<KnowledgeBloc>().add(
+//         DownloadKnowledgeEvent(
+//           secondaryCategoryId: secondaryCategoryId,
+//           primaryCategoryId: widget.primaryCategoryId,
+//           languageId: widget.languageId,
+//           forceDownload: false, // Normal download (checks cache first)
+//         ),
+//       );
+// }
+
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -129,48 +278,47 @@
 //                           mainAxisSize: MainAxisSize.min,
 //                           children: [
 //                             // Breadcrumb
-//                             if (widget.parentCategory != null)
-//                               Padding(
-//                                 padding: EdgeInsets.only(
-//                                   bottom: ResponsiveUtils.hp(0.8),
-//                                 ),
-//                                 child: Row(
-//                                   children: [
-//                                     Icon(
-//                                       Icons.home_rounded,
-//                                       color: Colors.white.withOpacity(0.8),
-//                                       size: ResponsiveUtils.wp(4),
-//                                     ),
-//                                     SizedBox(width: ResponsiveUtils.wp(1.5)),
-//                                     Text(
-//                                       widget.parentCategory!,
-//                                       style: TextStyle(
-//                                         color: Colors.white.withOpacity(0.85),
-//                                         fontSize: ResponsiveUtils.wp(3.2),
-//                                         fontWeight: FontWeight.w500,
-//                                       ),
-//                                     ),
-//                                     SizedBox(width: ResponsiveUtils.wp(1.5)),
-//                                     Icon(
-//                                       Icons.chevron_right,
-//                                       color: Colors.white.withOpacity(0.8),
-//                                       size: ResponsiveUtils.wp(4.5),
-//                                     ),
-//                                     SizedBox(width: ResponsiveUtils.wp(1.5)),
-//                                     Flexible(
-//                                       child: Text(
-//                                         widget.heading,
-//                                         style: TextStyle(
-//                                           color: Colors.white,
-//                                           fontSize: ResponsiveUtils.wp(3.2),
-//                                           fontWeight: FontWeight.w600,
-//                                         ),
-//                                         overflow: TextOverflow.ellipsis,
-//                                       ),
-//                                     ),
-//                                   ],
-//                                 ),
+//                             Padding(
+//                               padding: EdgeInsets.only(
+//                                 bottom: ResponsiveUtils.hp(0.8),
 //                               ),
+//                               child: Row(
+//                                 children: [
+//                                   Icon(
+//                                     Icons.home_rounded,
+//                                     color: Colors.white.withOpacity(0.8),
+//                                     size: ResponsiveUtils.wp(4),
+//                                   ),
+//                                   SizedBox(width: ResponsiveUtils.wp(1.5)),
+//                                   Text(
+//                                     widget.parentCategory,
+//                                     style: TextStyle(
+//                                       color: Colors.white.withOpacity(0.85),
+//                                       fontSize: ResponsiveUtils.wp(3.2),
+//                                       fontWeight: FontWeight.w500,
+//                                     ),
+//                                   ),
+//                                   SizedBox(width: ResponsiveUtils.wp(1.5)),
+//                                   Icon(
+//                                     Icons.chevron_right,
+//                                     color: Colors.white.withOpacity(0.8),
+//                                     size: ResponsiveUtils.wp(4.5),
+//                                   ),
+//                                   SizedBox(width: ResponsiveUtils.wp(1.5)),
+//                                   Flexible(
+//                                     child: Text(
+//                                       widget.heading,
+//                                       style: TextStyle(
+//                                         color: Colors.white,
+//                                         fontSize: ResponsiveUtils.wp(3.2),
+//                                         fontWeight: FontWeight.w600,
+//                                       ),
+//                                       overflow: TextOverflow.ellipsis,
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
 //                             // Main heading
 //                             Text(
 //                               widget.heading,
@@ -421,12 +569,13 @@
 //                           final category = state.secondarycategories[index];
 //                           return NetworkimageCategorycontainer(
 //                             title: category.categoryName,
-//                             imageUrl: category.categoryPicture,
+//                               imageUrl: '${Endpoints.imagebaseUrl}/${category.categoryPicture}',
 //                             onTap: () {
-//                               // Handle navigation to next level
-//                               // You can navigate to content page or tertiary categories
+//                               _handleCategoryTap(
+//                                 category.secondaryCategoryId,
+//                                 category.categoryName,
+//                               );
 //                             },
-                          
 //                           );
 //                         },
 //                       ),
@@ -452,21 +601,126 @@
 //       ),
 //     );
 //   }
+//   void _showRedownloadConfirmation(int secondaryCategoryId, String categoryName) {
+//   showDialog(
+//     context: context,
+//     builder: (context) => AlertDialog(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(20),
+//       ),
+//       title: Row(
+//         children: [
+//           Icon(
+//             Icons.download_rounded,
+//             color: Appcolors.kgreenlightColor,
+//             size: 28,
+//           ),
+//           const SizedBox(width: 12),
+//           const Expanded(
+//             child: Text(
+//               'Re-download Content?',
+//               style: TextStyle(
+//                 fontSize: 18,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//       content: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             'This will download fresh content for "$categoryName" and replace the existing data.',
+//             style: TextStyle(
+//               fontSize: 14,
+//               color: Colors.grey[700],
+//               height: 1.4,
+//             ),
+//           ),
+//           const SizedBox(height: 12),
+//           Container(
+//             padding: const EdgeInsets.all(12),
+//             decoration: BoxDecoration(
+//               color: Colors.orange.shade50,
+//               borderRadius: BorderRadius.circular(12),
+//               border: Border.all(
+//                 color: Colors.orange.shade200,
+//                 width: 1,
+//               ),
+//             ),
+//             child: Row(
+//               children: [
+//                 Icon(
+//                   Icons.info_outline,
+//                   color: Colors.orange.shade700,
+//                   size: 20,
+//                 ),
+//                 const SizedBox(width: 8),
+//                 Expanded(
+//                   child: Text(
+//                     'This may use mobile data',
+//                     style: TextStyle(
+//                       fontSize: 13,
+//                       color: Colors.orange.shade900,
+//                       fontWeight: FontWeight.w500,
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//       actions: [
+//         TextButton(
+//           onPressed: () => Navigator.of(context).pop(),
+//           child: Text(
+//             'Cancel',
+//             style: TextStyle(
+//               color: Colors.grey[600],
+//               fontWeight: FontWeight.w600,
+//             ),
+//           ),
+//         ),
+//         ElevatedButton.icon(
+//           onPressed: () {
+//             Navigator.of(context).pop(); // Close confirmation dialog
+            
+//             // Start re-download with forceDownload = true
+//             _handleCategoryTap(secondaryCategoryId, categoryName);
+            
+//             // Trigger force download
+//             context.read<KnowledgeBloc>().add(
+//                   DownloadKnowledgeEvent(
+//                     secondaryCategoryId: secondaryCategoryId,
+//                     primaryCategoryId: widget.primaryCategoryId,
+//                     languageId: widget.languageId,
+//                     forceDownload: true, // Force re-download
+//                   ),
+//                 );
+//           },
+//           icon: const Icon(Icons.download_rounded, size: 18),
+//           label: const Text('Re-download'),
+//           style: ElevatedButton.styleFrom(
+//             backgroundColor: Appcolors.kgreenlightColor,
+//             foregroundColor: Colors.white,
+//             padding: const EdgeInsets.symmetric(
+//               horizontal: 20,
+//               vertical: 12,
+//             ),
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(12),
+//             ),
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
 // }
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:langlex/core/colors.dart';
-import 'package:langlex/core/responsive_utils.dart';
-import 'package:langlex/core/urls.dart';
-import 'package:langlex/presentation/blocs/bloc/knowledge_bloc.dart';
-import 'package:langlex/presentation/blocs/fetch_secondary_category_bloc/fetch_secondarycategory_bloc.dart';
-
-import 'package:langlex/presentation/screens/individual_contentpage/individualpage.dart';
-import 'package:langlex/presentation/screens/primary_categories/widgets/networkimage_categorycontainer.dart';
-
-import 'dart:developer';
-
+// }
+////////////////////////////////
 class SecondaryCategoriesPage extends StatefulWidget {
   final String heading;
   final int primaryCategoryId;
@@ -486,6 +740,10 @@ class SecondaryCategoriesPage extends StatefulWidget {
 }
 
 class _SecondaryCategoriesPageState extends State<SecondaryCategoriesPage> {
+  // Track which categories are downloaded
+  final Map<int, bool> _downloadedCategories = {};
+  bool _isDownloadInProgress = false;
+
   @override
   void initState() {
     super.initState();
@@ -496,260 +754,432 @@ class _SecondaryCategoriesPageState extends State<SecondaryCategoriesPage> {
             languageId: widget.languageId,
           ),
         );
+    _checkDownloadedCategories();
   }
-void _handleCategoryTap(int secondaryCategoryId, String categoryName) {
-  log('=== CATEGORY TAPPED ===');
-  log('Category: $categoryName');
-  log('Secondary Category ID: $secondaryCategoryId');
 
-  // Show loading dialog
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (dialogContext) => BlocProvider.value(
-      value: context.read<KnowledgeBloc>(),
-      child: BlocConsumer<KnowledgeBloc, KnowledgeState>(
-        listener: (context, state) {
-          if (state is KnowledgeSuccessState) {
-            log('Knowledge loaded successfully');
-            Navigator.of(dialogContext).pop(); // Close dialog
-            
-            // Navigate to individual page with content
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ScreenIndividualPage(
-                  contents: state.contents,
-                  categoryName: categoryName,
-                ),
-              ),
+  // Check which categories are already downloaded
+  Future<void> _checkDownloadedCategories() async {
+    final state = context.read<FetchSecondarycategoryBloc>().state;
+    if (state is FetchSecondarycategorySuccessState) {
+      for (var category in state.secondarycategories) {
+        final isDownloaded = await context
+            .read<AppRepo>()
+            .isKnowledgeDownloaded(
+              secondaryCategoryId: category.secondaryCategoryId,
             );
+        if (mounted) {
+          setState(() {
+            _downloadedCategories[category.secondaryCategoryId] = isDownloaded;
+          });
+        }
+      }
+    }
+  }
 
-            // Show snackbar if loaded from cache with re-download option
-            if (state.isFromCache) {
+  void _handleCategoryTap(int secondaryCategoryId, String categoryName, bool hasDownloadableContent) {
+    // If no downloadable content, show info message
+    if (!hasDownloadableContent) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No content available for this category yet'),
+          backgroundColor: Colors.orange,
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
+    log('=== CATEGORY TAPPED ===');
+    log('Category: $categoryName');
+    log('Secondary Category ID: $secondaryCategoryId');
+
+    setState(() {
+      _isDownloadInProgress = true;
+    });
+
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => BlocProvider.value(
+        value: context.read<KnowledgeBloc>(),
+        child: BlocConsumer<KnowledgeBloc, KnowledgeState>(
+          listener: (context, state) {
+            if (state is KnowledgeSuccessState) {
+              log('Knowledge loaded successfully');
+              Navigator.of(dialogContext).pop(); // Close dialog
+              
+              setState(() {
+                _downloadedCategories[secondaryCategoryId] = true;
+                _isDownloadInProgress = false;
+              });
+
+              // Navigate to individual page with content
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ScreenIndividualPage(
+                    contents: state.contents,
+                    categoryName: categoryName,
+                  ),
+                ),
+              );
+
+              // Show snackbar if loaded from cache with re-download option
+              if (state.isFromCache) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Loaded from local storage'),
+                    backgroundColor: Appcolors.kgreenlightColor,
+                    duration: const Duration(seconds: 4),
+                    action: SnackBarAction(
+                      label: 'Re-download',
+                      textColor: Colors.white,
+                      onPressed: () {
+                        _showRedownloadConfirmation(
+                          secondaryCategoryId,
+                          categoryName,
+                          true,
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }
+            } else if (state is KnowledgeFailureState) {
+              log('Knowledge download/load failed');
+              Navigator.of(dialogContext).pop(); // Close dialog
+              
+              setState(() {
+                _isDownloadInProgress = false;
+              });
+
+              // Show error snackbar
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text('Loaded from local storage'),
-                  backgroundColor: Appcolors.kgreenlightColor,
+                  content: Text(state.errorMessage),
+                  backgroundColor: Colors.red,
                   duration: const Duration(seconds: 4),
                   action: SnackBarAction(
-                    label: 'Re-download',
+                    label: 'Retry',
                     textColor: Colors.white,
                     onPressed: () {
-                      _showRedownloadConfirmation(
-                        secondaryCategoryId,
-                        categoryName,
-                      );
+                      _handleCategoryTap(secondaryCategoryId, categoryName, hasDownloadableContent);
                     },
                   ),
                 ),
               );
             }
-          } else if (state is KnowledgeFailureState) {
-            log('Knowledge download/load failed');
-            Navigator.of(dialogContext).pop(); // Close dialog
-            
-            // Show error snackbar
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage),
-                backgroundColor: Colors.red,
-                duration: const Duration(seconds: 4),
-                action: SnackBarAction(
-                  label: 'Retry',
-                  textColor: Colors.white,
-                  onPressed: () {
-                    _handleCategoryTap(secondaryCategoryId, categoryName);
-                  },
+          },
+          builder: (context, state) {
+            double progress = 0.0;
+            String message = 'Checking local storage...';
+
+            if (state is KnowledgeDownloadingState) {
+              progress = state.progress;
+              message = 'Downloading... ${(progress * 100).toStringAsFixed(0)}%';
+            } else if (state is KnowledgeExtractingState) {
+              progress = 1.0;
+              message = 'Extracting files...';
+            } else if (state is KnowledgeLoadingState) {
+              progress = 1.0;
+              message = 'Loading from storage...';
+            }
+
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SpinKitFoldingCube(
+                      color: Appcolors.kgreenlightColor,
+                      size: 50,
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      message,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    LinearProgressIndicator(
+                      value: progress,
+                      backgroundColor: Colors.grey[200],
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Appcolors.kgreenlightColor,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${(progress * 100).toStringAsFixed(0)}%',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
-          }
-        },
-        builder: (context, state) {
-          double progress = 0.0;
-          String message = 'Checking local storage...';
+          },
+        ),
+      ),
+    );
 
-          if (state is KnowledgeDownloadingState) {
-            progress = state.progress;
-            message = 'Downloading... ${(progress * 100).toStringAsFixed(0)}%';
-          } else if (state is KnowledgeExtractingState) {
-            progress = 1.0;
-            message = 'Extracting files...';
-          } else if (state is KnowledgeLoadingState) {
-            progress = 1.0;
-            message = 'Loading from storage...';
-          }
+    // Trigger download (will check if exists first)
+    context.read<KnowledgeBloc>().add(
+          DownloadKnowledgeEvent(
+            secondaryCategoryId: secondaryCategoryId,
+            primaryCategoryId: widget.primaryCategoryId,
+            languageId: widget.languageId,
+            forceDownload: false, // Normal download (checks cache first)
+          ),
+        );
+  }
 
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+  void _handleDownloadIconTap(int secondaryCategoryId, String categoryName, bool isAlreadyDownloaded) {
+    if (isAlreadyDownloaded) {
+      // Show redownload confirmation
+      _showRedownloadConfirmation(secondaryCategoryId, categoryName, false);
+    } else {
+      // Start download
+      _handleCategoryTap(secondaryCategoryId, categoryName, true);
+    }
+  }
+
+  void _showRedownloadConfirmation(int secondaryCategoryId, String categoryName, bool fromSnackbar) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: const Row(
+          children: [
+            Icon(
+              Icons.download_rounded,
+              color: Appcolors.kgreenlightColor,
+              size: 28,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+            SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Re-download Content?',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'This will download fresh content for "$categoryName" and replace the existing data.',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[700],
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Colors.orange.shade200,
+                  width: 1,
+                ),
+              ),
+              child: Row(
                 children: [
-                  const SpinKitFoldingCube(
-                    color: Appcolors.kgreenlightColor,
-                    size: 50,
+                  Icon(
+                    Icons.info_outline,
+                    color: Colors.orange.shade700,
+                    size: 20,
                   ),
-                  const SizedBox(height: 24),
-                  Text(
-                    message,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  LinearProgressIndicator(
-                    value: progress,
-                    backgroundColor: Colors.grey[200],
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      Appcolors.kgreenlightColor,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${(progress * 100).toStringAsFixed(0)}%',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'This may use mobile data',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.orange.shade900,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          );
-        },
-      ),
-    ),
-  );
-
-  // Trigger download (will check if exists first)
-  context.read<KnowledgeBloc>().add(
-        DownloadKnowledgeEvent(
-          secondaryCategoryId: secondaryCategoryId,
-          primaryCategoryId: widget.primaryCategoryId,
-          languageId: widget.languageId,
-          forceDownload: false, // Normal download (checks cache first)
+          ],
         ),
-      );
-}
-  // void _handleCategoryTap(int secondaryCategoryId, String categoryName) {
-  //   log('=== CATEGORY TAPPED ===');
-  //   log('Category: $categoryName');
-  //   log('Secondary Category ID: $secondaryCategoryId');
-
-  //   // Show loading dialog
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (dialogContext) => BlocProvider.value(
-  //       value: context.read<KnowledgeBloc>(),
-  //       child: BlocConsumer<KnowledgeBloc, KnowledgeState>(
-  //         listener: (context, state) {
-  //           if (state is KnowledgeSuccessState) {
-  //             log('Knowledge download success, navigating...');
-  //             Navigator.of(dialogContext).pop(); // Close dialog
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close confirmation dialog
               
-  //             // Navigate to individual page with content
-  //             Navigator.of(context).push(
-  //               MaterialPageRoute(
-  //                 builder: (context) => ScreenIndividualPage(
-  //                   contents: state.contents,
-  //                   categoryName: categoryName,
-  //                 ),
-  //               ),
-  //             );
-  //           } else if (state is KnowledgeFailureState) {
-  //             log('Knowledge download failed');
-  //             Navigator.of(dialogContext).pop(); // Close dialog
-              
-  //             // Show error snackbar
-  //             ScaffoldMessenger.of(context).showSnackBar(
-  //               SnackBar(
-  //                 content: Text(state.errorMessage),
-  //                 backgroundColor: Colors.red,
-  //                 duration: const Duration(seconds: 4),
-  //                 action: SnackBarAction(
-  //                   label: 'Retry',
-  //                   textColor: Colors.white,
-  //                   onPressed: () {
-  //                     _handleCategoryTap(secondaryCategoryId, categoryName);
-  //                   },
-  //                 ),
-  //               ),
-  //             );
-  //           }
-  //         },
-  //         builder: (context, state) {
-  //           double progress = 0.0;
-  //           String message = 'Preparing download...';
+              setState(() {
+                _isDownloadInProgress = true;
+              });
 
-  //           if (state is KnowledgeDownloadingState) {
-  //             progress = state.progress;
-  //             message = 'Downloading... ${(progress * 100).toStringAsFixed(0)}%';
-  //           } else if (state is KnowledgeExtractingState) {
-  //             progress = 1.0;
-  //             message = 'Extracting files...';
-  //           }
+              // Show loading dialog for redownload
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (dialogContext) => BlocProvider.value(
+                  value: context.read<KnowledgeBloc>(),
+                  child: BlocConsumer<KnowledgeBloc, KnowledgeState>(
+                    listener: (context, state) {
+                      if (state is KnowledgeSuccessState) {
+                        Navigator.of(dialogContext).pop();
+                        
+                        setState(() {
+                          _downloadedCategories[secondaryCategoryId] = true;
+                          _isDownloadInProgress = false;
+                        });
 
-  //           return Dialog(
-  //             shape: RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.circular(20),
-  //             ),
-  //             child: Padding(
-  //               padding: const EdgeInsets.all(24),
-  //               child: Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   const SpinKitFoldingCube(
-  //                     color: Appcolors.kgreenlightColor,
-  //                     size: 50,
-  //                   ),
-  //                   const SizedBox(height: 24),
-  //                   Text(
-  //                     message,
-  //                     style: const TextStyle(
-  //                       fontSize: 16,
-  //                       fontWeight: FontWeight.w600,
-  //                     ),
-  //                   ),
-  //                   const SizedBox(height: 16),
-  //                   LinearProgressIndicator(
-  //                     value: progress,
-  //                     backgroundColor: Colors.grey[200],
-  //                     valueColor: const AlwaysStoppedAnimation<Color>(
-  //                       Appcolors.kgreenlightColor,
-  //                     ),
-  //                   ),
-  //                   const SizedBox(height: 8),
-  //                   Text(
-  //                     '${(progress * 100).toStringAsFixed(0)}%',
-  //                     style: TextStyle(
-  //                       fontSize: 14,
-  //                       color: Colors.grey[600],
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Content re-downloaded successfully'),
+                            backgroundColor: Appcolors.kgreenlightColor,
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
 
-  //   // Trigger download
-  //   context.read<KnowledgeBloc>().add(
-  //         DownloadKnowledgeEvent(
-  //           secondaryCategoryId: secondaryCategoryId,
-  //           primaryCategoryId: widget.primaryCategoryId,
-  //           languageId: widget.languageId,
-  //         ),
-  //       );
-  // }
+                        // Navigate if not from snackbar
+                        if (!fromSnackbar) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ScreenIndividualPage(
+                                contents: state.contents,
+                                categoryName: categoryName,
+                              ),
+                            ),
+                          );
+                        }
+                      } else if (state is KnowledgeFailureState) {
+                        Navigator.of(dialogContext).pop();
+                        
+                        setState(() {
+                          _isDownloadInProgress = false;
+                        });
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.errorMessage),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 4),
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      double progress = 0.0;
+                      String message = 'Preparing to re-download...';
+
+                      if (state is KnowledgeDownloadingState) {
+                        progress = state.progress;
+                        message = 'Downloading... ${(progress * 100).toStringAsFixed(0)}%';
+                      } else if (state is KnowledgeExtractingState) {
+                        progress = 1.0;
+                        message = 'Extracting files...';
+                      }
+
+                      return Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SpinKitFoldingCube(
+                                color: Appcolors.kgreenlightColor,
+                                size: 50,
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                message,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              LinearProgressIndicator(
+                                value: progress,
+                                backgroundColor: Colors.grey[200],
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Appcolors.kgreenlightColor,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '${(progress * 100).toStringAsFixed(0)}%',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+
+              // Trigger force download
+              context.read<KnowledgeBloc>().add(
+                    DownloadKnowledgeEvent(
+                      secondaryCategoryId: secondaryCategoryId,
+                      primaryCategoryId: widget.primaryCategoryId,
+                      languageId: widget.languageId,
+                      forceDownload: true,
+                    ),
+                  );
+            },
+            icon: const Icon(Icons.download_rounded, size: 18),
+            label: const Text('Re-download'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Appcolors.kgreenlightColor,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 12,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1130,13 +1560,42 @@ void _handleCategoryTap(int secondaryCategoryId, String categoryName) {
                         childCount: state.secondarycategories.length,
                         (context, index) {
                           final category = state.secondarycategories[index];
-                          return NetworkimageCategorycontainer(
+                          final isDownloaded = _downloadedCategories[category.secondaryCategoryId] ?? false;
+                          
+                          // Determine if category has downloadable content
+                          // Adjust based on your data model
+                          final hasDownloadableContent = true;
+                          
+                          return EnhancedCategoryCard(
                             title: category.categoryName,
-                              imageUrl: '${Endpoints.imagebaseUrl}/${category.categoryPicture}',
-                            onTap: () {
-                              _handleCategoryTap(
+                            imageUrl: '${Endpoints.imagebaseUrl}/${category.categoryPicture}',
+                            isDownloaded: isDownloaded,
+                            hasDownloadableContent: hasDownloadableContent,
+                            isDownloadInProgress: _isDownloadInProgress,
+                            onTitleTap: () {
+                              if (hasDownloadableContent && isDownloaded) {
+                                // Load from cache and navigate
+                                _handleCategoryTap(
+                                  category.secondaryCategoryId,
+                                  category.categoryName,
+                                  hasDownloadableContent,
+                                );
+                              } 
+                    
+                              else {
+                                // Not downloaded yet, start download
+                                _handleCategoryTap(
+                                  category.secondaryCategoryId,
+                                  category.categoryName,
+                                  hasDownloadableContent,
+                                );
+                              }
+                            },
+                            onDownloadTap: () {
+                              _handleDownloadIconTap(
                                 category.secondaryCategoryId,
                                 category.categoryName,
+                                isDownloaded,
                               );
                             },
                           );
@@ -1164,122 +1623,6 @@ void _handleCategoryTap(int secondaryCategoryId, String categoryName) {
       ),
     );
   }
-  void _showRedownloadConfirmation(int secondaryCategoryId, String categoryName) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      title: Row(
-        children: [
-          Icon(
-            Icons.download_rounded,
-            color: Appcolors.kgreenlightColor,
-            size: 28,
-          ),
-          const SizedBox(width: 12),
-          const Expanded(
-            child: Text(
-              'Re-download Content?',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'This will download fresh content for "$categoryName" and replace the existing data.',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[700],
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.orange.shade50,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: Colors.orange.shade200,
-                width: 1,
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  color: Colors.orange.shade700,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'This may use mobile data',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.orange.shade900,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(
-            'Cancel',
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        ElevatedButton.icon(
-          onPressed: () {
-            Navigator.of(context).pop(); // Close confirmation dialog
-            
-            // Start re-download with forceDownload = true
-            _handleCategoryTap(secondaryCategoryId, categoryName);
-            
-            // Trigger force download
-            context.read<KnowledgeBloc>().add(
-                  DownloadKnowledgeEvent(
-                    secondaryCategoryId: secondaryCategoryId,
-                    primaryCategoryId: widget.primaryCategoryId,
-                    languageId: widget.languageId,
-                    forceDownload: true, // Force re-download
-                  ),
-                );
-          },
-          icon: const Icon(Icons.download_rounded, size: 18),
-          label: const Text('Re-download'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Appcolors.kgreenlightColor,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 12,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
 }
-}
+
+// Enhanced Category Card Widget
