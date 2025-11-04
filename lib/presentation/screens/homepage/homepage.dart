@@ -362,10 +362,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                                 title: "Knowledge",
                                 imagePath: 'assets/images/70967.jpg',
                                 onTap: () {
-                                  context.read<FetchPrimarycategoryBloc>().add(
-                                      FetchPrimaryCategoryInitialEvent(
-                                          category: 'Knowledge',
-                                          languageId: languageId));
+                                 
                                   CustomNavigation.push(
                                       context,
                                       PrimaryCategoriesPage(
@@ -378,10 +375,10 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                                 title: "Stories",
                                 imagePath: 'assets/images/25590.jpg',
                                 onTap: () {
-                                        context.read<FetchPrimarycategoryBloc>().add(
-                                      FetchPrimaryCategoryInitialEvent(
-                                          category: 'Stories',
-                                          languageId: languageId));
+                                      //   context.read<FetchPrimarycategoryBloc>().add(
+                                      // FetchPrimaryCategoryInitialEvent(
+                                      //     category: 'Stories',
+                                      //     languageId: languageId));
                                   CustomNavigation.push(
                                       context,
                                       PrimaryCategoriesPage(
@@ -408,10 +405,10 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                                 title: "Quizzes",
                                 imagePath: 'assets/images/2149001124.jpg',
                                 onTap: () {
-                                          context.read<FetchPrimarycategoryBloc>().add(
-                                      FetchPrimaryCategoryInitialEvent(
-                                          category: 'Quizzes',
-                                          languageId: languageId));
+                                      //     context.read<FetchPrimarycategoryBloc>().add(
+                                      // FetchPrimaryCategoryInitialEvent(
+                                      //     category: 'Quizzes',
+                                      //     languageId: languageId));
                                   CustomNavigation.push(
                                       context,
                                       PrimaryCategoriesPage(

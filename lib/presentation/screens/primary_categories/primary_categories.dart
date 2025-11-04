@@ -23,6 +23,15 @@ class PrimaryCategoriesPage extends StatefulWidget {
 
 class _PrimaryCategoriesPageState extends State<PrimaryCategoriesPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+     context.read<FetchPrimarycategoryBloc>().add(
+                                      FetchPrimaryCategoryInitialEvent(
+                                          category: widget.heading,
+                                          languageId:widget. languageId));
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

@@ -52,3 +52,8 @@ class DownloadKnowledgeEvent extends KnowledgeEvent {
     this.forceDownload = false, // Default to false
   });
 }
+// NEW: Add this event to check multiple categories at once
+class CheckMultipleKnowledgeStatusEvent extends KnowledgeEvent {
+  final List<int> secondaryCategoryIds;
+  CheckMultipleKnowledgeStatusEvent({required this.secondaryCategoryIds});
+}
