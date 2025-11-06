@@ -40,6 +40,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+
   flutter_locales: ^3.0.2
   flutter_spinkit: ^5.2.1
   flutter_swipe_button: ^2.1.3

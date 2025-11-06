@@ -4,6 +4,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/responsive_utils.dart';
+
 import 'package:langlex/domain/repository/Datadownload_repository.dart';
 import 'package:langlex/domain/repository/app_repo.dart';
 import 'package:langlex/domain/repository/login_repo.dart';
@@ -32,6 +33,7 @@ import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Locales.init(['en', 'hi', 'ka']);
   runApp(const MyApp());
 }
@@ -94,7 +96,7 @@ class MyApp extends StatelessWidget {
                 theme: ThemeData(
                   fontFamily: GoogleFonts.montserrat().fontFamily,
                   scaffoldBackgroundColor: Appcolors.kbackgroundcolor,
-                  useMaterial3: true,
+                   useMaterial3: true,
                 ),
                  home: const SplashPage()),
                // home: ScreenUserpage()),

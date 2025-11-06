@@ -3,78 +3,55 @@ part of 'knowledge_bloc.dart';
 @immutable
 sealed class KnowledgeState {}
 
+/// Initial state used by the Bloc constructor.
 final class KnowledgeInitial extends KnowledgeState {}
-class KnowledgeCheckingState extends KnowledgeState {}
-// class KnowledgeExistsLocallyState extends KnowledgeState {
-//   final bool exists;
 
-//   KnowledgeExistsLocallyState({required this.exists});
-// }
+/// Emitted while checking local cache existence.
+final class KnowledgeCheckingState extends KnowledgeState {}
 
-// class KnowledgeDownloadingState extends KnowledgeState {
-//   final double progress;
-
-//   KnowledgeDownloadingState({required this.progress});
-// }
-
-// class KnowledgeExtractingState extends KnowledgeState {}
-
-// class KnowledgeSuccessState extends KnowledgeState {
-//   final List<Map<String, dynamic>> contents;
-//   final String extractPath;
-//   final int totalItems;
-
-//   KnowledgeSuccessState({
-//     required this.contents,
-//     required this.extractPath,
-//     required this.totalItems,
-//   });
-// }
-
-// class KnowledgeFailureState extends KnowledgeState {
-//   final String errorMessage;
-
-//   KnowledgeFailureState({required this.errorMessage});
-// }
+/// Emitted when loading local knowledge (file IO/parsing).
 final class KnowledgeLoadingState extends KnowledgeState {}
 
+/// Result of a single local-existence check.
 final class KnowledgeExistsLocallyState extends KnowledgeState {
   final bool exists;
-
   KnowledgeExistsLocallyState({required this.exists});
 }
 
+/// Emitted during download with progress in [0.0, 1.0].
 final class KnowledgeDownloadingState extends KnowledgeState {
   final double progress;
-
   KnowledgeDownloadingState({required this.progress});
 }
 
+/// Brief state while extracting the downloaded zip.
 final class KnowledgeExtractingState extends KnowledgeState {}
 
+/// Success with parsed content and metadata.
 final class KnowledgeSuccessState extends KnowledgeState {
   final List<Map<String, dynamic>> contents;
   final String extractPath;
   final int totalItems;
-  final bool isFromCache; // Add this flag
-   final int? secondaryCategoryId; 
+  final bool isFromCache;
+  final int? secondaryCategoryId;
 
   KnowledgeSuccessState({
     required this.contents,
     required this.extractPath,
     required this.totalItems,
-    this.isFromCache = false, // Default to false
-     this.secondaryCategoryId,
+    this.isFromCache = false,
+    this.secondaryCategoryId,
   });
 }
 
+/// Failure with a human-readable error.
 final class KnowledgeFailureState extends KnowledgeState {
   final String errorMessage;
-
   KnowledgeFailureState({required this.errorMessage});
 }
-// NEW: State for multiple category status checks
-class KnowledgeMultipleStatusState extends KnowledgeState {
+
+/// Result of batch existence checks: categoryId -> downloaded?
+final class KnowledgeMultipleStatusState extends KnowledgeState {
   final Map<int, bool> downloadStatus;
   KnowledgeMultipleStatusState({required this.downloadStatus});
 }
