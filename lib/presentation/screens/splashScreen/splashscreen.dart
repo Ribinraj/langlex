@@ -369,7 +369,7 @@ import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/presentation/screens/homepage/homepage.dart';
 import 'package:langlex/presentation/screens/loginpage/loginpage.dart';
-import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
+import 'package:langlex/presentation/screens/mainpages/bottom_navbar.dart';
 import 'package:langlex/presentation/screens/screen_student_registration/screen_registrationpage.dart';
 import 'package:langlex/presentation/screens/screen_userpage/screen_userpage.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';

@@ -61,14 +61,27 @@ class AppRepo {
         );
       }
     } on DioException catch (e) {
-      debugPrint(e.message);
-      log(e.toString());
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
       return ApiResponse(
         data: null,
-        message: 'Network or server error occurred',
+        message: responseData['message'] ?? 'Something went wrong',
         error: true,
-        status: 500,
+        status: statusCode,
       );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
     }
   }
 
@@ -106,14 +119,27 @@ class AppRepo {
         );
       }
     } on DioException catch (e) {
-      debugPrint(e.message);
-      log(e.toString());
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
       return ApiResponse(
         data: null,
-        message: 'Network or server error occurred',
+        message: responseData['message'] ?? 'Something went wrong',
         error: true,
-        status: 500,
+        status: statusCode,
       );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
     } catch (e) {
       // Add a general catch block for other exceptions
       log("Unexpected error: $e");
@@ -125,6 +151,7 @@ class AppRepo {
       );
     }
   }
+
 //   Future<ApiResponse> registerStudent({required StudentModel student}) async {
 //     try {
 //       final token = await getUserToken();
@@ -201,14 +228,27 @@ class AppRepo {
         );
       }
     } on DioException catch (e) {
-      debugPrint(e.message);
-      log(e.toString());
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
       return ApiResponse(
         data: null,
-        message: 'Network or server error occurred',
+        message: responseData['message'] ?? 'Something went wrong',
         error: true,
-        status: 500,
+        status: statusCode,
       );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
     }
   }
   /////////////------------fetchPrimaryCategory-------------//////////////////
@@ -242,14 +282,27 @@ log('primarycategories${responseData['status'].toString()}');
         );
       }
     } on DioException catch (e) {
-      debugPrint(e.message);
-      log(e.toString());
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
       return ApiResponse(
         data: null,
-        message: 'Network or server error occurred',
+        message: responseData['message'] ?? 'Something went wrong',
         error: true,
-        status: 500,
+        status: statusCode,
       );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
     }
   }
     /////////////------------fetchPrimaryCategory-------------//////////////////
@@ -286,14 +339,27 @@ log('primarycategories${responseData['status'].toString()}');
         );
       }
     } on DioException catch (e) {
-      debugPrint(e.message);
-      log(e.toString());
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
       return ApiResponse(
         data: null,
-        message: 'Network or server error occurred',
+        message: responseData['message'] ?? 'Something went wrong',
         error: true,
-        status: 500,
+        status: statusCode,
       );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
     }
   }
 

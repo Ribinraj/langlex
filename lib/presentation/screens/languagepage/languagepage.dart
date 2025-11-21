@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:langlex/presentation/cubits/language_change.dart';
 
-import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
+import 'package:langlex/presentation/screens/mainpages/bottom_navbar.dart';
 
 // class ScreenLanguagePage extends StatefulWidget {
 //   const ScreenLanguagePage({super.key});

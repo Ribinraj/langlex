@@ -7,14 +7,26 @@ import 'package:image_picker/image_picker.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
+import 'package:langlex/core/urls.dart';
+import 'package:langlex/data/models/edit_profilemodel.dart';
+import 'package:langlex/data/models/profile_model.dart';
+import 'package:langlex/presentation/blocs/bloc/update_profile_bloc.dart';
+import 'package:langlex/presentation/blocs/fetch_profile_bloc/fetch_profile_bloc.dart';
 import 'package:langlex/presentation/blocs/image_picker_bloc/image_picker_bloc.dart';
+
 import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editing_textfield.dart';
-import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editprofile.dart';
-import 'package:langlex/presentation/screens/editprofile_page/widgets/language_selectionpage.dart';
 import 'package:langlex/presentation/widgets/custom_imagepicker.dart';
+import 'package:langlex/presentation/widgets/custom_squre_elevatedbutton.dart';
+import 'package:langlex/presentation/widgets/custom_snakebar.dart';
+import 'package:langlex/presentation/widgets/navigate_mainpage.dart';
 
 class ScreenEditProfile extends StatefulWidget {
-  const ScreenEditProfile({super.key});
+  final ProfileModel profile;
+
+  const ScreenEditProfile({
+    super.key,
+    required this.profile,
+  });
 
   @override
   State<ScreenEditProfile> createState() => _ScreenEditProfileState();
@@ -23,10 +35,80 @@ class ScreenEditProfile extends StatefulWidget {
 class _ScreenEditProfileState extends State<ScreenEditProfile> {
   XFile? selectedimage;
   File? image;
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController phonenumberController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordcController = TextEditingController();
+
+  late TextEditingController usernameController;
+  late TextEditingController phonenumberController;
+  late TextEditingController emailController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    usernameController =
+        TextEditingController(text: widget.profile.userName ?? '');
+    phonenumberController =
+        TextEditingController(text: widget.profile.mobileNumber ?? '');
+    emailController =
+        TextEditingController(text: widget.profile.emailAddress ?? '');
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    phonenumberController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  void _updateProfile() {
+    if (usernameController.text.isEmpty) {
+      customSnackbar(
+        context,
+        'Please enter username',
+        Appcolors.kprimarycolor,
+      );
+      return;
+    }
+
+    if (emailController.text.isEmpty) {
+      customSnackbar(
+        context,
+        'Please enter email',
+        Appcolors.kprimarycolor,
+      );
+      return;
+    }
+
+    if (phonenumberController.text.isEmpty) {
+      customSnackbar(
+        context,
+        'Please enter phone number',
+        Appcolors.kprimarycolor,
+      );
+      return;
+    }
+
+    // Validate image if selected
+    if (image != null && !image!.existsSync()) {
+      customSnackbar(
+        context,
+        'Selected image is invalid or has been deleted',
+        Appcolors.kprimarycolor,
+      );
+      return;
+    }
+
+    final updatedProfile = EditProfileModel(
+      userName: usernameController.text,
+      emailAddress: emailController.text,
+      mobileNumber: phonenumberController.text,
+      image: image,
+    );
+
+    context.read<UpdateProfileBloc>().add(
+      UpdateProfileButtonClickEvent(profile: updatedProfile),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +118,19 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              CupertinoIcons.back,
-              color: Appcolors.kwhiteColor,
-            )),
-        title: TextStyles.body(
-            text: 'Edit Profile',
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            CupertinoIcons.back,
             color: Appcolors.kwhiteColor,
-            weight: FontWeight.bold),
+          ),
+        ),
+        title: TextStyles.body(
+          text: 'Edit Profile',
+          color: Appcolors.kwhiteColor,
+          weight: FontWeight.bold,
+        ),
         centerTitle: true,
         backgroundColor: Appcolors.kprimarycolor,
       ),
@@ -55,8 +139,7 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             opacity: .15,
-            image: AssetImage(
-                profilebackgroundimage), // Correct way to use asset image
+            image: AssetImage(profilebackgroundimage),
             fit: BoxFit.cover,
           ),
         ),
@@ -75,9 +158,47 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                         if (state is ImagePickedState) {
                           image = state.image;
                         }
-                        return CustomEditprofileContainer(
-                          circleContainerSize: 100,
-                          imageFile: selectedimage?.path ?? '',
+
+                        return Hero(
+                          tag: 'profile_image',
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: ClipOval(
+                              child: Builder(
+                                builder: (_) {
+                                  if (image != null && image!.existsSync()) {
+                                    return Image.file(
+                                      image!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        log('Error loading image: $error');
+                                        return _buildDefaultAvatar();
+                                      },
+                                    );
+                                  }
+
+                                  if (widget.profile.userPicture != null &&
+                                      widget.profile.userPicture!.isNotEmpty) {
+                                    return Image.network(
+                                      "${Endpoints.baseprofileimageurl}${widget.profile.userPicture!}",
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return _buildDefaultAvatar();
+                                      },
+                                    );
+                                  }
+
+                                  return _buildDefaultAvatar();
+                                },
+                              ),
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -86,11 +207,35 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                       right: 1,
                       child: InkWell(
                         onTap: () async {
-                          selectedimage = await showBottomSheetWidget(context);
-                          if (selectedimage != null) {
-                            imagepickerbloc.add(AddImageEvent(
-                                image: File(selectedimage!.path)));
-                            log(selectedimage.toString());
+                          try {
+                            selectedimage =
+                                await showBottomSheetWidget(context);
+                            if (selectedimage != null) {
+                              final pickedFile =
+                                  File(selectedimage!.path);
+                              
+                              // Verify file exists before processing
+                              if (!pickedFile.existsSync()) {
+                                customSnackbar(
+                                  context,
+                                  'Image file not found',
+                                  Appcolors.kprimarycolor,
+                                );
+                                return;
+                              }
+
+                              imagepickerbloc.add(
+                                AddImageEvent(image: pickedFile),
+                              );
+                              log('Image selected: ${selectedimage!.path}');
+                            }
+                          } catch (e) {
+                            log('Error picking image: $e');
+                            customSnackbar(
+                              context,
+                              'Error picking image: $e',
+                              Appcolors.kprimarycolor,
+                            );
                           }
                         },
                         child: const Icon(
@@ -108,65 +253,67 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                       height: MediaQuery.of(context).size.height * 0.05,
                     ),
                     TextStyles.body(
-                        text: 'Username',
-                        color: Appcolors.khinttextColor,
-                        weight: FontWeight.w600),
-                    CustomEditingTextfield(controller: usernameController),
+                      text: 'Username',
+                      color: Appcolors.khinttextColor,
+                      weight: FontWeight.w600,
+                    ),
+                    CustomEditingTextfield(
+                      controller: usernameController,
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     TextStyles.body(
-                        text: 'Phone number',
-                        color: Appcolors.khinttextColor,
-                        weight: FontWeight.w600),
-                    CustomEditingTextfield(controller: phonenumberController),
+                      text: 'Phone number',
+                      color: Appcolors.khinttextColor,
+                      weight: FontWeight.w600,
+                    ),
+                    CustomEditingTextfield(
+                      controller: phonenumberController,
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     TextStyles.body(
-                        text: 'email',
-                        color: Appcolors.khinttextColor,
-                        weight: FontWeight.w600),
-                    CustomEditingTextfield(controller: emailController),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
+                      text: 'Email',
+                      color: Appcolors.khinttextColor,
+                      weight: FontWeight.w600,
                     ),
-                    TextStyles.body(
-                        text: 'Password',
-                        color: Appcolors.khinttextColor,
-                        weight: FontWeight.w600),
-                    CustomEditingTextfield(controller: passwordcController),
+                    CustomEditingTextfield(
+                      controller: emailController,
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.04,
                     ),
-                    Container(
-                      height: ResponsiveUtils.hp(6),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Appcolors.kwhiteColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              width: 1,
-                              color: Appcolors.kprimarycolor.withOpacity(0.5))),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: Row(
-                            children: [
-                              TextStyles.body(
-                                  text: 'Select languages',
-                                  weight: FontWeight.w600,
-                                  color: Appcolors.khinttextColor),
-                              Spacer(),
-                              IconButton(
-                                  onPressed: () {
-                                    showLanguageSelectionSheet(context);
-                                  },
-                                  icon: Icon(CupertinoIcons.chevron_down))
-                            ],
-                          ),
-                        ),
-                      ),
+                    BlocConsumer<UpdateProfileBloc, UpdateProfileState>(
+                      listener: (context, state) {
+                        if (state is UpdateProfileSuccessState) {
+                          customSnackbar(
+                            context,
+                            state.message,
+                            Appcolors.kprimarycolor,
+                          );
+                         
+                        navigateToMainPage(context, 2);
+                        } else if (state is UpdateProfileErrorState) {
+                          customSnackbar(
+                            context,
+                            state.message,
+                            Appcolors.kprimarycolor,
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        final isLoading =
+                            state is UpdateProfileLoadingState;
+
+                        return CustomSqureElevatedButton(
+                          onPressed: isLoading ? null : _updateProfile,
+                          buttonText: "Update",
+                          backgroundcolor: Appcolors.kprimarycolor,
+                          isLoading: isLoading,
+                        );
+                      },
                     )
                   ],
                 ),
@@ -178,18 +325,13 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
     );
   }
 
-  void showLanguageSelectionSheet(BuildContext context) async {
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, // Enables full screen bottom sheet
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.6, // Height when sheet is first displayed
-        minChildSize: 0.3, // Minimum height the sheet can be dragged down to
-        maxChildSize: 0.9, // Maximum height the sheet can be dragged up to
-        expand: false, // Disable full screen expansion
-        builder: (context, scrollController) {
-          return LanguageSelectionSheet();
-        },
+  Widget _buildDefaultAvatar() {
+    return Container(
+      color: Colors.grey[300],
+      child: Icon(
+        Icons.person,
+        size: 50,
+        color: Colors.grey[600],
       ),
     );
   }

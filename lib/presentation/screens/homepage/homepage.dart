@@ -15,6 +15,7 @@ import 'package:langlex/presentation/screens/homepage/widgets/custom_appbar.dart
 import 'package:langlex/presentation/screens/homepage/widgets/custom_painter.dart';
 import 'package:langlex/presentation/screens/individual_contentpage/individualpage.dart';
 import 'package:langlex/presentation/screens/primary_categories/primary_categories.dart';
+import 'package:langlex/presentation/screens/screen_letterspage/screen_letters.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
 import 'package:langlex/presentation/widgets/custom_profile_image.dart';
 import 'package:langlex/presentation/widgets/custom_sharedpreferences.dart';
@@ -391,14 +392,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                                 title: "Alphabets",
                                 imagePath: 'assets/images/carosel2.jpg',
                                 onTap: () {
-                                  //          context.read<FetchPrimarycategoryBloc>().add(
-                                  //     FetchPrimaryCategoryInitialEvent(
-                                  //         category: 'knowledge',
-                                  //         languageId: languageId));
-                                  // CustomNavigation.push(
-                                  //     context,
-                                  //     PrimaryCategoriesPage(
-                                  //         heading: "Knowledge"));
+                    CustomNavigation.push(context,LettersGalleryScreen());
                                 },
                               ),
                               CategoryContainer(

@@ -16,7 +16,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
-import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
+import 'package:langlex/presentation/screens/mainpages/bottom_navbar.dart';
 import 'package:langlex/presentation/widgets/custom_elevatedbutton.dart';
 import 'package:langlex/presentation/widgets/custom_navigation.dart';
 import 'package:langlex/presentation/widgets/custom_snakebar.dart';

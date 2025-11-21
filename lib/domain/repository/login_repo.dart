@@ -4,7 +4,11 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import 'package:langlex/core/urls.dart';
+import 'package:langlex/data/models/edit_profilemodel.dart';
+import 'package:langlex/data/models/profile_model.dart';
+import 'package:langlex/data/models/student_model.dart';
 import 'package:langlex/data/models/verify_otp_model.dart';
+import 'package:langlex/presentation/widgets/custom_sharedpreferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiResponse<T> {
@@ -60,11 +64,27 @@ class Loginrepo {
             status: responseData["status"]);
       }
     } on DioException catch (e) {
-      debugPrint(e.message);
-      log("flsdjflksdjflkdsjfks");
-      log(e.toString());
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
       return ApiResponse(
-          message: 'Network or server error occured', error: true, status: 500);
+        data: null,
+        message: responseData['message'] ?? 'Something went wrong',
+        error: true,
+        status: statusCode,
+      );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
     }
   }
 
@@ -99,16 +119,28 @@ class Loginrepo {
         );
       }
     } on DioException catch (e) {
-      debugPrint(e.message);
-      log("kkkkkkkkkkkkkkkk");
+   
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
 
-      log(e.toString());
       return ApiResponse(
         data: null,
-        message: 'Network or server error occurred',
+        message: responseData['message'] ?? 'Something went wrong',
         error: true,
-        status: 500,
+        status: statusCode,
       );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
     }
   }
 
@@ -177,123 +209,147 @@ class Loginrepo {
         );
       }
     } on DioException catch (e) {
-      debugPrint(e.message);
-      log(e.toString());
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
       return ApiResponse(
         data: null,
-        message: 'Network or server error occurred',
+        message: responseData['message'] ?? 'Something went wrong',
+        error: true,
+        status: statusCode,
+      );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
+    }
+  }
+/////////-------------fetchprofile---------/////////////
+Future<ApiResponse<ProfileModel>> fetchprofile() async {
+  try {
+    final token = await getUserToken();
+
+    // ✅ FIX: Add "Bearer " before token
+    Response response = await dio.get(
+      Endpoints.fetchprofile,
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
+
+    final responseData = response.data;
+    log('profile status: ${responseData["status"]}');
+
+    if (!responseData["error"] && responseData["status"] == 200) {
+      final user = ProfileModel.fromJson(responseData["data"]);
+
+      return ApiResponse(
+        data: user,
+        message: responseData['message'] ?? 'Success',
+        error: false,
+        status: responseData["status"],
+      );
+    } else {
+      return ApiResponse(
+        data: null,
+        message: responseData['message'] ?? 'Something went wrong',
+        error: true,
+        status: responseData["status"],
+      );
+    }
+  } on DioException catch (e) {
+    debugPrint(e.message);
+    log('DioException: ${e.response?.data ?? e.toString()}');
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: e.response?.statusCode ?? 500,
+    );
+  } catch (e) {
+    log("Unexpected error: $e");
+    return ApiResponse(
+      data: null,
+      message: 'Unexpected error: $e',
+      error: true,
+      status: 500,
+    );
+  }
+}
+
+
+    ///////////---------------updateprofile----------/////////////
+  Future<ApiResponse> updateprofiel({required EditProfileModel student}) async {
+    try {
+      final token = await getUserToken();
+
+      // Create FormData from student model
+      FormData formData = await student.toFormData();
+
+      Response response = await dio.post(
+        Endpoints.fetchprofile,
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'multipart/form-data',
+        }),
+        data: formData,
+      );
+
+      final responseData = response.data;
+      if (!responseData["error"] && responseData["status"] == 200) {
+        return ApiResponse(
+          data: null,
+          message: responseData['message'] ?? 'Success',
+          error: false,
+          status: responseData["status"],
+        );
+      } else {
+        return ApiResponse(
+          data: null,
+          message: responseData['message'] ?? 'Something went wrong',
+          error: true,
+          status: responseData["status"],
+        );
+      }
+    } on DioException catch (e) {
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
+      return ApiResponse(
+        data: null,
+        message: responseData['message'] ?? 'Something went wrong',
+        error: true,
+        status: statusCode,
+      );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
+    } catch (e) {
+      // Add a general catch block for other exceptions
+      log("Unexpected error: $e");
+      return ApiResponse(
+        data: null,
+        message: 'Unexpected error: $e',
         error: true,
         status: 500,
       );
     }
   }
-
-//////////-------------------fetchprofile---------------//////////////////
-  // Future<ApiResponse<ProfileModel>> fetchprofile() async {
-  //   try {
-  //     final token = await getUserToken();
-  //     log(token);
-  //     Response response = await dio.get(
-  //       Endpoints.fetchprofile,
-  //       options: Options(headers: {'Authorization': token}),
-  //     );
-  //     log("Response received: ${response.statusCode}");
-  //     final responseData = response.data;
-  //     log("Response data: $responseData");
-  //     if (!responseData["error"] && responseData["status"] == 200) {
-  //       final user = ProfileModel.fromJson(responseData["data"]);
-  //       if (responseData['message'] == "Expired token") {
-  //         SharedPreferences preferences = await SharedPreferences.getInstance();
-  //         await preferences.remove('USER_TOKEN');
-  //         // await preferences.clear();
-  //       }
-
-  //       //SharedPreferences preferences = await SharedPreferences.getInstance();
-
-  //       // preferences.setString(
-  //       //     'USER_PUSHTOKEN', responseData["data"]["pushToken"]);
-
-  //       return ApiResponse(
-  //         data: user,
-  //         message: responseData['message'] ?? 'Success',
-  //         error: false,
-  //         status: responseData["status"],
-  //       );
-  //     } else {
-  //       return ApiResponse(
-  //         data: null,
-  //         message: responseData['message'] ?? 'Something went wrong',
-  //         error: true,
-  //         status: responseData["status"],
-  //       );
-  //     }
-  //   } on DioException catch (e) {
-  //     debugPrint(e.message);
-  //     log(e.toString());
-  //     return ApiResponse(
-  //       data: null,
-  //       message: 'Network or server error occurred',
-  //       error: true,
-  //       status: 500,
-  //     );
-  //   } catch (e) {
-  //     // Add a general catch block for other exceptions
-  //     log("Unexpected error: $e");
-  //     return ApiResponse(
-  //       data: null,
-  //       message: 'Unexpected error: $e',
-  //       error: true,
-  //       status: 500,
-  //     );
-  //   }
-  // }
-
-  /////////////---------------updateprofile----------/////////////
-  // Future<ApiResponse> updateprofile(
-  //     {required UpdateProfilemodel profile}) async {
-  //   try {
-  //     final token = await getUserToken();
-
-  //     Response response = await dio.post(Endpoints.updateprofile,
-  //         options: Options(headers: {'Authorization': token}), data: profile);
-
-  //     final responseData = response.data;
-
-  //     if (!responseData["error"] && responseData["status"] == 200) {
-  //       return ApiResponse(
-  //         data: null,
-  //         message: responseData['message'] ?? 'Success',
-  //         error: false,
-  //         status: responseData["status"],
-  //       );
-  //     } else {
-  //       return ApiResponse(
-  //         data: null,
-  //         message: responseData['message'] ?? 'Something went wrong',
-  //         error: true,
-  //         status: responseData["status"],
-  //       );
-  //     }
-  //   } on DioException catch (e) {
-  //     debugPrint(e.message);
-  //     log(e.toString());
-  //     return ApiResponse(
-  //       data: null,
-  //       message: 'Network or server error occurred',
-  //       error: true,
-  //       status: 500,
-  //     );
-  //   } catch (e) {
-  //     // Add a general catch block for other exceptions
-  //     log("Unexpected error: $e");
-  //     return ApiResponse(
-  //       data: null,
-  //       message: 'Unexpected error: $e',
-  //       error: true,
-  //       status: 500,
-  //     );
-  //   }
-  // }
 
   void dispose() {
     dio.close();

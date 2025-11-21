@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigation_bloc.dart';
-import 'package:langlex/presentation/screens/mainpages/widgets/bottom_navbar.dart';
+import 'package:langlex/presentation/screens/mainpages/bottom_navbar.dart';
 
 
 class CustomNavigation {
@@ -133,9 +133,16 @@ class CustomNavigation {
 //   );
 // }
 void navigateToMainPage(BuildContext context, int pageIndex) {
+  // 🔹 First update bottom nav bloc using CURRENT valid context
+  context
+      .read<BottomNavigationBloc>()
+      .add(NavigateToPageEvent(pageIndex: pageIndex));
+
+  // 🔹 Then navigate and replace EditProfile screen
   Navigator.of(context).pushReplacement(
     PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Screenmainpage(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const Screenmainpage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
@@ -144,12 +151,6 @@ void navigateToMainPage(BuildContext context, int pageIndex) {
       },
     ),
   );
-
-  // Delay updating BLoC to ensure smooth transition
-  Future.delayed(const Duration(milliseconds: 100), () {
-    // ignore: use_build_context_synchronously
-    BlocProvider.of<BottomNavigationBloc>(context).add(
-      NavigateToPageEvent(pageIndex: pageIndex),
-    );
-  });
 }
+
+

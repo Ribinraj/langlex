@@ -10,6 +10,9 @@ import 'package:langlex/domain/repository/app_repo.dart';
 import 'package:langlex/domain/repository/login_repo.dart';
 import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
+import 'package:langlex/presentation/blocs/bloc/update_profile_bloc.dart';
+import 'package:langlex/presentation/blocs/download_bloc/download_bloc.dart';
+import 'package:langlex/presentation/blocs/fetch_profile_bloc/fetch_profile_bloc.dart';
 import 'package:langlex/presentation/blocs/knowledge_bloc/knowledge_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_kids_bloc/fetch_kids_bloc_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_languages_bloc/fetch_languages_bloc.dart';
@@ -82,6 +85,12 @@ class MyApp extends StatelessWidget {
             create: (context) => FetchSecondarycategoryBloc(repository: apprepo)),
               BlocProvider(
             create: (context) => KnowledgeBloc(repository: apprepo)),
+             BlocProvider(
+            create: (context) => DownloadBloc(repository: apprepo)),
+             BlocProvider(
+            create: (context) => FetchProfileBloc(repository: loginrepo)),
+              BlocProvider(
+            create: (context) => UpdateProfileBloc(repository: loginrepo)),
         // BlocProvider(create: (context) => LanguageSelectionBloc()),
       ],
       child: BlocBuilder<LanguageCubit, String>(
