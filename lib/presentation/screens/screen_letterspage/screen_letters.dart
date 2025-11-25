@@ -1,56 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
+import 'package:langlex/core/urls.dart';
+import 'package:langlex/data/models/alphabet_model.dart';
+import 'package:langlex/presentation/blocs/alphabets_bloc/alphabets_bloc.dart';
+import 'package:langlex/presentation/screens/screen_letters_detailspage/sreen_lettersdetailpage.dart';
+import 'package:langlex/presentation/widgets/custom_navigation.dart';
 
-class Letter {
-  final String letter;
-  final String imageUrl;
-  final String word;
+class AlphabetsScreen extends StatefulWidget {
+  final int languageId;
+  const AlphabetsScreen({super.key, required this.languageId});
 
-  Letter({
-    required this.letter,
-    required this.imageUrl,
-    required this.word,
-  });
+  @override
+  State<AlphabetsScreen> createState() => _AlphabetsScreenState();
 }
 
-class LettersGalleryScreen extends StatelessWidget {
-  LettersGalleryScreen({super.key});
-
-  // Hardcoded list - replace with API data later
-  final List<Letter> letters = [
-    Letter(
-      letter: 'A',
-      imageUrl: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445',
-      word: 'Apple',
-    ),
-    Letter(
-      letter: 'B',
-      imageUrl: 'https://images.unsplash.com/photo-1587049352846-4a222e784538',
-      word: 'Butterfly',
-    ),
-    Letter(
-      letter: 'C',
-      imageUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba',
-      word: 'Cat',
-    ),
-    Letter(
-      letter: 'D',
-      imageUrl: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e',
-      word: 'Dog',
-    ),
-    Letter(
-      letter: 'E',
-      imageUrl: 'https://images.unsplash.com/photo-1596550515832-f8d91f34e2b9',
-      word: 'Elephant',
-    ),
-    Letter(
-      letter: 'F',
-      imageUrl: 'https://images.unsplash.com/photo-1525382455947-f319bc05fb35',
-      word: 'Fish',
-    ),
-  ];
+class _AlphabetsScreenState extends State<AlphabetsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AlphabetsBloc>().add(
+          AlphabetsBlocFetchingInitialEvent(languagId: widget.languageId),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,166 +42,290 @@ class LettersGalleryScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: CustomScrollView(
-          slivers: [
-            // Beautiful App Bar
-            SliverAppBar(
-              expandedHeight: ResponsiveUtils.hp(22),
-              floating: false,
-              pinned: true,
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Container(
+        child: BlocBuilder<AlphabetsBloc, AlphabetsState>(
+          builder: (context, state) {
+            return CustomScrollView(
+              slivers: [
+                // Beautiful App Bar
+                _buildAppBar(context),
+                
+                // Content based on state
+                if (state is AlphabetsBlocLoadingState)
+                  _buildLoadingState()
+                else if (state is AlphabetBlocErrorState)
+                  _buildErrorState(state.message)
+                else if (state is AlphabetsBlocSuccessState)
+                  _buildSuccessState(state.alphabets)
+                else
+                  _buildEmptyState(),
+                
+                // Bottom spacing
+                SliverToBoxAdapter(
+                  child: SizedBox(height: ResponsiveUtils.hp(2)),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context) {
+    return SliverAppBar(
+      expandedHeight: ResponsiveUtils.hp(22),
+      floating: false,
+      pinned: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Appcolors.kprimarycolor,
+                Appcolors.kprimarycolor.withOpacity(0.8),
+                Appcolors.kgreenlightColor,
+              ],
+            ),
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+          ),
+          child: Stack(
+            children: [
+              // Decorative circles
+              Positioned(
+                top: -50,
+                right: -50,
+                child: Container(
+                  width: ResponsiveUtils.wp(40),
+                  height: ResponsiveUtils.wp(40),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Appcolors.kprimarycolor,
-                        Appcolors.kprimarycolor.withOpacity(0.8),
-                        Appcolors.kgreenlightColor,
-                      ],
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
+                    shape: BoxShape.circle,
+                    color: Colors.white.withOpacity(0.1),
                   ),
-                  child: Stack(
-                    children: [
-                      // Decorative circles
-                      Positioned(
-                        top: -50,
-                        right: -50,
-                        child: Container(
-                          width: ResponsiveUtils.wp(40),
-                          height: ResponsiveUtils.wp(40),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.1),
+                ),
+              ),
+              Positioned(
+                top: ResponsiveUtils.hp(8),
+                left: -30,
+                child: Container(
+                  width: ResponsiveUtils.wp(25),
+                  height: ResponsiveUtils.wp(25),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withOpacity(0.08),
+                  ),
+                ),
+              ),
+              // Content
+              Positioned(
+                bottom: ResponsiveUtils.hp(4),
+                left: ResponsiveUtils.wp(6),
+                right: ResponsiveUtils.wp(6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Explore Letters',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: ResponsiveUtils.wp(7),
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.2,
+                        shadows: const [
+                          Shadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
                           ),
-                        ),
+                        ],
                       ),
-                      Positioned(
-                        top: ResponsiveUtils.hp(8),
-                        left: -30,
-                        child: Container(
-                          width: ResponsiveUtils.wp(25),
-                          height: ResponsiveUtils.wp(25),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.08),
-                          ),
-                        ),
+                    ),
+                    SizedBox(height: ResponsiveUtils.hp(1)),
+                    Text(
+                      'Discover amazing learning letters',
+                      style: TextStyle(
+                        color: Appcolors.kwhiteColor.withOpacity(0.9),
+                        fontSize: ResponsiveUtils.wp(4),
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.5,
                       ),
-                      // Content
-                      Positioned(
-                        bottom: ResponsiveUtils.hp(4),
-                        left: ResponsiveUtils.wp(6),
-                        right: ResponsiveUtils.wp(6),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Explore Letters',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: ResponsiveUtils.wp(7),
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2,
-                                shadows: const [
-                                  Shadow(
-                                    color: Colors.black26,
-                                    offset: Offset(0, 3),
-                                    blurRadius: 6,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: ResponsiveUtils.hp(1)),
-                            Text(
-                              'Discover amazing learning letters',
-                              style: TextStyle(
-                                color: Appcolors.kwhiteColor.withOpacity(0.9),
-                                fontSize: ResponsiveUtils.wp(4),
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      // App bar when collapsed
+      title: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.15),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Colors.white.withOpacity(0.2),
+            width: 1,
+          ),
+        ),
+        child: const Text(
+          'Letters',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.0,
+          ),
+        ),
+      ),
+      centerTitle: true,
+      leading: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.15),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.white.withOpacity(0.2),
+            width: 1,
+          ),
+        ),
+        child: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingState() {
+           return const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: SpinKitFoldingCube(
+                        size: 50,
+                        color: Appcolors.kprimarycolor,
                       ),
-                    ],
+                    ),
+                  );
+  }
+
+  Widget _buildErrorState(String message) {
+    return SliverFillRemaining(
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(ResponsiveUtils.wp(6)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: ResponsiveUtils.wp(20),
+                color: Colors.red.withOpacity(0.5),
+              ),
+              SizedBox(height: ResponsiveUtils.hp(2)),
+              Text(
+                'Oops! Something went wrong',
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.sp(5),
+                  fontWeight: FontWeight.bold,
+                  color: Appcolors.kgreycolor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: ResponsiveUtils.hp(1)),
+              Text(
+                message,
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.sp(3.5),
+                  color: Appcolors.kgreycolor.withOpacity(0.7),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: ResponsiveUtils.hp(3)),
+              ElevatedButton.icon(
+                onPressed: () {
+                  context.read<AlphabetsBloc>().add(
+                        AlphabetsBlocFetchingInitialEvent(
+                          languagId: widget.languageId,
+                        ),
+                      );
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Appcolors.kprimarycolor,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: ResponsiveUtils.wp(8),
+                    vertical: ResponsiveUtils.hp(1.5),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
-              // App bar when collapsed
-              title: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
-                    width: 1,
-                  ),
-                ),
-                child: const Text(
-                  'Letters',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-              ),
-              centerTitle: true,
-              leading: Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
-                    width: 1,
-                  ),
-                ),
-                child: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return SliverFillRemaining(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.inbox_outlined,
+              size: ResponsiveUtils.wp(20),
+              color: Appcolors.kgreycolor.withOpacity(0.5),
             ),
-            // Grid Content
-            SliverPadding(
-              padding: EdgeInsets.all(ResponsiveUtils.wp(4)),
-              sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: letters.length,
-                  (context, index) {
-                    return LetterCard(letter: letters[index]);
-                  },
-                ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: ResponsiveUtils.wp(4),
-                  mainAxisSpacing: ResponsiveUtils.hp(2),
-                  childAspectRatio: 0.85,
-                ),
+            SizedBox(height: ResponsiveUtils.hp(2)),
+            Text(
+              'No alphabets found',
+              style: TextStyle(
+                fontSize: ResponsiveUtils.sp(5),
+                fontWeight: FontWeight.bold,
+                color: Appcolors.kgreycolor,
               ),
-            ),
-            // Bottom spacing
-            SliverToBoxAdapter(
-              child: SizedBox(height: ResponsiveUtils.hp(2)),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSuccessState(List<AlphabetModel> alphabets) {
+    if (alphabets.isEmpty) {
+      return _buildEmptyState();
+    }
+
+    return SliverPadding(
+      padding: EdgeInsets.all(ResponsiveUtils.wp(4)),
+      sliver: SliverGrid(
+        delegate: SliverChildBuilderDelegate(
+          childCount: alphabets.length,
+          (context, index) {
+            return LetterCard(alphabet: alphabets[index]);
+          },
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: ResponsiveUtils.wp(4),
+          mainAxisSpacing: ResponsiveUtils.hp(2),
+          childAspectRatio: 0.85,
         ),
       ),
     );
@@ -234,15 +333,18 @@ class LettersGalleryScreen extends StatelessWidget {
 }
 
 class LetterCard extends StatelessWidget {
-  final Letter letter;
+  final AlphabetModel alphabet;
 
-  const LetterCard({super.key, required this.letter});
+  const LetterCard({super.key, required this.alphabet});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Handle tap - navigate to detail or play sound
+    CustomNavigation.pushWithTransition(context,  ScreenAlphabetDetailsPage(
+        alphabet: alphabet.alphabet,
+        categoryName: 'Alphabets',
+      ),);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -273,7 +375,7 @@ class LetterCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      letter.letter,
+                      alphabet.alphabet,
                       style: TextStyle(
                         fontSize: ResponsiveUtils.sp(6),
                         fontWeight: FontWeight.bold,
@@ -292,7 +394,7 @@ class LetterCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(ResponsiveUtils.wp(3)),
                   child: Image.network(
-                    letter.imageUrl,
+                    '${Endpoints.imagebaseUrl}${alphabet.picture}',
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
@@ -338,7 +440,7 @@ class LetterCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextStyles.body(
-                    text: letter.word,
+                    text: alphabet.illWord,
                     weight: FontWeight.w600,
                     color: Appcolors.korangeColor,
                   ),

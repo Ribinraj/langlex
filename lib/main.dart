@@ -10,7 +10,9 @@ import 'package:langlex/domain/repository/app_repo.dart';
 import 'package:langlex/domain/repository/login_repo.dart';
 import 'package:langlex/presentation/blocs/Content_download_bloc/content_download_bloc.dart';
 import 'package:langlex/presentation/blocs/Fetch_data_from_database/fetchdata_from_database_bloc.dart';
-import 'package:langlex/presentation/blocs/bloc/update_profile_bloc.dart';
+import 'package:langlex/presentation/blocs/alphabet_details_bloc/alphabets_details_bloc.dart';
+import 'package:langlex/presentation/blocs/alphabets_bloc/alphabets_bloc.dart';
+
 import 'package:langlex/presentation/blocs/download_bloc/download_bloc.dart';
 import 'package:langlex/presentation/blocs/fetch_profile_bloc/fetch_profile_bloc.dart';
 import 'package:langlex/presentation/blocs/knowledge_bloc/knowledge_bloc.dart';
@@ -26,6 +28,7 @@ import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigat
 import 'package:langlex/presentation/blocs/connectivity_bloc/connectivity_bloc.dart';
 import 'package:langlex/presentation/blocs/image_picker_bloc/image_picker_bloc.dart';
 import 'package:langlex/presentation/blocs/quiz_answer_selection_bloc/qiuz_answer_selection_bloc.dart';
+import 'package:langlex/presentation/blocs/update_profile_bloc/update_profile_bloc.dart';
 import 'package:langlex/presentation/blocs/user_register_bloc/user_register_bloc.dart';
 import 'package:langlex/presentation/blocs/verify_user_bloc/verify_user_bloc.dart';
 import 'package:langlex/presentation/cubits/language_change.dart';
@@ -33,6 +36,7 @@ import 'package:langlex/presentation/cubits/password_visiblity.dart';
 
 
 import 'package:langlex/presentation/screens/splashScreen/splashscreen.dart';
+import 'package:langlex/presentation/widgets/custom_navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,8 +93,12 @@ class MyApp extends StatelessWidget {
             create: (context) => DownloadBloc(repository: apprepo)),
              BlocProvider(
             create: (context) => FetchProfileBloc(repository: loginrepo)),
-              BlocProvider(
+         BlocProvider(
             create: (context) => UpdateProfileBloc(repository: loginrepo)),
+               BlocProvider(
+            create: (context) => AlphabetsBloc(repository: apprepo)),
+                 BlocProvider(
+            create: (context) => AlphabetsDetailsBloc(repository: apprepo)),
         // BlocProvider(create: (context) => LanguageSelectionBloc()),
       ],
       child: BlocBuilder<LanguageCubit, String>(
@@ -98,6 +106,7 @@ class MyApp extends StatelessWidget {
           return LocaleBuilder(
             builder: (locale) => MaterialApp(
                 debugShowCheckedModeBanner: false,
+                navigatorKey: NavigationService().navigatorKey,
                 localizationsDelegates: Locales.delegates,
                 supportedLocales: Locales.supportedLocales,
                 locale: Locale(languageCode),

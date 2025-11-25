@@ -8,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:langlex/core/colors.dart';
 import 'package:langlex/core/constants.dart';
 import 'package:langlex/core/responsive_utils.dart';
+import 'package:langlex/core/urls.dart';
 import 'package:langlex/presentation/blocs/fetch_primarycategory_bloc.dart/fetch_primarycategory_bloc.dart';
+import 'package:langlex/presentation/blocs/fetch_profile_bloc/fetch_profile_bloc.dart';
 import 'package:langlex/presentation/screens/homepage/widgets/category_container.dart';
 
 import 'package:langlex/presentation/screens/homepage/widgets/custom_appbar.dart';
@@ -69,6 +71,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
     _slideController.forward();
     _pulseController.repeat(reverse: true);
     fetchtlanguageId();
+    context.read<FetchProfileBloc>().add(FetchProfileButtonClickEvent());
   }
 
   @override
@@ -109,36 +112,56 @@ class _ScreenHomePageState extends State<ScreenHomePage>
         surfaceTintColor: const Color.fromARGB(255, 66, 178, 146),
         elevation: 0,
         toolbarHeight: 60,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AnimatedBuilder(
-              animation: _pulseAnimation,
-              builder: (context, child) {
-                return Transform.scale(
-                  scale: _pulseAnimation.value,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withOpacity(0.3),
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                        ),
-                      ],
+title: Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    BlocBuilder<FetchProfileBloc, FetchProfileState>(
+      builder: (context, state) {
+        final double avatarSize = 45;
+        final profile = state is FetchProfileSuccessState ? state.profile : null;
+
+        return AnimatedBuilder(
+          animation: _pulseAnimation,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _pulseAnimation.value,
+              child: Container(
+                width: avatarSize,
+                height: avatarSize,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.3),
+                      blurRadius: 8,
+                      spreadRadius: 2,
                     ),
-                    child: const CustomRoundImage(
-                      circleContainerSize: 45,
-                      imageUrl:
-                          'https://anakoskaphotography.com/wp-content/uploads/2018/09/outdoor-children-photo-of-a-girl.jpg',
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+                  ],
+                ),
+                child: ClipOval(
+                  child: profile != null &&
+                          profile.userPicture != null &&
+                          profile.userPicture!.isNotEmpty
+                      ? Image.network(
+                          "${Endpoints.baseprofileimageurl}${profile.userPicture!}",
+                          fit: BoxFit.cover,
+                          // Same fallback like profile page
+                          errorBuilder: (context, error, stackTrace) {
+                            return _buildDefaultAvatar(avatarSize);
+                          },
+                        )
+                      : _buildDefaultAvatar(avatarSize),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    ),
+  ],
+),
+
+
         actions: [
           const DropdownExample(),
           Container(
@@ -392,7 +415,7 @@ class _ScreenHomePageState extends State<ScreenHomePage>
                                 title: "Alphabets",
                                 imagePath: 'assets/images/carosel2.jpg',
                                 onTap: () {
-                    CustomNavigation.push(context,LettersGalleryScreen());
+                    CustomNavigation.pushWithTransition(context, AlphabetsScreen(languageId: languageId));
                                 },
                               ),
                               CategoryContainer(
@@ -424,6 +447,16 @@ class _ScreenHomePageState extends State<ScreenHomePage>
 
           const SizedBox(height: 30),
         ],
+      ),
+    );
+  }
+    Widget _buildDefaultAvatar(double size) {
+    return Container(
+      color: Colors.grey[300],
+      child: Icon(
+        Icons.person,
+        size: size * 0.6,
+        color: Colors.grey[600],
       ),
     );
   }

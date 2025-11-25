@@ -10,15 +10,18 @@ import 'package:langlex/core/responsive_utils.dart';
 import 'package:langlex/core/urls.dart';
 import 'package:langlex/data/models/edit_profilemodel.dart';
 import 'package:langlex/data/models/profile_model.dart';
-import 'package:langlex/presentation/blocs/bloc/update_profile_bloc.dart';
+
+
 import 'package:langlex/presentation/blocs/fetch_profile_bloc/fetch_profile_bloc.dart';
 import 'package:langlex/presentation/blocs/image_picker_bloc/image_picker_bloc.dart';
+import 'package:langlex/presentation/blocs/update_profile_bloc/update_profile_bloc.dart';
 
 import 'package:langlex/presentation/screens/editprofile_page/widgets/custom_editing_textfield.dart';
 import 'package:langlex/presentation/widgets/custom_imagepicker.dart';
+import 'package:langlex/presentation/widgets/custom_navigation.dart';
 import 'package:langlex/presentation/widgets/custom_squre_elevatedbutton.dart';
 import 'package:langlex/presentation/widgets/custom_snakebar.dart';
-import 'package:langlex/presentation/widgets/navigate_mainpage.dart';
+
 
 class ScreenEditProfile extends StatefulWidget {
   final ProfileModel profile;
@@ -293,7 +296,7 @@ class _ScreenEditProfileState extends State<ScreenEditProfile> {
                             state.message,
                             Appcolors.kprimarycolor,
                           );
-                         
+                           context.read<FetchProfileBloc>().add(FetchProfileButtonClickEvent());
                         navigateToMainPage(context, 2);
                         } else if (state is UpdateProfileErrorState) {
                           customSnackbar(

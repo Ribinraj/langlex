@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:langlex/core/urls.dart';
 import 'package:langlex/data/models/edit_profilemodel.dart';
 import 'package:langlex/data/models/profile_model.dart';
-import 'package:langlex/data/models/student_model.dart';
+
 import 'package:langlex/data/models/verify_otp_model.dart';
+import 'package:langlex/domain/token_inspector.dart';
 import 'package:langlex/presentation/widgets/custom_sharedpreferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +32,7 @@ class Loginrepo {
       : dio = dio ??
             Dio(BaseOptions(
                 baseUrl: Endpoints.baseUrl,
-                headers: {'Content-Type': 'application/json'}));
+                headers: {'Content-Type': 'application/json'}))..interceptors.add(TokenInterceptor());
 
   ///----------------------send otp-----------------------------////
 
@@ -264,13 +265,26 @@ Future<ApiResponse<ProfileModel>> fetchprofile() async {
       );
     }
   } on DioException catch (e) {
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
+      return ApiResponse(
+        data: null,
+        message: responseData['message'] ?? 'Something went wrong',
+        error: true,
+        status: statusCode,
+      );
+    }
     debugPrint(e.message);
-    log('DioException: ${e.response?.data ?? e.toString()}');
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
     return ApiResponse(
       data: null,
       message: 'Network or server error occurred',
       error: true,
-      status: e.response?.statusCode ?? 500,
+      status: 500,
     );
   } catch (e) {
     log("Unexpected error: $e");

@@ -14,6 +14,8 @@ class Endpoints {
   static const fetchprimarycategory = 'primary';
   static const fetchsecondaryCategory='secondary';
   static const fetchprofile='profile';
+  static const alphabets='alphabets';
+  static const alphabetdetails='alphabet/detail';
   // static const verifyotpExistinguser = 'auth/existuser';
   // static const verifyNewuser = 'auth/newuser';
 }

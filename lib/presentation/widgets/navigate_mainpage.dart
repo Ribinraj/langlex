@@ -6,14 +6,14 @@ import 'package:langlex/presentation/blocs/bottom_navigation_bloc/bottom_navigat
 import 'package:langlex/presentation/screens/mainpages/bottom_navbar.dart';
 
 
-void navigateToMainPage(BuildContext context, int pageIndex) {
-  // Navigate to ScreenMainPage
-  Navigator.of(context).pushReplacement(
-    MaterialPageRoute(builder: (context) => Screenmainpage()),
-  );
+// void navigateToMainPage(BuildContext context, int pageIndex) {
+//   // Navigate to ScreenMainPage
+//   Navigator.of(context).pushReplacement(
+//     MaterialPageRoute(builder: (context) => Screenmainpage()),
+//   );
 
-  // After navigation, update the BLoC to show the desired page
-  BlocProvider.of<BottomNavigationBloc>(context).add(
-    NavigateToPageEvent(pageIndex: pageIndex),
-  );
-}
+//   // After navigation, update the BLoC to show the desired page
+//   BlocProvider.of<BottomNavigationBloc>(context).add(
+//     NavigateToPageEvent(pageIndex: pageIndex),
+//   );
+// }

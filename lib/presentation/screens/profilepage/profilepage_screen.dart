@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,12 +16,7 @@ import 'package:langlex/presentation/widgets/custom_navigation.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 import 'dart:math' as math;
-
-
-
 
 // Also update the animation controller duration for faster animation
 class ScreenProfilePage extends StatefulWidget {
@@ -175,7 +169,8 @@ class _ScreenProfilePageState extends State<ScreenProfilePage>
             );
           }
 
-          final profile = state is FetchProfileSuccessState ? state.profile : null;
+          final profile =
+              state is FetchProfileSuccessState ? state.profile : null;
 
           return Column(
             children: [
@@ -233,7 +228,8 @@ class _ScreenProfilePageState extends State<ScreenProfilePage>
                                   end: Offset.zero,
                                 ).animate(_slideAnimation),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     // Enhanced Profile Image
                                     Hero(
@@ -244,30 +240,36 @@ class _ScreenProfilePageState extends State<ScreenProfilePage>
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           border: Border.all(
-                                            color: Colors.white.withOpacity(0.3),
+                                            color:
+                                                Colors.white.withOpacity(0.3),
                                             width: 3,
                                           ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: Colors.black.withOpacity(0.15),
+                                              color: Colors.black
+                                                  .withOpacity(0.15),
                                               blurRadius: 20,
                                               offset: const Offset(0, 8),
                                             ),
                                             BoxShadow(
-                                              color: Colors.white.withOpacity(0.1),
+                                              color:
+                                                  Colors.white.withOpacity(0.1),
                                               blurRadius: 10,
                                               offset: const Offset(0, -2),
                                             ),
                                           ],
                                         ),
                                         child: ClipOval(
-                                          child: profile?.userPicture != null && 
-                                                 profile!.userPicture!.isNotEmpty
+                                          child: profile?.userPicture != null &&
+                                                  profile!
+                                                      .userPicture!.isNotEmpty
                                               ? Image.network(
-                                                   "${Endpoints.baseprofileimageurl}${profile.userPicture!}",
+                                                  "${Endpoints.baseprofileimageurl}${profile.userPicture!}",
                                                   fit: BoxFit.cover,
-                                                  errorBuilder: (context, error, stackTrace) {
-                                                    return _buildDefaultAvatar(size);
+                                                  errorBuilder: (context, error,
+                                                      stackTrace) {
+                                                    return _buildDefaultAvatar(
+                                                        size);
                                                   },
                                                 )
                                               : _buildDefaultAvatar(size),
@@ -285,7 +287,8 @@ class _ScreenProfilePageState extends State<ScreenProfilePage>
                                         ),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color:
+                                                Colors.black.withOpacity(0.1),
                                             blurRadius: 10,
                                             offset: const Offset(0, 4),
                                           ),
@@ -294,24 +297,35 @@ class _ScreenProfilePageState extends State<ScreenProfilePage>
                                       child: Material(
                                         color: Colors.transparent,
                                         child: InkWell(
-                                          borderRadius: BorderRadius.circular(16),
-                               onTap: () {
-  if (profile != null) {
-CustomNavigation.pushWithTransition(context, ScreenEditProfile(        profile: ProfileModel(
-            userName: profile.userName,
-            mobileNumber: profile.mobileNumber,
-            emailAddress: profile.emailAddress,
-            userPicture: profile.userPicture,
-          ),));
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Profile not loaded yet'),
-      ),
-    );
-  }
-},
-
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          onTap: () {
+                                            if (profile != null) {
+                                              CustomNavigation
+                                                  .pushWithTransition(
+                                                      context,
+                                                      ScreenEditProfile(
+                                                        profile: ProfileModel(
+                                                          userName:
+                                                              profile.userName,
+                                                          mobileNumber: profile
+                                                              .mobileNumber,
+                                                          emailAddress: profile
+                                                              .emailAddress,
+                                                          userPicture: profile
+                                                              .userPicture,
+                                                        ),
+                                                      ));
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Profile not loaded yet'),
+                                                ),
+                                              );
+                                            }
+                                          },
                                           child: const Padding(
                                             padding: EdgeInsets.all(14.0),
                                             child: Icon(
@@ -346,13 +360,14 @@ CustomNavigation.pushWithTransition(context, ScreenEditProfile(        profile: 
                                     Text(
                                       profile?.userName ?? 'User',
                                       style: TextStyle(
-                                        fontSize:ResponsiveUtils.wp(5),
+                                        fontSize: ResponsiveUtils.wp(5),
                                         fontWeight: FontWeight.w700,
                                         color: Colors.white,
                                         letterSpacing: -0.5,
                                         shadows: [
                                           Shadow(
-                                            color: Colors.black.withOpacity(0.2),
+                                            color:
+                                                Colors.black.withOpacity(0.2),
                                             offset: const Offset(0, 2),
                                             blurRadius: 8,
                                           ),
@@ -361,25 +376,21 @@ CustomNavigation.pushWithTransition(context, ScreenEditProfile(        profile: 
                                     ),
 
                                     ResponsiveSizedBox.height5,
-   
-                                    if (profile?.mobileNumber != null && 
+
+                                    if (profile?.mobileNumber != null &&
                                         profile!.mobileNumber!.isNotEmpty)
                                       _buildInfoContainer(
                                         icon: Icons.phone_outlined,
                                         text: profile.mobileNumber!,
                                       ),
-                                        ResponsiveSizedBox.height10,
+                                    ResponsiveSizedBox.height10,
                                     // Email Container
-                                    if (profile?.emailAddress != null && 
+                                    if (profile?.emailAddress != null &&
                                         profile!.emailAddress!.isNotEmpty)
                                       _buildInfoContainer(
                                         icon: Icons.email_outlined,
                                         text: profile.emailAddress!,
                                       ),
-
-                                  
-
-                               
                                   ],
                                 ),
                               ),
@@ -399,11 +410,13 @@ CustomNavigation.pushWithTransition(context, ScreenEditProfile(        profile: 
                 child: FadeTransition(
                   opacity: _fadeAnimation,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: size.width * 0.05),
                     child: GridView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: categories.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         childAspectRatio: 1.0,
                         crossAxisSpacing: 16,
@@ -417,7 +430,8 @@ CustomNavigation.pushWithTransition(context, ScreenEditProfile(        profile: 
                           builder: (context, value, child) {
                             return Transform.scale(
                               scale: value,
-                              child: _buildCategoryCard(categories[index], context),
+                              child: _buildCategoryCard(
+                                  categories[index], context),
                             );
                           },
                         );
@@ -661,4 +675,5 @@ CustomNavigation.pushWithTransition(context, ScreenEditProfile(        profile: 
       MaterialPageRoute(builder: (context) => const ScreenLoginpage()),
       (route) => false,
     );
-  }}
+  }
+}

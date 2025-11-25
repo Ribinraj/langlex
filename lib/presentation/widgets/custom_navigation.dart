@@ -132,14 +132,33 @@ class CustomNavigation {
 //     NavigateToPageEvent(pageIndex: pageIndex),
 //   );
 // }
+// void navigateToMainPage(BuildContext context, int pageIndex) {
+//   // 🔹 First update bottom nav bloc using CURRENT valid context
+//   context
+//       .read<BottomNavigationBloc>()
+//       .add(NavigateToPageEvent(pageIndex: pageIndex));
+
+//   // 🔹 Then navigate and replace EditProfile screen
+//   Navigator.of(context).pushReplacement(
+//     PageRouteBuilder(
+//       pageBuilder: (context, animation, secondaryAnimation) =>
+//           const Screenmainpage(),
+//       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//         return FadeTransition(
+//           opacity: animation,
+//           child: child,
+//         );
+//       },
+//     ),
+//   );
+// }
+
 void navigateToMainPage(BuildContext context, int pageIndex) {
-  // 🔹 First update bottom nav bloc using CURRENT valid context
   context
       .read<BottomNavigationBloc>()
       .add(NavigateToPageEvent(pageIndex: pageIndex));
 
-  // 🔹 Then navigate and replace EditProfile screen
-  Navigator.of(context).pushReplacement(
+  Navigator.of(context).pushAndRemoveUntil(
     PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           const Screenmainpage(),
@@ -150,7 +169,16 @@ void navigateToMainPage(BuildContext context, int pageIndex) {
         );
       },
     ),
+    (route) => false, // 🔹 clears all previous routes
   );
 }
 
+class NavigationService {
+  static final NavigationService _instance = NavigationService._internal();
+  factory NavigationService() => _instance;
+  NavigationService._internal();
 
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  BuildContext? get context => navigatorKey.currentContext;
+}

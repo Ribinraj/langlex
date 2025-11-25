@@ -6,11 +6,13 @@ import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:langlex/core/urls.dart';
+import 'package:langlex/data/models/alphabet_model.dart';
 import 'package:langlex/data/models/language_model.dart';
 import 'package:langlex/data/models/primary_model.dart';
 import 'package:langlex/data/models/secondary_model.dart';
 import 'package:langlex/data/models/student_list_model.dart';
 import 'package:langlex/data/models/student_model.dart';
+import 'package:langlex/domain/token_inspector.dart';
 import 'package:langlex/presentation/widgets/custom_sharedpreferences.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -33,7 +35,7 @@ class AppRepo {
       : dio = dio ??
             Dio(BaseOptions(
                 baseUrl: Endpoints.baseUrl,
-                headers: {'content-Type': 'application/json'}));
+                headers: {'content-Type': 'application/json'}))..interceptors.add(TokenInterceptor());
 ///////------------------fetchlanguages-------------//////////////////////
   Future<ApiResponse<List<LanguageModel>>> fetchlanguages() async {
     try {
@@ -152,51 +154,7 @@ class AppRepo {
     }
   }
 
-//   Future<ApiResponse> registerStudent({required StudentModel student}) async {
-//     try {
-//       final token = await getUserToken();
 
-//       Response response = await dio.post(Endpoints.registerstudent,
-//          options: Options(headers: {'Authorization': 'Bearer $token'})
-// , data: student);
-
-//       final responseData = response.data;
-
-//       if (!responseData["error"] && responseData["status"] == 200) {
-//         return ApiResponse(
-//           data: null,
-//           message: responseData['message'] ?? 'Success',
-//           error: false,
-//           status: responseData["status"],
-//         );
-//       } else {
-//         return ApiResponse(
-//           data: null,
-//           message: responseData['message'] ?? 'Something went wrong',
-//           error: true,
-//           status: responseData["status"],
-//         );
-//       }
-//     } on DioException catch (e) {
-//       debugPrint(e.message);
-//       log(e.toString());
-//       return ApiResponse(
-//         data: null,
-//         message: 'Network or server error occurred',
-//         error: true,
-//         status: 500,
-//       );
-//     } catch (e) {
-//       // Add a general catch block for other exceptions
-//       log("Unexpected error: $e");
-//       return ApiResponse(
-//         data: null,
-//         message: 'Unexpected error: $e',
-//         error: true,
-//         status: 500,
-//       );
-//     }
-//   }
 
   /////////////------------fetchStudentList-------------//////////////////
   Future<ApiResponse<List<StudentListModel>>> fetchkidsList() async {
@@ -256,7 +214,7 @@ class AppRepo {
     try {
       final token = await getUserToken();
       log(token);
-      Response response = await dio.get( "${Endpoints.baseUrl}${Endpoints.fetchprimarycategory}/$languageId",
+      Response response = await dio.get( "${Endpoints.fetchprimarycategory}/$languageId",
           options: Options(headers: {'Authorization': 'Bearer $token'}),
           data: {"category":category});
       final responseData = response.data;
@@ -310,7 +268,7 @@ log('primarycategories${responseData['status'].toString()}');
     try {
       final token = await getUserToken();
       log(token);
-      Response response = await dio.get( "${Endpoints.baseUrl}${Endpoints.fetchsecondaryCategory}/$languageId",
+      Response response = await dio.get( "${Endpoints.fetchsecondaryCategory}/$languageId",
           options: Options(headers: {'Authorization': 'Bearer $token'}),
           data:  {"category":category,
  "primaryCategoryId":primaryCategoryId
@@ -742,6 +700,115 @@ Future<Map<String, dynamic>> downloadAndExtractKnowledgeZip({
     rethrow;
   }
 }
+/////////////-------------------------ALPHABETS----------------//////////////////
+ /////////////------------fetchAlaphabets-------------//////////////////
+  Future<ApiResponse<List<AlphabetModel>>> fetchalphabets({required int languageId}) async {
+    try {
+      final token = await getUserToken();
+      log(token);
+      Response response = await dio.get( Endpoints.alphabets,
+          options: Options(headers: {'Authorization': 'Bearer $token'}),
+          data: {"languageId":languageId});
+      final responseData = response.data;
+log('primarycategories${responseData['status'].toString()}');
+      if (!responseData['error'] && responseData['status'] == 200) {
+        //log('primarycategories${responseData['status'].toString()}');
+        final List<dynamic> alphabetlist = responseData['data'];
+        List<AlphabetModel> alphabetlists = alphabetlist
+            .map((category) => AlphabetModel.fromJson(category))
+            .toList();
+
+        return ApiResponse(
+            data:alphabetlists,
+            message: responseData['message'] ?? 'Success',
+            error: false,
+            status: responseData['status']);
+      } else {
+        return ApiResponse(
+          data: null,
+          message: responseData['message'] ?? 'Something went wrong',
+          error: true,
+          status: responseData["status"],
+        );
+      }
+    } on DioException catch (e) {
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
+      return ApiResponse(
+        data: null,
+        message: responseData['message'] ?? 'Something went wrong',
+        error: true,
+        status: statusCode,
+      );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
+    }
+  }
+   /////////////------------fetchAlaphabetsdetails-------------//////////////////
+  Future<ApiResponse<List<AlphabetModel>>> fetchalphabetsdetails({required String letter}) async {
+    try {
+      final token = await getUserToken();
+      log(token);
+      Response response = await dio.get( Endpoints.alphabetdetails,
+          options: Options(headers: {'Authorization': 'Bearer $token'}),
+          data: {"alphabet":letter});
+      final responseData = response.data;
+log('primarycategories${responseData['status'].toString()}');
+      if (!responseData['error'] && responseData['status'] == 200) {
+        //log('primarycategories${responseData['status'].toString()}');
+        final List<dynamic> alphabetlist = responseData['data'];
+        List<AlphabetModel> alphabetlists = alphabetlist
+            .map((category) => AlphabetModel.fromJson(category))
+            .toList();
+
+        return ApiResponse(
+            data:alphabetlists,
+            message: responseData['message'] ?? 'Success',
+            error: false,
+            status: responseData['status']);
+      } else {
+        return ApiResponse(
+          data: null,
+          message: responseData['message'] ?? 'Something went wrong',
+          error: true,
+          status: responseData["status"],
+        );
+      }
+    } on DioException catch (e) {
+    if (e.response != null) {
+      final responseData = e.response!.data;
+      final statusCode = e.response!.statusCode ?? 500;
+
+      return ApiResponse(
+        data: null,
+        message: responseData['message'] ?? 'Something went wrong',
+        error: true,
+        status: statusCode,
+      );
+    }
+    debugPrint(e.message);
+    log("kkkkkkkkkkkkkkkk");
+    log(e.toString());
+
+    return ApiResponse(
+      data: null,
+      message: 'Network or server error occurred',
+      error: true,
+      status: 500,
+    );
+    }
+  }
   void dispose() {
     dio.close();
   }
